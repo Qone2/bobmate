@@ -35,6 +35,7 @@ public class ReviewService {
     /**
      * 리뷰 삭제
      */
+    @Transactional
     public void deleteReview(Long reviewId) {
         Review review = reviewRepository.findOne(reviewId);
         review.delete();
