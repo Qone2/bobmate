@@ -36,8 +36,8 @@ public class ReviewApiController {
         @NotEmpty
         private String contents;
         @NotNull
-        @Max(value = 5) @Min(value = 0)
-        private int star;
+//        @Max(value = 5) @Min(value = 0)
+        private Double star;
     }
 
     @Data

@@ -23,7 +23,7 @@ public class ReviewService {
      * 리뷰생성
      */
     @Transactional
-    public Long saveReview(Long memberId, Long placeId, String contents, int star) {
+    public Long saveReview(Long memberId, Long placeId, String contents, Double star) {
         Member member = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 

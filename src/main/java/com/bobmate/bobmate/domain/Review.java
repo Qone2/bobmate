@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,9 +27,7 @@ public class Review {
     @Column(columnDefinition = "TEXT")
     private String contents;
 
-    @Min(message = "별점은 0점 아래일 수 없습니다.", value = 0)
-    @Max(message = "별점은 5점을 넘을 수 없습니다.", value = 5)
-    private int star;
+    private Double star;
 
     private LocalDateTime createdDate;
 
@@ -56,7 +52,7 @@ public class Review {
     /**
      * 리뷰 생성
      */
-    public static Review createReview(Member member, Place place, String contents, int star) {
+    public static Review createReview(Member member, Place place, String contents, Double star) {
         Review review = new Review();
         review.setMember(member);
         review.setPlace(place);
