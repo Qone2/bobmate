@@ -1,5 +1,6 @@
 package com.bobmate.bobmate.domain;
 
+import com.bobmate.bobmate.exception.StarValueException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -78,5 +79,12 @@ public class Review {
         reviewStatus = ReviewStatus.DELETED;
         place.subtractReviewCount();
         place.updateAvgStar();
+    }
+
+    public void setStar(Double star) {
+        if (star < 1 || star > 5) {
+            throw new StarValueException("별점은 1점이상 5점이하 입니다.");
+        }
+        this.star = star;
     }
 }

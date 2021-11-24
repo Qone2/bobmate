@@ -36,7 +36,7 @@ public class ReviewApiController {
         @NotEmpty
         private String contents;
         @NotNull
-//        @Max(value = 5) @Min(value = 0)
+        @Max(value = 5) @Min(value = 1)
         private Double star;
     }
 
