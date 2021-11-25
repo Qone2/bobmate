@@ -44,4 +44,13 @@ public class ReviewService {
     public Review findOne(Long reviewId) {
         return reviewRepository.findOne(reviewId);
     }
+
+    @Transactional
+    public Long updateReview(Long reviewId, String contents, Double star) {
+        Review review = reviewRepository.findOne(reviewId);
+        review.setContents(contents);
+        review.setStar(star);
+
+        return review.getId();
+    }
 }
