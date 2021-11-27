@@ -41,24 +41,24 @@ public class Place {
      * 평균 별점 계산
      */
     public void updateAvgStar() {
-        if (reviewCount == 0) {
+        if (this.reviewCount == 0) {
             setAvgStar((double) 0);
             return;
         }
         int totalStar = 0;
-        for (Review review : reviews) {
+        for (Review review : this.reviews) {
             if (review.getReviewStatus() == ReviewStatus.VALID) {
                 totalStar += review.getStar();
             }
         }
-        setAvgStar((double) totalStar / reviewCount);
+        setAvgStar((double) totalStar / this.reviewCount);
     }
 
     public void addReviewCount() {
-        reviewCount += 1;
+        this.reviewCount += 1;
     }
 
     public void subtractReviewCount() {
-        reviewCount -= 1;
+        this.reviewCount -= 1;
     }
 }
