@@ -23,6 +23,9 @@ public class Place {
     @OneToMany(mappedBy = "place")
     private List<Review> reviews = new ArrayList<>();
 
+    @OneToMany(mappedBy = "place")
+    private List<Meet> meets = new ArrayList<>();
+
     private int reviewCount;
 
     private Double avgStar;
