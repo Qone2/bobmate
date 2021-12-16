@@ -49,4 +49,8 @@ public class MemberService {
         Member findMember = memberRepository.findOne(memberId);
         findMember.setName(name);
     }
+
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
 }
