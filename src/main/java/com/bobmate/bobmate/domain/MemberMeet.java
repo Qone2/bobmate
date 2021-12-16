@@ -25,13 +25,20 @@ public class MemberMeet {
 
     private LocalDateTime joinDate;
 
+    private MemberMeetStatus memberMeetStatus;
+
     //==생성 메서드==//
-    public static MemberMeet createMemberMeet(Member member, Meet meet) {
+    public static MemberMeet createMemberMeet(Member member) {
         MemberMeet memberMeet = new MemberMeet();
         memberMeet.setMember(member);
-        memberMeet.setMeet(meet);
         memberMeet.setJoinDate(LocalDateTime.now());
+        memberMeet.setMemberMeetStatus(MemberMeetStatus.VALID);
 
         return memberMeet;
+    }
+
+    //==비즈니스 로직==//
+    public void deleteMemberMeet() {
+        this.memberMeetStatus = MemberMeetStatus.DELETED;
     }
 }

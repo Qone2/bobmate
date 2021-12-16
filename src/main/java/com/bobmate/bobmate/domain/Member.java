@@ -23,5 +23,5 @@ public class Member {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Meet> meets = new ArrayList<>();
+    private List<MemberMeet> memberMeets = new ArrayList<>();
 }
