@@ -48,7 +48,7 @@ public class Place {
             setAvgStar((double) 0);
             return;
         }
-        int totalStar = 0;
+        Double totalStar = 0.0;
         for (Review review : this.reviews) {
             if (review.getReviewStatus() == ReviewStatus.VALID) {
                 totalStar += review.getStar();
