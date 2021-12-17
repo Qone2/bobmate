@@ -6,10 +6,12 @@ import com.bobmate.bobmate.service.MemberService;
 import com.bobmate.bobmate.service.PlaceService;
 import com.bobmate.bobmate.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 
 @Component
 @RequiredArgsConstructor
@@ -31,22 +33,33 @@ public class initDB {
         private final PlaceService placeService;
         private final ReviewService reviewService;
         private final MeetService meetService;
+        private final PasswordEncoder passwordEncoder;
 
         public void dbInit1() {
             Member member1 = new Member();
-            member1.setEmail("맴버1");
+            member1.setEmail("member1@member.com");
+            member1.setPassword(passwordEncoder.encode("password1"));
+            member1.setRoles(Collections.singletonList("ROLE_USER"));
             memberService.join(member1);
             Member member2 = new Member();
-            member2.setEmail("맴버2");
+            member2.setEmail("member2@member.com");
+            member2.setPassword(passwordEncoder.encode("password1"));
+            member2.setRoles(Collections.singletonList("ROLE_USER"));
             memberService.join(member2);
             Member member3 = new Member();
-            member3.setEmail("맴버3");
+            member3.setEmail("member3@member.com");
+            member3.setPassword(passwordEncoder.encode("password1"));
+            member3.setRoles(Collections.singletonList("ROLE_USER"));
             memberService.join(member3);
             Member member4 = new Member();
-            member4.setEmail("맴버4");
+            member4.setEmail("member4@member.com");
+            member4.setPassword(passwordEncoder.encode("password1"));
+            member4.setRoles(Collections.singletonList("ROLE_USER"));
             memberService.join(member4);
             Member member5 = new Member();
-            member5.setEmail("맴버5");
+            member5.setEmail("member5@member.com");
+            member5.setPassword(passwordEncoder.encode("password1"));
+            member5.setRoles(Collections.singletonList("ROLE_USER"));
             memberService.join(member5);
 
             Place place1 = new Place();

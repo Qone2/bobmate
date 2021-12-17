@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -31,8 +32,8 @@ public class MemberService {
      * entity에 unique constraint 필요
      */
     private void validDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
-        if (!findMembers.isEmpty()) {
+        Optional<Member> findMember = memberRepository.findByEmail(member.getEmail());
+        if (findMember.isPresent()) {
             throw new IllegalStateException("이미 존재하는 회원명 입니다.");
         }
     }
@@ -52,5 +53,9 @@ public class MemberService {
 
     public List<Member> findAll() {
         return memberRepository.findAll();
+    }
+
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 }

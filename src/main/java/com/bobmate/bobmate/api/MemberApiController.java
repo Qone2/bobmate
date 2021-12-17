@@ -1,14 +1,18 @@
 package com.bobmate.bobmate.api;
 
+import com.bobmate.bobmate.config.security.JwtTokenProvider;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +21,8 @@ import java.util.stream.Collectors;
 public class MemberApiController {
 
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/v1/member")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid CreateMemberRequest request) {
@@ -76,5 +82,36 @@ public class MemberApiController {
         private String email;
         private List<Long> review_ids;
         private List<Long> meet_ids;
+    }
+
+    // 회원가입
+    @PostMapping("/api/v2/join")
+    public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
+        Member member = new Member();
+        member.setEmail(request.getEmail());
+        member.setPassword(passwordEncoder.encode(request.getPassword()));
+        member.setRoles(Collections.singletonList("ROLE_USER"));
+        return new CreateMemberResponse(memberService.join(member));
+    }
+
+    @Data
+    static class CreateMemberRequestV2 {
+        @NotEmpty
+        @Email
+        private String email;
+
+        @NotEmpty
+        private String password;
+    }
+
+    // 로그인
+    @PostMapping("/api/v2/login")
+    public String loginV2(@RequestBody @Valid CreateMemberRequestV2 request) {
+        Member member = memberService.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
+        if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("회원정보가 불일치합니다.");
+        }
+        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
     }
 }
