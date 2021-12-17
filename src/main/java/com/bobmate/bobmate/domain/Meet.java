@@ -17,18 +17,18 @@ public class Meet {
     @Column(name = "meet_id")
     private Long id;
 
-    private String name;
-
-    @OneToMany(mappedBy = "meet")
-    private List<MemberMeet> memberMeets = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "head_member_id")
     private Member headMember;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "place_id")
     private Place place;
+
+    @OneToMany(mappedBy = "meet")
+    private List<MemberMeet> memberMeets = new ArrayList<>();
+
+    private String name;
 
     private String link;
 
