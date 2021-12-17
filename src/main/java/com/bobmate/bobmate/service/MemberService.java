@@ -31,7 +31,7 @@ public class MemberService {
      * entity에 unique constraint 필요
      */
     private void validDuplicateMember(Member member) {
-        List<Member> findMembers = memberRepository.findByName(member.getName());
+        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원명 입니다.");
         }
@@ -45,9 +45,9 @@ public class MemberService {
      * 회원 수정
      */
     @Transactional
-    public void update(Long memberId, String name) {
+    public void update(Long memberId, String email) {
         Member findMember = memberRepository.findOne(memberId);
-        findMember.setName(name);
+        findMember.setEmail(email);
     }
 
     public List<Member> findAll() {

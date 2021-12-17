@@ -17,7 +17,7 @@ public class Member {
     private Long id;
 
     @Column(unique = true)
-    private String name;
+    private String email;
 
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();

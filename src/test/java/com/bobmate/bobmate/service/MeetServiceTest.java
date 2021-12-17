@@ -4,7 +4,6 @@ import com.bobmate.bobmate.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,7 +20,7 @@ class MeetServiceTest {
     public void 모임생성() throws Exception {
         //given
         Member member = new Member();
-        member.setName("멤버1");
+        member.setEmail("멤버1");
         memberService.join(member);
 
         Place place = new Place();
@@ -50,13 +49,13 @@ class MeetServiceTest {
     public void 멤버추가() throws Exception {
         //given
         Member member = new Member();
-        member.setName("멤버0");
+        member.setEmail("멤버0");
         memberService.join(member);
         Member member1 = new Member();
-        member1.setName("멤버1");
+        member1.setEmail("멤버1");
         memberService.join(member1);
         Member member2 = new Member();
-        member2.setName("멤버2");
+        member2.setEmail("멤버2");
         memberService.join(member2);
 
         Place place = new Place();
@@ -83,13 +82,13 @@ class MeetServiceTest {
     public void 멤버삭제() throws Exception {
         //given
         Member member = new Member();
-        member.setName("멤버0");
+        member.setEmail("멤버0");
         memberService.join(member);
         Member member1 = new Member();
-        member1.setName("멤버1");
+        member1.setEmail("멤버1");
         memberService.join(member1);
         Member member2 = new Member();
-        member2.setName("멤버2");
+        member2.setEmail("멤버2");
         memberService.join(member2);
 
         Place place = new Place();

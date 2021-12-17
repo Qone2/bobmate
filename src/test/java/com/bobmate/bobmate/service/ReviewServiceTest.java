@@ -22,7 +22,7 @@ class ReviewServiceTest {
     public void 리뷰생성() throws Exception {
         //given
         Member member = new Member();
-        member.setName("회원1");
+        member.setEmail("회원1");
         Long memberId = memberService.join(member);
 
         Place place = new Place();
@@ -46,7 +46,7 @@ class ReviewServiceTest {
     public void 리뷰생성_이상한_별점() throws Exception {
         //given
         Member member = new Member();
-        member.setName("회원1");
+        member.setEmail("회원1");
         Long memberId = memberService.join(member);
 
         Place place = new Place();
@@ -69,7 +69,7 @@ class ReviewServiceTest {
     public void 리뷰생성_부수효과() throws Exception {
         //given
         Member member = new Member();
-        member.setName("회원1");
+        member.setEmail("회원1");
         Long memberId = memberService.join(member);
 
         Place place = new Place();
@@ -93,7 +93,7 @@ class ReviewServiceTest {
     public void 리뷰삭제_부수효과() throws Exception {
         //given
         Member member = new Member();
-        member.setName("회원1");
+        member.setEmail("회원1");
         Long memberId = memberService.join(member);
 
         Place place = new Place();

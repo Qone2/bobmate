@@ -21,7 +21,7 @@ public class MemberApiController {
     @PostMapping("/api/v1/member")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid CreateMemberRequest request) {
         Member member = new Member();
-        member.setName(request.getName());
+        member.setEmail(request.getEmail());
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
     }
@@ -29,7 +29,7 @@ public class MemberApiController {
     @Data
     static class CreateMemberRequest {
         @NotEmpty
-        private String name;
+        private String email;
     }
 
     @Data
@@ -42,7 +42,7 @@ public class MemberApiController {
     public Result membersV1() {
         List<Member> memberList = memberService.findAll();
         List<MemberDto> collect = memberList.stream()
-                .map(m -> new MemberDto(m.getId(), m.getName()))
+                .map(m -> new MemberDto(m.getId(), m.getEmail()))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -51,7 +51,7 @@ public class MemberApiController {
     @AllArgsConstructor
     static class MemberDto {
         private Long member_id;
-        private String name;
+        private String email;
     }
 
     @Data
@@ -64,7 +64,7 @@ public class MemberApiController {
     @GetMapping("/api/v1/member/{id}")
     public MemberDetailResponse memberDetailV1(@PathVariable("id") Long id) {
         Member member = memberService.findOne(id);
-        return new MemberDetailResponse(member.getId(), member.getName()
+        return new MemberDetailResponse(member.getId(), member.getEmail()
                 , member.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList())
                 , member.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()));
     }
@@ -73,7 +73,7 @@ public class MemberApiController {
     @AllArgsConstructor
     static class MemberDetailResponse {
         private Long member_id;
-        private String name;
+        private String email;
         private List<Long> review_ids;
         private List<Long> meet_ids;
     }

@@ -1,9 +1,6 @@
 package com.bobmate.bobmate;
 
-import com.bobmate.bobmate.domain.Coordinate;
-import com.bobmate.bobmate.domain.Member;
-import com.bobmate.bobmate.domain.Place;
-import com.bobmate.bobmate.domain.Review;
+import com.bobmate.bobmate.domain.*;
 import com.bobmate.bobmate.service.MeetService;
 import com.bobmate.bobmate.service.MemberService;
 import com.bobmate.bobmate.service.PlaceService;
@@ -37,19 +34,19 @@ public class initDB {
 
         public void dbInit1() {
             Member member1 = new Member();
-            member1.setName("맴버1");
+            member1.setEmail("맴버1");
             memberService.join(member1);
             Member member2 = new Member();
-            member2.setName("맴버2");
+            member2.setEmail("맴버2");
             memberService.join(member2);
             Member member3 = new Member();
-            member3.setName("맴버3");
+            member3.setEmail("맴버3");
             memberService.join(member3);
             Member member4 = new Member();
-            member4.setName("맴버4");
+            member4.setEmail("맴버4");
             memberService.join(member4);
             Member member5 = new Member();
-            member5.setName("맴버5");
+            member5.setEmail("맴버5");
             memberService.join(member5);
 
             Place place1 = new Place();
