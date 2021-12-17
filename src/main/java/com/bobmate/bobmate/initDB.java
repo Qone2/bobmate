@@ -67,6 +67,10 @@ public class initDB {
             reviewService.saveReview(member1.getId(), place2.getId(), "리뷰내용3", 3.5);
             reviewService.saveReview(member2.getId(), place2.getId(), "리뷰내용4", 4.5);
             reviewService.saveReview(member3.getId(), place3.getId(), "리뷰내용5", 3.5);
+
+            Long meetId1 = meetService.saveMeet(member1.getId(), place3.getId(), "모임1", "링크1");
+            meetService.addMember(member4.getId(), meetId1);
+            meetService.addMember(member5.getId(), meetId1);
         }
     }
 }
