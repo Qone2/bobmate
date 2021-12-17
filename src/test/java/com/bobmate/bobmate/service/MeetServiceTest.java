@@ -34,16 +34,16 @@ class MeetServiceTest {
         Meet meet = meetService.findOne(meetId);
 
         //then
-        assertEquals(meet.getHeadMember(), member);
-        assertEquals(meet.getPlace(), place);
-        assertEquals(meet.getMemberMeets().size(), 1);
+        assertEquals(member, meet.getHeadMember());
+        assertEquals(place, meet.getPlace());
+        assertEquals(1, meet.getMemberMeets().size());
 
-        assertEquals(member.getMemberMeets().size(), 1);
+        assertEquals(1, member.getMemberMeets().size());
 
-        assertEquals(member.getMemberMeets().get(0), meet.getMemberMeets().get(0));
+        assertEquals(meet.getMemberMeets().get(0), member.getMemberMeets().get(0));
 
-        assertEquals(place.getMeets().size(), 1);
-        assertEquals(place.getMeets().get(0), meet);
+        assertEquals(1, place.getMeets().size());
+        assertEquals(meet, place.getMeets().get(0));
     }
 
     @Test
@@ -71,12 +71,12 @@ class MeetServiceTest {
         Meet meet = meetService.findOne(meetId);
 
         //then
-        assertEquals(meet.getMemberMeets().size(), 3);
+        assertEquals(3, meet.getMemberMeets().size());
         assertEquals(member.getMemberMeets().get(0).getMeet(), member1.getMemberMeets().get(0).getMeet());
         assertEquals(member.getMemberMeets().get(0).getMeet(), member2.getMemberMeets().get(0).getMeet());
 
-        assertEquals(place.getMeets().size(), 1);
-        assertEquals(place.getMeets().get(0), meet);
+        assertEquals(1, place.getMeets().size());
+        assertEquals(meet, place.getMeets().get(0));
     }
 
     @Test
