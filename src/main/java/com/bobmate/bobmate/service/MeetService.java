@@ -56,7 +56,7 @@ public class MeetService {
         if (member == meet.getHeadMember()) {
             throw new HeadMemberException("모임 방장은 모임을 삭제하거나 다른 사람에게 방장을 넘겨주기 전까지는 탈퇴할 수 없습니다.");
         }
-        memberMeet.deleteMemberMeet();
+        memberMeetRepository.delete(memberMeet);
     }
 
     public Meet findOne(Long meetId) {

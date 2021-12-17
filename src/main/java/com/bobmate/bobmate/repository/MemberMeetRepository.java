@@ -38,5 +38,7 @@ public class MemberMeetRepository {
 
     public void delete(MemberMeet memberMeet) {
         em.remove(memberMeet);
+        em.flush();
+        em.clear();
     }
 }

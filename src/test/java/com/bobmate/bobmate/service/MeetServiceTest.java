@@ -105,7 +105,7 @@ class MeetServiceTest {
         Meet meet = meetService.findOne(meetId);
 
         //then
-        assertEquals(MemberMeetStatus.DELETED, meet.getMemberMeets().get(2).getMemberMeetStatus());
+        assertEquals(2, meet.getMemberMeets().size());
     }
 
 }
