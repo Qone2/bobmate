@@ -106,12 +106,22 @@ public class MemberApiController {
 
     // 로그인
     @PostMapping("/api/v2/login")
-    public String loginV2(@RequestBody @Valid CreateMemberRequestV2 request) {
+    public String loginV2(@RequestBody @Valid LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("회원정보가 불일치합니다.");
         }
         return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+    }
+
+    @Data
+    static class LoginRequest {
+        @NotEmpty
+        @Email
+        private String email;
+
+        @NotEmpty
+        private String password;
     }
 }
