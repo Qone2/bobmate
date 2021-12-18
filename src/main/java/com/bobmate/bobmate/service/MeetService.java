@@ -38,13 +38,14 @@ public class MeetService {
     }
 
     @Transactional
-    public void addMember(Long memberId, Long meetId) {
+    public Long addMember(Long memberId, Long meetId) {
         Member member = memberRepository.findOne(memberId);
         Meet meet = meetRepository.findOne(meetId);
 
         MemberMeet memberMeet = MemberMeet.createMemberMeet(member);
         meet.addMember(memberMeet);
         memberMeetRepository.save(memberMeet);
+        return memberMeet.getId();
     }
 
     @Transactional
