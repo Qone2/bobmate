@@ -8,6 +8,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "NoSameMember", columnNames = {"member_id", "meet_id"})
+        }
+)
 public class MemberMeet {
 
     @Id
