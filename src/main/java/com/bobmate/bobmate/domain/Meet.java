@@ -32,6 +32,8 @@ public class Meet {
 
     private String link;
 
+    private int memberCount;
+
     private LocalDateTime createdDate;
 
     //==연관관계 메서드==//
@@ -45,9 +47,14 @@ public class Meet {
         place.getMeets().add(this);
     }
 
+    public void setMemberCount() {
+        this.memberCount = this.memberMeets.size();
+    }
+
     public void addMemberMeets(MemberMeet memberMeet) {
         this.memberMeets.add(memberMeet);
         memberMeet.setMeet(this);
+        setMemberCount();
     }
 
     //==생성 메서드==//
@@ -59,6 +66,7 @@ public class Meet {
         meet.setLink(link);
         meet.addMemberMeets(memberMeet);
         meet.setCreatedDate(LocalDateTime.now());
+        meet.setMemberCount();
 
         return meet;
     }
@@ -68,5 +76,6 @@ public class Meet {
         this.memberMeets.add(memberMeet);
         memberMeet.setMeet(this);
         memberMeet.getMember().getMemberMeets().add(memberMeet);
+        this.setMemberCount();
     }
 }
