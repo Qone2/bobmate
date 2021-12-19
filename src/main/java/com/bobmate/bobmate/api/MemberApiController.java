@@ -41,7 +41,7 @@ public class MemberApiController {
     @Data
     @AllArgsConstructor
     static class CreateMemberResponse {
-        private Long id;
+        private Long member_id;
     }
 
     @GetMapping("/api/v1/member")
@@ -106,13 +106,20 @@ public class MemberApiController {
 
     // 로그인
     @PostMapping("/api/v2/login")
-    public String loginV2(@RequestBody @Valid LoginRequest request) {
+    public LoginResponse loginV2(@RequestBody @Valid LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("회원정보가 불일치합니다.");
         }
-        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+        String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
+        return new LoginResponse(token);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class LoginResponse {
+        private String token;
     }
 
     @Data

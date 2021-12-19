@@ -25,7 +25,7 @@ public class ReviewApiController {
 
     @PostMapping("/api/v1/review")
     public CreateReviewResponse saveReviewV1(@RequestBody @Valid CreateReviewRequest createReviewRequest) {
-        Long id = reviewService.saveReview(createReviewRequest.getMemberId(), createReviewRequest.getPlaceId(),
+        Long id = reviewService.saveReview(createReviewRequest.getMember_id(), createReviewRequest.getPlace_id(),
                 createReviewRequest.getContents(), createReviewRequest.getStar());
         return new CreateReviewResponse(id);
     }
@@ -33,9 +33,9 @@ public class ReviewApiController {
     @Data
     static class CreateReviewRequest {
         @NotNull
-        private Long memberId;
+        private Long member_id;
         @NotNull
-        private Long placeId;
+        private Long place_id;
         @NotEmpty
         private String contents;
         @NotNull
@@ -46,7 +46,7 @@ public class ReviewApiController {
     @Data
     @AllArgsConstructor
     static class CreateReviewResponse {
-        private Long reviewId;
+        private Long review_id;
     }
 
     @GetMapping("/api/v1/review")

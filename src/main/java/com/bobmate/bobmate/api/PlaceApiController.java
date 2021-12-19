@@ -43,6 +43,6 @@ public class PlaceApiController {
     @Data
     @AllArgsConstructor
     static class CreatePlaceResponse {
-        private Long id;
+        private Long place_id;
     }
 }

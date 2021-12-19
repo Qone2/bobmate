@@ -46,14 +46,14 @@ public class MeetApiController {
     }
 
     @PostMapping("/api/v1/meet/{meet_id}")
-    public CreateMeetResponse addMember(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
-        return new CreateMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
+    public CreateMemberMeetResponse addMember(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
+        return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
     }
 
     @Data
     @AllArgsConstructor
     static class CreateMemberMeetResponse {
-        private Long memberMeet_id;
+        private Long member_meet_id;
     }
 
     @Data
