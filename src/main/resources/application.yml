@@ -1,9 +1,13 @@
 spring:
   datasource:
-    url: jdbc:h2:tcp://localhost/~/bobmate
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mariadb://localhost:3306/bobmate?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: bobmate
+    driver-class-name: org.mariadb.jdbc.Driver
+  #    url: jdbc:h2:tcp://localhost/~/bobmate
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create
