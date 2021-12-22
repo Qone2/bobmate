@@ -5,7 +5,10 @@ import com.bobmate.bobmate.exception.StarValueException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,13 +19,16 @@ class ReviewServiceTest {
     @Autowired MemberService memberService;
     @Autowired PlaceService placeService;
     @Autowired ReviewService reviewService;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @Test
     public void 리뷰생성() throws Exception {
         //given
-        Member member = new Member();
-        member.setEmail("회원1");
-        Long memberId = memberService.join(member);
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        Long memberId = memberService.join(member1);
 
         Place place = new Place();
         place.setName("식당1");
@@ -37,16 +43,18 @@ class ReviewServiceTest {
         Review review = reviewService.findOne(reviewId);
 
         //then
-        assertEquals(member, review.getMember());
+        assertEquals(member1, review.getMember());
         assertEquals(place, review.getPlace());
     }
 
     @Test
     public void 리뷰생성_이상한_별점() throws Exception {
         //given
-        Member member = new Member();
-        member.setEmail("회원1");
-        Long memberId = memberService.join(member);
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        Long memberId = memberService.join(member1);
 
         Place place = new Place();
         place.setName("식당1");

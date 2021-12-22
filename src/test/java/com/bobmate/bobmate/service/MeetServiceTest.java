@@ -4,7 +4,10 @@ import com.bobmate.bobmate.domain.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,12 +18,13 @@ class MeetServiceTest {
     @Autowired MemberService memberService;
     @Autowired PlaceService placeService;
     @Autowired MeetService meetService;
+    @Autowired PasswordEncoder passwordEncoder;
 
     @Test
     public void 모임생성() throws Exception {
         //given
         Member member = new Member();
-        member.setEmail("멤버1");
+        member.setEmail("member0@member.com");
         memberService.join(member);
 
         Place place = new Place();
@@ -48,15 +52,21 @@ class MeetServiceTest {
     @Test
     public void 멤버추가() throws Exception {
         //given
-        Member member = new Member();
-        member.setEmail("멤버0");
-        memberService.join(member);
         Member member1 = new Member();
-        member1.setEmail("멤버1");
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member1);
         Member member2 = new Member();
-        member2.setEmail("멤버2");
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member2);
+        Member member3 = new Member();
+        member3.setEmail("member3@member1.com");
+        member3.setPassword(passwordEncoder.encode("password1"));
+        member3.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member3);
 
         Place place = new Place();
         place.setName("식당0");
@@ -64,15 +74,15 @@ class MeetServiceTest {
         placeService.savePlace(place);
 
         //when
-        Long meetId = meetService.saveMeet(member.getId(), place.getId(), "모임0", "http://dfsf.c");
-        meetService.addMember(member1.getId(), meetId);
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
         meetService.addMember(member2.getId(), meetId);
+        meetService.addMember(member3.getId(), meetId);
         Meet meet = meetService.findOne(meetId);
 
         //then
         assertEquals(3, meet.getMemberMeets().size());
-        assertEquals(member.getMemberMeets().get(0).getMeet(), member1.getMemberMeets().get(0).getMeet());
-        assertEquals(member.getMemberMeets().get(0).getMeet(), member2.getMemberMeets().get(0).getMeet());
+        assertEquals(member1.getMemberMeets().get(0).getMeet(), member2.getMemberMeets().get(0).getMeet());
+        assertEquals(member1.getMemberMeets().get(0).getMeet(), member3.getMemberMeets().get(0).getMeet());
 
         assertEquals(1, place.getMeets().size());
         assertEquals(meet, place.getMeets().get(0));
@@ -81,15 +91,21 @@ class MeetServiceTest {
     @Test
     public void 멤버삭제() throws Exception {
         //given
-        Member member = new Member();
-        member.setEmail("멤버0");
-        memberService.join(member);
         Member member1 = new Member();
-        member1.setEmail("멤버1");
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member1);
         Member member2 = new Member();
-        member2.setEmail("멤버2");
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member2);
+        Member member3 = new Member();
+        member3.setEmail("member3@member1.com");
+        member3.setPassword(passwordEncoder.encode("password1"));
+        member3.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member3);
 
         Place place = new Place();
         place.setName("식당0");
@@ -97,10 +113,10 @@ class MeetServiceTest {
         placeService.savePlace(place);
 
         //when
-        Long meetId = meetService.saveMeet(member.getId(), place.getId(), "모임0", "http://dfsf.c");
-        meetService.addMember(member1.getId(), meetId);
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
         meetService.addMember(member2.getId(), meetId);
-        meetService.deleteMember(member2.getId(), meetId);
+        meetService.addMember(member3.getId(), meetId);
+        meetService.deleteMember(member3.getId(), meetId);
         Meet meet = meetService.findOne(meetId);
 
         //then
