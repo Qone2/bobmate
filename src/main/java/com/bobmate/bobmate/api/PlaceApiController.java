@@ -6,12 +6,12 @@ import com.bobmate.bobmate.service.PlaceService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,5 +44,48 @@ public class PlaceApiController {
     @AllArgsConstructor
     static class CreatePlaceResponse {
         private Long place_id;
+    }
+
+    @GetMapping("/api/v1/place")
+    public Result placesV1() {
+        List<PlaceDto> collect = placeService.findAll()
+                .stream().map(p -> new PlaceDto(p.getId(), p.getName()))
+                .collect(Collectors.toList());
+        return new Result(collect.size(), collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class PlaceDto {
+        private Long place_id;
+        private String name;
+    }
+
+    @GetMapping("/api/v1/place/{id}")
+    public PlaceDetailResponse placeDetail(@PathVariable("id") Long id) {
+        Place place = placeService.findOne(id);
+        return new PlaceDetailResponse(place.getId(), place.getName(), place.getCoordinate(),
+                place.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
+                place.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList()),
+                place.getReviewCount(), place.getAvgStar());
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class PlaceDetailResponse {
+        private Long place_id;
+        private String name;
+        private Coordinate coordinate;
+        private List<Long> review_ids;
+        private List<Long> meet_ids;
+        private int review_count;
+        private Double avg_star;
     }
 }
