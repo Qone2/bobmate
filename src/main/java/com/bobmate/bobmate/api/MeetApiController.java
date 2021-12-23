@@ -21,7 +21,7 @@ public class MeetApiController {
     private final MeetService meetService;
 
     @PostMapping("/api/v1/meet")
-    public CreateMeetResponse createMeet(@RequestBody @Valid CreateMeetRequest request) {
+    public CreateMeetResponse createMeetV1(@RequestBody @Valid CreateMeetRequest request) {
         return new CreateMeetResponse(meetService.saveMeet(request.getMember_id(), request.getPlace_id(),
                 request.getName(), request.getLink()));
     }
@@ -46,7 +46,7 @@ public class MeetApiController {
     }
 
     @PostMapping("/api/v1/meet/{meet_id}")
-    public CreateMemberMeetResponse addMember(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
+    public CreateMemberMeetResponse addMemberV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
         return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
     }
 
