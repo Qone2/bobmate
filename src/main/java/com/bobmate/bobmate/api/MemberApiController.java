@@ -24,7 +24,7 @@ public class MemberApiController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/api/v1/member")
+//    @PostMapping("/api/v1/member")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid CreateMemberRequest request) {
         Member member = new Member();
         member.setEmail(request.getEmail());
