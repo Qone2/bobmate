@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -62,5 +64,9 @@ public class MeetService {
 
     public Meet findOne(Long meetId) {
         return meetRepository.findOne(meetId);
+    }
+
+    public List<Meet> findAll() {
+        return meetRepository.findAll();
     }
 }
