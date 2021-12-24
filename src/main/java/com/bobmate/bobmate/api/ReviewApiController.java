@@ -54,7 +54,8 @@ public class ReviewApiController {
         List<Review> reviews = reviewService.findAll();
         List<ReviewDto> collect = reviews.stream()
                 .map(r -> new ReviewDto(r.getId(), r.getMember().getId(), r.getPlace().getId(),
-                        r.getCreatedDate(), r.getLikeCount()))
+                        r.getStar(), r.getCreatedDate(), r.getUpdatedDate(), r.getLikeCount(),
+                        r.getReviewStatus()))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -65,8 +66,11 @@ public class ReviewApiController {
         private Long review_id;
         private Long member_id;
         private Long place_id;
+        private Double star;
         private LocalDateTime created_date;
+        private LocalDateTime updated_date;
         private int like_count;
+        private ReviewStatus review_status;
     }
 
     @Data
