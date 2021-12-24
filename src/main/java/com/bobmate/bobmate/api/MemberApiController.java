@@ -48,7 +48,9 @@ public class MemberApiController {
     public Result membersV1() {
         List<Member> memberList = memberService.findAll();
         List<MemberDto> collect = memberList.stream()
-                .map(m -> new MemberDto(m.getId(), m.getEmail()))
+                .map(m -> new MemberDto(m.getId(), m.getEmail(),
+                        m.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
+                        m.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -58,6 +60,8 @@ public class MemberApiController {
     static class MemberDto {
         private Long member_id;
         private String email;
+        private List<Long> review_ids;
+        private List<Long> meet_ids;
     }
 
     @Data

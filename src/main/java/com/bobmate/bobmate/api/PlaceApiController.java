@@ -49,7 +49,9 @@ public class PlaceApiController {
     @GetMapping("/api/v1/place")
     public Result placesV1() {
         List<PlaceDto> collect = placeService.findAll()
-                .stream().map(p -> new PlaceDto(p.getId(), p.getName()))
+                .stream().map(p -> new PlaceDto(p.getId(), p.getName(), p.getReviewCount(), p.getAvgStar(),
+                        p.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
+                        p.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -66,6 +68,10 @@ public class PlaceApiController {
     static class PlaceDto {
         private Long place_id;
         private String name;
+        private int review_count;
+        private Double avg_star;
+        private List<Long> review_ids;
+        private List<Long> meet_ids;
     }
 
     @GetMapping("/api/v1/place/{id}")

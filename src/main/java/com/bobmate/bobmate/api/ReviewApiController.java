@@ -53,7 +53,8 @@ public class ReviewApiController {
     public Result reviewsV1() {
         List<Review> reviews = reviewService.findAll();
         List<ReviewDto> collect = reviews.stream()
-                .map(r -> new ReviewDto(r.getId()))
+                .map(r -> new ReviewDto(r.getId(), r.getMember().getId(), r.getPlace().getId(),
+                        r.getCreatedDate(), r.getLikeCount()))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -62,6 +63,10 @@ public class ReviewApiController {
     @AllArgsConstructor
     static class ReviewDto {
         private Long review_id;
+        private Long member_id;
+        private Long place_id;
+        private LocalDateTime created_date;
+        private int like_count;
     }
 
     @Data
