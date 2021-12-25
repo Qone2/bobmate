@@ -1,6 +1,8 @@
 package com.bobmate.bobmate.repository;
 
 import com.bobmate.bobmate.domain.LikeReview;
+import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +26,17 @@ public class LikeReviewRepository {
     public List<LikeReview> findAll() {
         return em.createQuery("select l from LikeReview l", LikeReview.class)
                 .getResultList();
+    }
+
+    public LikeReview findOneByMemberIdAndReviewId(Member member, Review review) {
+        return em.createQuery("select l from LikeReview l where l.member = :member and l.review = :review",
+                LikeReview.class).setParameter("member", member).setParameter("review", review)
+                .getResultList().stream().findFirst().orElse(null);
+    }
+
+    public void delete(LikeReview likeReview) {
+        em.remove(likeReview);
+        em.flush();
+        em.clear();
     }
 }
