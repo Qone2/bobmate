@@ -34,6 +34,9 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<MemberMeet> memberMeets = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<LikeReview> likeReviews = new ArrayList<>();
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
