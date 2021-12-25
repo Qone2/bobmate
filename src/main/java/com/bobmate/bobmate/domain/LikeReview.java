@@ -8,9 +8,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
-@Table(uniqueConstraints = {
-        @UniqueConstraint(name = "Can't like twice", columnNames = {"member_id", "review_id"})
-})
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "CantLikeTwice", columnNames = {"member_id", "review_id"})
+        }
+)
 public class LikeReview {
 
     @Id
