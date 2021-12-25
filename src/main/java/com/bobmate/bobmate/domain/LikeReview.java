@@ -29,6 +29,13 @@ public class LikeReview {
     private LocalDateTime likeDate;
 
 
+    //==연관관계 메서드==//
+    public void setMember(Member member) {
+        this.member = member;
+        member.getLikeReviews().add(this);
+    }
+
+
     //==생성 메서드==//
     public static LikeReview createLikeReview(Member member, Review review) {
         LikeReview likeReview = new LikeReview();

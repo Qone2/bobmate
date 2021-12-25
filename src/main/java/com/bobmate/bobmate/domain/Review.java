@@ -27,9 +27,6 @@ public class Review {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @OneToMany(mappedBy = "review")
-    private List<LikeReview> likeReviews = new ArrayList<>();
-
     @Column(columnDefinition = "TEXT")
     private String contents;
 
