@@ -28,15 +28,9 @@ public class MemberRepository {
     }
 
     public Optional<Member> findByEmail(String email) {
-        List<Member> memberList = em.createQuery("select m from Member m where m.email = :email", Member.class)
+        return em.createQuery("select m from Member m where m.email = :email", Member.class)
                 .setParameter("email", email)
-                .getResultList();
-        if (memberList.isEmpty()) {
-            return Optional.ofNullable(null);
-        } else {
-            return Optional.ofNullable(memberList.get(0));
-        }
-
+                .getResultList().stream().findFirst();
     }
 
 }

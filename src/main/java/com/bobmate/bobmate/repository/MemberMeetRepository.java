@@ -33,7 +33,7 @@ public class MemberMeetRepository {
                 "where m.member = :member and m.meet = :meet", MemberMeet.class)
                 .setParameter("member", member)
                 .setParameter("meet", meet)
-                .getSingleResult();
+                .getResultList().stream().findFirst().orElse(null);
     }
 
     public void delete(MemberMeet memberMeet) {
