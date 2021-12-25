@@ -50,7 +50,8 @@ public class MemberApiController {
         List<MemberDto> collect = memberList.stream()
                 .map(m -> new MemberDto(m.getId(), m.getEmail(),
                         m.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
-                        m.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList())))
+                        m.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()),
+                        m.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -62,6 +63,7 @@ public class MemberApiController {
         private String email;
         private List<Long> review_ids;
         private List<Long> meet_ids;
+        private List<Long> liked_review_ids;
     }
 
     @Data
@@ -74,9 +76,10 @@ public class MemberApiController {
     @GetMapping("/api/v1/member/{id}")
     public MemberDetailResponse memberDetailV1(@PathVariable("id") Long id) {
         Member member = memberService.findOne(id);
-        return new MemberDetailResponse(member.getId(), member.getEmail()
-                , member.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList())
-                , member.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()));
+        return new MemberDetailResponse(member.getId(), member.getEmail(),
+                member.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
+                member.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()),
+                member.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()));
     }
 
     @Data
@@ -86,6 +89,7 @@ public class MemberApiController {
         private String email;
         private List<Long> review_ids;
         private List<Long> meet_ids;
+        private List<Long> liked_review_ids;
     }
 
     // 회원가입
