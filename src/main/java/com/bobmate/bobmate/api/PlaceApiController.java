@@ -6,6 +6,7 @@ import com.bobmate.bobmate.service.PlaceService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ public class PlaceApiController {
     private final PlaceService placeService;
 
     @PostMapping("/api/v1/place")
+    @ResponseStatus(HttpStatus.CREATED)
     public CreatePlaceResponse savePlaceV1(@RequestBody @Valid CreatePlaceRequest createPlaceRequest) {
 
         Coordinate coordinate = new Coordinate(createPlaceRequest.getX(), createPlaceRequest.getY());

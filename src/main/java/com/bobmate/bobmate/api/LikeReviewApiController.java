@@ -6,10 +6,8 @@ import com.bobmate.bobmate.service.ReviewService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -23,6 +21,7 @@ public class LikeReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping("/api/v1/like-review")
+    @ResponseStatus(HttpStatus.CREATED)
     public LikeReviewResponse likeReview(@RequestBody @Valid LikeReviewRequest request) {
         Long likeReviewId =  likeReviewService.likeReview(request.getMember_id(), request.getReview_id());
         return new LikeReviewResponse(likeReviewId);

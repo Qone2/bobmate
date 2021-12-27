@@ -6,6 +6,7 @@ import com.bobmate.bobmate.service.ReviewService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,6 +25,7 @@ public class ReviewApiController {
     private final ReviewService reviewService;
 
     @PostMapping("/api/v1/review")
+    @ResponseStatus(HttpStatus.CREATED)
     public CreateReviewResponse saveReviewV1(@RequestBody @Valid CreateReviewRequest createReviewRequest) {
         Long id = reviewService.saveReview(createReviewRequest.getMember_id(), createReviewRequest.getPlace_id(),
                 createReviewRequest.getContents(), createReviewRequest.getStar());

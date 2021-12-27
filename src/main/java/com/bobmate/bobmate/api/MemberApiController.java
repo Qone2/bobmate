@@ -6,6 +6,7 @@ import com.bobmate.bobmate.service.MemberService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -94,6 +95,7 @@ public class MemberApiController {
 
     // 회원가입
     @PostMapping("/api/v2/join")
+    @ResponseStatus(HttpStatus.CREATED)
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
         Member member = new Member();
         member.setEmail(request.getEmail());
@@ -113,7 +115,7 @@ public class MemberApiController {
     }
 
     // 로그인
-    @PostMapping("/api/v2/login")
+    @GetMapping("/api/v2/login")
     public LoginResponse loginV2(@RequestBody @Valid LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));

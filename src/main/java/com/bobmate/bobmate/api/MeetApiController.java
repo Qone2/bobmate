@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class MeetApiController {
 
 
     @PostMapping("/api/v1/meet")
+    @ResponseStatus(HttpStatus.CREATED)
     public CreateMeetResponse createMeetV1(@RequestBody @Valid CreateMeetRequest request) {
         return new CreateMeetResponse(meetService.saveMeet(request.getMember_id(), request.getPlace_id(),
                 request.getName(), request.getLink()));
