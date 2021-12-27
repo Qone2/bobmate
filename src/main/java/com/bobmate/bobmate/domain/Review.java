@@ -6,8 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -28,7 +26,7 @@ public class Review {
     private Place place;
 
     @Column(columnDefinition = "TEXT")
-    private String contents;
+    private String content;
 
     private Double star;
 
@@ -59,7 +57,7 @@ public class Review {
         Review review = new Review();
         review.setMember(member);
         review.setPlace(place);
-        review.setContents(contents);
+        review.setContent(contents);
         review.setStar(star);
         review.setCreatedDate(LocalDateTime.now());
         review.setLikeCount(0);

@@ -50,7 +50,7 @@ public class ReviewService {
     @Transactional
     public Long updateReview(Long reviewId, String contents, Double star) {
         Review review = reviewRepository.findOne(reviewId);
-        review.setContents(contents);
+        review.setContent(contents);
         review.setStar(star);
 
         return review.getId();

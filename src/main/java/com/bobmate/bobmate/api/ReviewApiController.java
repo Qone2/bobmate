@@ -28,7 +28,7 @@ public class ReviewApiController {
     @ResponseStatus(HttpStatus.CREATED)
     public CreateReviewResponse saveReviewV1(@RequestBody @Valid CreateReviewRequest createReviewRequest) {
         Long id = reviewService.saveReview(createReviewRequest.getMember_id(), createReviewRequest.getPlace_id(),
-                createReviewRequest.getContents(), createReviewRequest.getStar());
+                createReviewRequest.getContent(), createReviewRequest.getStar());
         return new CreateReviewResponse(id);
     }
 
@@ -39,7 +39,7 @@ public class ReviewApiController {
         @NotNull
         private Long place_id;
         @NotEmpty
-        private String contents;
+        private String content;
         @NotNull
         @Max(value = 5) @Min(value = 1)
         private Double star;
@@ -86,7 +86,7 @@ public class ReviewApiController {
     public ReviewDetailResponse reviewDetailV1(@PathVariable("id") Long id) {
         Review review = reviewService.findOne(id);
         return new ReviewDetailResponse(review.getId(), review.getMember().getId()
-                , review.getPlace().getId(), review.getContents(), review.getStar(), review.getCreatedDate()
+                , review.getPlace().getId(), review.getContent(), review.getStar(), review.getCreatedDate()
                 , review.getUpdatedDate(), review.getLikeCount(), review.getReviewStatus());
     }
 
