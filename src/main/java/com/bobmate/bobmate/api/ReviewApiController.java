@@ -70,7 +70,7 @@ public class ReviewApiController {
         private Long review_id;
         private Long member_id;
         private Long place_id;
-        private List<Long> photos;
+        private List<Long> photo_ids;
         private Double star;
         private LocalDateTime created_date;
         private LocalDateTime updated_date;
@@ -100,7 +100,7 @@ public class ReviewApiController {
         private Long review_id;
         private Long member_id;
         private Long place_id;
-        private List<Long> photos;
+        private List<Long> photo_ids;
         private String content;
         private Double star;
         private LocalDateTime created_date;

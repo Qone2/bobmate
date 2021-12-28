@@ -24,7 +24,7 @@ public class PhotoApiController {
 
     private final PhotoService photoService;
 
-    @GetMapping("/api/v1/image/{id}")
+    @GetMapping("/api/v1/photo/{id}")
     public ResponseEntity<Resource> photoDetailV1(@PathVariable("id") Long id) throws IOException {
         Photo photo = photoService.findOne(id);
         String absolutePath = new File("").getAbsolutePath() + File.separator;
