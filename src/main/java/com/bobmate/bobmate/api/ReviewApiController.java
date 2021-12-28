@@ -58,8 +58,8 @@ public class ReviewApiController {
         List<Review> reviews = reviewService.findAll();
         List<ReviewDto> collect = reviews.stream()
                 .map(r -> new ReviewDto(r.getId(), r.getMember().getId(), r.getPlace().getId(),
-                        r.getStar(), r.getCreatedDate(), r.getUpdatedDate(), r.getLikeCount(),
-                        r.getReviewStatus()))
+                        r.getPhotos().stream().map(p -> p.getId()).collect(Collectors.toList()), r.getStar(),
+                        r.getCreatedDate(), r.getUpdatedDate(), r.getLikeCount(), r.getReviewStatus()))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -70,6 +70,7 @@ public class ReviewApiController {
         private Long review_id;
         private Long member_id;
         private Long place_id;
+        private List<Long> photos;
         private Double star;
         private LocalDateTime created_date;
         private LocalDateTime updated_date;
@@ -87,9 +88,10 @@ public class ReviewApiController {
     @GetMapping("/api/v1/review/{id}")
     public ReviewDetailResponse reviewDetailV1(@PathVariable("id") Long id) {
         Review review = reviewService.findOne(id);
-        return new ReviewDetailResponse(review.getId(), review.getMember().getId()
-                , review.getPlace().getId(), review.getContent(), review.getStar(), review.getCreatedDate()
-                , review.getUpdatedDate(), review.getLikeCount(), review.getReviewStatus());
+        return new ReviewDetailResponse(review.getId(), review.getMember().getId(), review.getPlace().getId(),
+                review.getPhotos().stream().map(p -> p.getId()).collect(Collectors.toList()), review.getContent(),
+                review.getStar(), review.getCreatedDate(), review.getUpdatedDate(), review.getLikeCount(),
+                review.getReviewStatus());
     }
 
     @Data
@@ -98,6 +100,7 @@ public class ReviewApiController {
         private Long review_id;
         private Long member_id;
         private Long place_id;
+        private List<Long> photos;
         private String content;
         private Double star;
         private LocalDateTime created_date;
