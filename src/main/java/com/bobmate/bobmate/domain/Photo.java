@@ -33,4 +33,16 @@ public class Photo {
         this.review = review;
         review.getPhotos().add(this);
     }
+
+
+    //==생성 메서드==//
+    public static Photo createPhoto(Review review, String fileName, String filePath, Long fileSize) {
+        Photo photo = new Photo();
+        photo.setReview(review);
+        photo.setFileName(fileName);
+        photo.setFilePath(filePath);
+        photo.setFileSize(fileSize);
+
+        return photo;
+    }
 }

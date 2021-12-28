@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -26,9 +27,9 @@ public class ReviewApiController {
 
     @PostMapping("/api/v1/review")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateReviewResponse saveReviewV1(@RequestBody @Valid CreateReviewRequest createReviewRequest) {
+    public CreateReviewResponse saveReviewV1(@Valid CreateReviewRequest createReviewRequest) {
         Long id = reviewService.saveReview(createReviewRequest.getMember_id(), createReviewRequest.getPlace_id(),
-                createReviewRequest.getContent(), createReviewRequest.getStar());
+                createReviewRequest.getContent(), createReviewRequest.getStar(), createReviewRequest.getPhotos());
         return new CreateReviewResponse(id);
     }
 
@@ -43,6 +44,7 @@ public class ReviewApiController {
         @NotNull
         @Max(value = 5) @Min(value = 1)
         private Double star;
+        private List<MultipartFile> photos;
     }
 
     @Data

@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +39,7 @@ class ReviewServiceTest {
 
         //when
         String contents = "맛있다!";
-        Long reviewId = reviewService.saveReview(memberId, placeId, contents, 5.0);
+        Long reviewId = reviewService.saveReview(memberId, placeId, contents, 5.0, new ArrayList<>());
 
         Review review = reviewService.findOne(reviewId);
 
@@ -64,8 +65,8 @@ class ReviewServiceTest {
 
         //when
         String contents = "맛있다!";
-        Exception e1 = assertThrows(StarValueException.class, () -> reviewService.saveReview(memberId, placeId, contents, 6.0));
-        Exception e2 = assertThrows(StarValueException.class, () -> reviewService.saveReview(memberId, placeId, contents, -1.0));
+        Exception e1 = assertThrows(StarValueException.class, () -> reviewService.saveReview(memberId, placeId, contents, 6.0, new ArrayList<>()));
+        Exception e2 = assertThrows(StarValueException.class, () -> reviewService.saveReview(memberId, placeId, contents, -1.0, new ArrayList<>()));
 
         //then
         System.out.println(e1.getMessage());
@@ -87,8 +88,8 @@ class ReviewServiceTest {
 
         //when
         String contents = "맛있다!";
-        Long reviewId1 = reviewService.saveReview(memberId, placeId, contents, 5.0);
-        Long reviewId2 = reviewService.saveReview(memberId, placeId, contents, 4.0);
+        Long reviewId1 = reviewService.saveReview(memberId, placeId, contents, 5.0, new ArrayList<>());
+        Long reviewId2 = reviewService.saveReview(memberId, placeId, contents, 4.0, new ArrayList<>());
 
         //then
         Place place1 = placeService.findOne(placeId);
@@ -111,8 +112,8 @@ class ReviewServiceTest {
 
         //when
         String contents = "맛있다!";
-        Long reviewId1 = reviewService.saveReview(memberId, placeId, contents, 5.0);
-        Long reviewId2 = reviewService.saveReview(memberId, placeId, contents, 4.0);
+        Long reviewId1 = reviewService.saveReview(memberId, placeId, contents, 5.0, new ArrayList<>());
+        Long reviewId2 = reviewService.saveReview(memberId, placeId, contents, 4.0, new ArrayList<>());
         reviewService.deleteReview(reviewId2);
 
         //then
