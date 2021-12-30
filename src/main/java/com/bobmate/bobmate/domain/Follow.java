@@ -7,6 +7,11 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@Table(
+        uniqueConstraints = {
+              @UniqueConstraint(name = "CantFollowTwice", columnNames = {"from_member_id", "to_member_id"})
+        }
+)
 public class Follow {
 
     @Id
