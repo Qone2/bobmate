@@ -37,10 +37,10 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<LikeReview> likeReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "fromMember")
+    @OneToMany(mappedBy = "toMember")
     private List<Follow> followers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "toMember")
+    @OneToMany(mappedBy = "fromMember")
     private List<Follow> following = new ArrayList<>();
 
     @ElementCollection(fetch = FetchType.LAZY)
