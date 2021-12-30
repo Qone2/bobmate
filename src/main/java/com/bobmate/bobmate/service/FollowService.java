@@ -16,6 +16,7 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Long follow(Long fromId, Long toId) {
         Member fromMember = memberRepository.findOne(fromId);
         Member toMember = memberRepository.findOne(toId);
@@ -26,6 +27,7 @@ public class FollowService {
         return follow.getId();
     }
 
+    @Transactional
     public void unfollow(Long fromId, Long toId) {
         Member fromMember = memberRepository.findOne(fromId);
         Member toMember = memberRepository.findOne(toId);
