@@ -26,4 +26,26 @@ public class Follow {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_member_id")
     private Member toMember;
+
+
+    //==연관관계 메서드==//
+    public void setFromMember(Member member) {
+        this.fromMember = member;
+        member.getFollowing().add(this);
+    }
+
+    public void setToMember(Member member) {
+        this.toMember = member;
+        member.getFollowers().add(this);
+    }
+
+
+    //==생성 메서드==//
+    public static Follow createFollow(Member fromMember, Member toMember) {
+        Follow follow = new Follow();
+        follow.setFromMember(fromMember);
+        follow.setToMember(toMember);
+
+        return follow;
+    }
 }
