@@ -25,19 +25,17 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final PlaceRepository placeRepository;
     private final PhotoRepository photoRepository;
-    private final PhotoHandler photoHandler;
 
     /**
      * 리뷰생성
      */
     @Transactional
-    public Long saveReview(Long memberId, Long placeId, String contents, Double star, List<MultipartFile> multipartFiles) {
+    public Long saveReview(Long memberId, Long placeId, String contents, Double star, List<Photo> photoList) {
         Member member = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
         Review review = Review.createReview(member, place, contents, star);
         reviewRepository.save(review);
-        List<Photo> photoList = photoHandler.parseFileInfo(multipartFiles);
         for (Photo p : photoList) {
             Photo photo = Photo.createPhoto(review, p.getFileName(), p.getFilePath(), p.getFileSize());
             photoRepository.save(photo);

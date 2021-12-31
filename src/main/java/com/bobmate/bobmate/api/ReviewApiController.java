@@ -1,7 +1,9 @@
 package com.bobmate.bobmate.api;
 
+import com.bobmate.bobmate.domain.Photo;
 import com.bobmate.bobmate.domain.Review;
 import com.bobmate.bobmate.domain.ReviewStatus;
+import com.bobmate.bobmate.handler.PhotoHandler;
 import com.bobmate.bobmate.service.ReviewService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,12 +26,14 @@ import java.util.stream.Collectors;
 public class ReviewApiController {
 
     private final ReviewService reviewService;
+    private final PhotoHandler photoHandler;
 
     @PostMapping("/api/v1/review")
     @ResponseStatus(HttpStatus.CREATED)
-    public CreateReviewResponse saveReviewV1(@Valid CreateReviewRequest createReviewRequest) {
-        Long id = reviewService.saveReview(createReviewRequest.getMember_id(), createReviewRequest.getPlace_id(),
-                createReviewRequest.getContent(), createReviewRequest.getStar(), createReviewRequest.getPhotos());
+    public CreateReviewResponse saveReviewV1(@Valid CreateReviewRequest request) {
+        List<Photo> photoList = photoHandler.parseFileInfo(request.getPhotos());
+        Long id = reviewService.saveReview(request.getMember_id(), request.getPlace_id(),
+                request.getContent(), request.getStar(), photoList);
         return new CreateReviewResponse(id);
     }
 
