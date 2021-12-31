@@ -19,4 +19,12 @@ public class Tag {
 
     private String name;
 
+
+    //==생성 메서드==//
+    public static Tag createTag(String name) {
+        Tag tag = new Tag();
+        tag.setName(name);
+
+        return tag;
+    }
 }
