@@ -38,7 +38,7 @@ public class FollowApiController {
     }
 
 
-    @DeleteMapping("/api/v1/unfollow")
+    @DeleteMapping("/api/v1/follow")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UnfollowResponse unfollowV1(@RequestBody @Valid UnfollowRequest request) {
         followService.unfollow(request.getFromId(), request.getToId());

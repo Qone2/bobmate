@@ -42,7 +42,7 @@ public class LikeReviewApiController {
     }
 
 
-    @DeleteMapping("/api/v1/unlike-review")
+    @DeleteMapping("/api/v1/like-review")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UnlikeReviewResponse unlikeReview(@RequestBody @Valid UnlikeReviewRequest request) {
         likeReviewService.unlikeReview(request.getMember_id(), request.getReview_id());
