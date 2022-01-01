@@ -1,5 +1,8 @@
 package com.bobmate.bobmate.repository;
 
+import com.bobmate.bobmate.domain.Bookmark;
+import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.domain.Tag;
 import com.bobmate.bobmate.domain.TagBookmark;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -30,5 +33,22 @@ public class TagBookmarkRepository {
         em.remove(tagBookmark);
         em.flush();
         em.clear();
+    }
+
+    public TagBookmark findOneByTagIdAndBookmarkIdAndMemberId(Tag tag, Bookmark bookmark, Member member) {
+        return em.createQuery("select tb from TagBookmark tb " +
+                "where tb.tag = :tag and tb.bookmark = :bookmark and tb.member = :member", TagBookmark.class)
+                .setParameter("tag", tag)
+                .setParameter("bookmark", bookmark)
+                .setParameter("member", member)
+                .getResultList().stream().findFirst().orElse(null);
+    }
+
+    public List<TagBookmark> findAllByTagIdAndMemberId(Tag tag, Member member) {
+        return em.createQuery("select tb from TagBookmark tb " +
+                "where tb.tag = :tag and tb.member = :member", TagBookmark.class)
+                .setParameter("tag", tag)
+                .setParameter("member", member)
+                .getResultList();
     }
 }
