@@ -46,6 +46,9 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Bookmark> bookmarks = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member")
+    private List<TagBookmark> tagBookmarks = new ArrayList<>();
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
