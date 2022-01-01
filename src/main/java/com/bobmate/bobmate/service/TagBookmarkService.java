@@ -54,12 +54,14 @@ public class TagBookmarkService {
     public List<Bookmark> findTaggedBookmark(Long memberId, List<Long> tagIdList) {
         Member member = memberRepository.findOne(memberId);
         Set<Bookmark> bookmarkSet = new HashSet<>();
+        boolean isFirst = true;
 
         for (Long tagId : tagIdList) {
             Tag tag = tagRepository.findOne(tagId);
-            if (bookmarkSet.isEmpty()) {
+            if (isFirst) {
                 bookmarkSet.addAll(tagBookmarkRepository.findAllByTagIdAndMemberId(tag, member)
                         .stream().map(tb -> tb.getBookmark()).collect(Collectors.toList()));
+                isFirst = false;
             } else {
                 bookmarkSet.retainAll(tagBookmarkRepository.findAllByTagIdAndMemberId(tag, member)
                         .stream().map(tb -> tb.getBookmark()).collect(Collectors.toList()));
