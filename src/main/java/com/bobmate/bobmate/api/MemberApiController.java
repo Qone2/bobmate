@@ -131,12 +131,13 @@ public class MemberApiController {
             throw new IllegalArgumentException("회원정보가 불일치합니다.");
         }
         String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
-        return new LoginResponse(token);
+        return new LoginResponse(member.getId(), token);
     }
 
     @Data
     @AllArgsConstructor
     static class LoginResponse {
+        private Long member_id;
         private String token;
     }
 
