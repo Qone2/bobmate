@@ -1,10 +1,7 @@
 package com.bobmate.bobmate;
 
 import com.bobmate.bobmate.domain.*;
-import com.bobmate.bobmate.service.MeetService;
-import com.bobmate.bobmate.service.MemberService;
-import com.bobmate.bobmate.service.PlaceService;
-import com.bobmate.bobmate.service.ReviewService;
+import com.bobmate.bobmate.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -35,6 +32,7 @@ public class initDB {
         private final ReviewService reviewService;
         private final MeetService meetService;
         private final PasswordEncoder passwordEncoder;
+        private final TagService tagService;
 
         public void dbInit1() {
             Member member1 = new Member();
@@ -85,6 +83,13 @@ public class initDB {
             Long meetId1 = meetService.saveMeet(member1.getId(), place3.getId(), "모임1", "링크1");
             meetService.addMember(member4.getId(), meetId1);
             meetService.addMember(member5.getId(), meetId1);
+
+
+            tagService.saveTag("가성비");
+            tagService.saveTag("카페");
+            tagService.saveTag("양식");
+            tagService.saveTag("일식");
+            tagService.saveTag("한식");
         }
     }
 }
