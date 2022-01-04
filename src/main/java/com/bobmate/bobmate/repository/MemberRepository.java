@@ -33,4 +33,10 @@ public class MemberRepository {
                 .getResultList().stream().findFirst();
     }
 
+    public void delete(Member member) {
+        em.remove(member);
+        em.flush();
+        em.clear();
+    }
+
 }

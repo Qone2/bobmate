@@ -150,4 +150,18 @@ public class MemberApiController {
         @NotEmpty
         private String password;
     }
+
+
+    @DeleteMapping("/api/v1/member/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public DeleteMemberResponse deleteMemberV1(@PathVariable("id") Long member_id) {
+        memberService.deleteMember(member_id);
+        return new DeleteMemberResponse("삭제성공");
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class DeleteMemberResponse {
+        private String message;
+    }
 }

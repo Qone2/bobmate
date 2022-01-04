@@ -58,4 +58,9 @@ public class MemberService {
     public Optional<Member> findByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
+
+    public void deleteMember(Long memberId) {
+        Member member = memberRepository.findOne(memberId);
+        memberRepository.delete(member);
+    }
 }
