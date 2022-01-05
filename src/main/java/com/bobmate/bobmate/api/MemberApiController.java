@@ -17,6 +17,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 회원관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class MemberApiController {
@@ -45,6 +48,10 @@ public class MemberApiController {
         private Long member_id;
     }
 
+
+    /**
+     * 전체회원 조회
+     */
     @GetMapping("/api/v1/member")
     public Result membersV1() {
         List<Member> memberList = memberService.findAll();
