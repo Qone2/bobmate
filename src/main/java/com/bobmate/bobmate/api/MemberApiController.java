@@ -85,6 +85,10 @@ public class MemberApiController {
         private T data;
     }
 
+
+    /**
+     * 멤버상세 조회
+     */
     @GetMapping("/api/v1/member/{id}")
     public MemberDetailResponse memberDetailV1(@PathVariable("id") Long id) {
         Member member = memberService.findOne(id);
@@ -108,7 +112,9 @@ public class MemberApiController {
         private List<Long> following_ids;
     }
 
-    // 회원가입
+    /**
+     * 회원가입
+     */
     @PostMapping("/api/v2/join")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
@@ -129,7 +135,9 @@ public class MemberApiController {
         private String password;
     }
 
-    // 로그인
+    /**
+     * 로그인
+     */
     @GetMapping("/api/v2/login")
     public LoginResponse loginV2(@RequestBody @Valid LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail())
