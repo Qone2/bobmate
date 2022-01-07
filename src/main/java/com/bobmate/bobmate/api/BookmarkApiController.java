@@ -10,13 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 북마크 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class BookmarkApiController {
 
     private final BookmarkService bookmarkService;
 
-
+    /**
+     * 북마크 등록
+     */
     @PostMapping("/api/v1/bookmark")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateBookmarkResponse createBookmarkV1(@RequestBody @Valid CreateBookmarkRequest request) {
@@ -39,6 +44,9 @@ public class BookmarkApiController {
     }
 
 
+    /**
+     * 북마크 삭제
+     */
     @DeleteMapping("/api/v1/bookmark")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public DeleteBookmarkResponse deleteBookmarkV1(@RequestBody @Valid DeleteBookmarkRequest request) {
