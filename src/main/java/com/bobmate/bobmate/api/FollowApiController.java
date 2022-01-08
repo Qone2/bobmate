@@ -10,12 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 팔로우 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class FollowApiController {
 
     private final FollowService followService;
 
+    /**
+     * 팔로우 하기
+     */
     @PostMapping("/api/v1/follow")
     @ResponseStatus(HttpStatus.CREATED)
     public FollowResponse followV1(@RequestBody @Valid FollowRequest request) {
@@ -38,6 +44,9 @@ public class FollowApiController {
     }
 
 
+    /**
+     * 팔로우 취소
+     */
     @DeleteMapping("/api/v1/follow")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UnfollowResponse unfollowV1(@RequestBody @Valid UnfollowRequest request) {
