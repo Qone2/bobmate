@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+/**
+ * 리뷰 좋아요 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class LikeReviewApiController {
@@ -20,6 +23,9 @@ public class LikeReviewApiController {
     private final MemberService memberService;
     private final ReviewService reviewService;
 
+    /**
+     * 리뷰좋아요
+     */
     @PostMapping("/api/v1/like-review")
     @ResponseStatus(HttpStatus.CREATED)
     public LikeReviewResponse likeReview(@RequestBody @Valid LikeReviewRequest request) {
@@ -42,6 +48,9 @@ public class LikeReviewApiController {
     }
 
 
+    /**
+     * 리뷰 좋아요 취소
+     */
     @DeleteMapping("/api/v1/like-review")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public UnlikeReviewResponse unlikeReview(@RequestBody @Valid UnlikeReviewRequest request) {
