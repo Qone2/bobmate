@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 모임 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class MeetApiController {
@@ -23,6 +26,9 @@ public class MeetApiController {
     private final MeetService meetService;
 
 
+    /**
+     * 모임 생성
+     */
     @PostMapping("/api/v1/meet")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateMeetResponse createMeetV1(@RequestBody @Valid CreateMeetRequest request) {
@@ -50,6 +56,9 @@ public class MeetApiController {
     }
 
 
+    /**
+     * 모임에 맴버 추가
+     */
     @PostMapping("/api/v1/meet/{meet_id}")
     public CreateMemberMeetResponse addMemberV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
         return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
@@ -68,6 +77,9 @@ public class MeetApiController {
     }
 
 
+    /**
+     * 전체 모임 조회
+     */
     @GetMapping("/api/v1/meet")
     public Result meets() {
         List<MeetDto> collect = meetService.findAll()
@@ -95,6 +107,9 @@ public class MeetApiController {
     }
 
 
+    /**
+     * 모임 상세 조회
+     */
     @GetMapping("/api/v1/meet/{id}")
     public MeetDetailResponse meetDetail(@PathVariable("id") Long id) {
         Meet meet = meetService.findOne(id);
