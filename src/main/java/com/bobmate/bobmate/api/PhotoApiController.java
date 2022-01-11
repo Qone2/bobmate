@@ -18,12 +18,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * 사진관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class PhotoApiController {
 
     private final PhotoService photoService;
 
+    /**
+     * 사진을 제공
+     */
     @GetMapping("/api/v1/photo/{id}")
     public ResponseEntity<Resource> photoDetailV1(@PathVariable("id") Long id) throws IOException {
         Photo photo = photoService.findOne(id);
