@@ -14,12 +14,18 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 장소 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class PlaceApiController {
 
     private final PlaceService placeService;
 
+    /**
+     * 장소 등록
+     */
     @PostMapping("/api/v1/place")
     @ResponseStatus(HttpStatus.CREATED)
     public CreatePlaceResponse savePlaceV1(@RequestBody @Valid CreatePlaceRequest createPlaceRequest) {
@@ -48,6 +54,10 @@ public class PlaceApiController {
         private Long place_id;
     }
 
+
+    /**
+     * 모든 장소 조회
+     */
     @GetMapping("/api/v1/place")
     public Result placesV1() {
         List<PlaceDto> collect = placeService.findAll()
@@ -76,6 +86,9 @@ public class PlaceApiController {
         private List<Long> meet_ids;
     }
 
+    /**
+     * 장소 상세 조회
+     */
     @GetMapping("/api/v1/place/{id}")
     public PlaceDetailResponse placeDetail(@PathVariable("id") Long id) {
         Place place = placeService.findOne(id);
