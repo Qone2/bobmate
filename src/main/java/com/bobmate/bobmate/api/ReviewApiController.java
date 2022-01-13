@@ -21,6 +21,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 리뷰 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class ReviewApiController {
@@ -28,6 +31,9 @@ public class ReviewApiController {
     private final ReviewService reviewService;
     private final PhotoHandler photoHandler;
 
+    /**
+     * 리뷰 등록
+     */
     @PostMapping("/api/v1/review")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateReviewResponse saveReviewV1(@Valid CreateReviewRequest request) {
@@ -57,6 +63,9 @@ public class ReviewApiController {
         private Long review_id;
     }
 
+    /**
+     * 전체 리뷰 조회
+     */
     @GetMapping("/api/v1/review")
     public Result reviewsV1() {
         List<Review> reviews = reviewService.findAll();
@@ -89,6 +98,9 @@ public class ReviewApiController {
         private T data;
     }
 
+    /**
+     * 리뷰 상세 조회
+     */
     @GetMapping("/api/v1/review/{id}")
     public ReviewDetailResponse reviewDetailV1(@PathVariable("id") Long id) {
         Review review = reviewService.findOne(id);
