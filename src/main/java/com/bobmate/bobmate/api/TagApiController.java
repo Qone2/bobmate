@@ -14,12 +14,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+/**
+ * 태그 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class TagApiController {
 
     private final TagService tagService;
 
+    /**
+     * 태그 등록
+     */
     @PostMapping("/api/v1/tag")
     public CreateTagResponse createTagV1(@RequestBody @Valid CreateTagRequest request) {
         Long tagId = tagService.saveTag(request.getName());
@@ -39,6 +45,9 @@ public class TagApiController {
     }
 
 
+    /**
+     * 모든 태그 조회
+     */
     @GetMapping("/api/v1/tag")
     public Result tagsV1() {
         List<Tag> tags = tagService.findAll();
