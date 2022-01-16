@@ -13,12 +13,18 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * 북마크 태그 관련
+ */
 @RestController
 @RequiredArgsConstructor
 public class TagBookmarkApiController {
 
     private final TagBookmarkService tagBookmarkService;
 
+    /**
+     * 북마크 태그 설정
+     */
     @PostMapping("/api/v1/tagbookmark")
     @ResponseStatus(HttpStatus.CREATED)
     public CreateTagBookmarkResponse createTagBookmarkV1(@RequestBody @Valid CreateTagBookmarkRequest request) {
@@ -43,6 +49,9 @@ public class TagBookmarkApiController {
     }
 
 
+    /**
+     * 해당 태그(들)을 설정한 북마크 전체 조회
+     */
     @GetMapping("/api/v1/tagbookmark")
     public GetTagBookmarkResponse taggedBookmarksV1(@RequestBody @Valid GetTagBookmarkRequest request) {
         List<Bookmark> taggedBookmark = tagBookmarkService.findTaggedBookmark(request.getMember_id(), request.getTag_id_list());
@@ -68,6 +77,9 @@ public class TagBookmarkApiController {
     }
 
 
+    /**
+     * 북마크 태그 설정 취소
+     */
     @DeleteMapping("/api/v1/tagbookmark")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public DeleteTagBookmarkResponse deleteTagBookmark(@RequestBody @Valid DeleteTagBookmarkRequest request) {
