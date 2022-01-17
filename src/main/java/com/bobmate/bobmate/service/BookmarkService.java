@@ -19,6 +19,9 @@ public class BookmarkService {
     private final MemberRepository memberRepository;
     private final PlaceRepository placeRepository;
 
+    /**
+     * 북마크 설정
+     */
     @Transactional
     public Long saveBookmark(Long memberId, Long placeId) {
         Member member = memberRepository.findOne(memberId);
@@ -30,6 +33,9 @@ public class BookmarkService {
         return bookmark.getId();
     }
 
+    /**
+     * 북마크 삭제
+     */
     @Transactional
     public void deleteBookmark(Long memberId, Long placeId) {
         Member member = memberRepository.findOne(memberId);
