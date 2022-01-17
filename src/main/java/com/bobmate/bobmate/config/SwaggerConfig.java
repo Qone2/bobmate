@@ -1,4 +1,4 @@
-package com.bobmate.bobmate;
+package com.bobmate.bobmate.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
