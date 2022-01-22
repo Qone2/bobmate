@@ -19,6 +19,9 @@ public class LikeReviewService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
 
+    /**
+     * 리뷰에 좋아요
+     */
     @Transactional
     public Long likeReview(Long memberId, Long reviewId) {
         Member member = memberRepository.findOne(memberId);
@@ -30,6 +33,9 @@ public class LikeReviewService {
         return likeReview.getId();
     }
 
+    /**
+     * 리뷰에 좋아요 취소
+     */
     @Transactional
     public void unlikeReview(Long memberId, Long reviewId) {
         Member member = memberRepository.findOne(memberId);
