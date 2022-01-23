@@ -25,6 +25,9 @@ public class MeetService {
     private final PlaceRepository placeRepository;
     private final MemberMeetRepository memberMeetRepository;
 
+    /**
+     * 모임 등록
+     */
     @Transactional
     public Long saveMeet(Long memberId, Long placeId, String name, String link) {
         Member headMember = memberRepository.findOne(memberId);
@@ -39,6 +42,9 @@ public class MeetService {
         return meet.getId();
     }
 
+    /**
+     * 모임에 맴버 추가
+     */
     @Transactional
     public Long addMember(Long memberId, Long meetId) {
         Member member = memberRepository.findOne(memberId);
@@ -50,6 +56,9 @@ public class MeetService {
         return memberMeet.getId();
     }
 
+    /**
+     * 모임에 멤버 삭제
+     */
     @Transactional
     public void deleteMember(Long memberId, Long meetId) {
         Member member = memberRepository.findOne(memberId);
