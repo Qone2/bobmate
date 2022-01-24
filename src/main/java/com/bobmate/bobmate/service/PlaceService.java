@@ -15,6 +15,9 @@ public class PlaceService {
 
     private final PlaceRepository placeRepository;
 
+    /**
+     * 장소 등록
+     */
     @Transactional
     public Long savePlace(Place place) {
         place.setReviewCount(0);
