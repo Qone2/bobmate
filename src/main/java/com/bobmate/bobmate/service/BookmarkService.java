@@ -45,4 +45,11 @@ public class BookmarkService {
 
         bookmarkRepository.delete(bookmark);
     }
+
+    /**
+     * 북마크 조회
+     */
+    public Bookmark findOne(Long bookmarkId) {
+        return bookmarkRepository.findOne(bookmarkId);
+    }
 }
