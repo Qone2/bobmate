@@ -38,6 +38,9 @@ public class MemberService {
         }
     }
 
+    /**
+     * 멤버 조회
+     */
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
