@@ -25,4 +25,13 @@ public class TagRepository {
         return em.createQuery("select t from Tag t", Tag.class)
                 .getResultList();
     }
+
+    /**
+     * 태그 삭제
+     */
+    public void delete(Tag tag) {
+        em.remove(tag);
+        em.flush();
+        em.clear();
+    }
 }

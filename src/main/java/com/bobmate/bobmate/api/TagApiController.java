@@ -5,10 +5,7 @@ import com.bobmate.bobmate.service.TagService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
@@ -65,5 +62,21 @@ public class TagApiController {
     static class tagDto {
         private Long tag_id;
         private String name;
+    }
+
+    /**
+     * 태그 삭제
+     */
+    @DeleteMapping("/api/v1/tag/{tag_id}")
+    public DeleteTagResponse deleteTagV1(@PathVariable Long tag_id) {
+        tagService.deleteTag(tag_id);
+        return new DeleteTagResponse(tag_id, "성공적으로 삭제되었습니다.");
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class DeleteTagResponse {
+        private Long tag_id;
+        private String message;
     }
 }

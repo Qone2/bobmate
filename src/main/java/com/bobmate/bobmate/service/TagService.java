@@ -27,4 +27,14 @@ public class TagService {
     public List<Tag> findAll() {
         return tagRepository.findAll();
     }
+
+
+    /**
+     * 태그 삭제
+     */
+    @Transactional
+    public void deleteTag(Long tagId) {
+        Tag tag = tagRepository.findOne(tagId);
+        tagRepository.delete(tag);
+    }
 }
