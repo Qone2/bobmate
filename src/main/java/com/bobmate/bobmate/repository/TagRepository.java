@@ -13,14 +13,23 @@ public class TagRepository {
 
     private final EntityManager em;
 
+    /**
+     * 태그 생성
+     */
     public void save(Tag tag) {
         em.persist(tag);
     }
 
+    /**
+     * 태그 단일 조회
+     */
     public Tag findOne(Long id) {
         return em.find(Tag.class, id);
     }
 
+    /**
+     * 태그 전체 조회
+     */
     public List<Tag> findAll() {
         return em.createQuery("select t from Tag t", Tag.class)
                 .getResultList();

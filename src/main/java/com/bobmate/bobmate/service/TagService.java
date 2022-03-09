@@ -16,6 +16,9 @@ public class TagService {
     private final TagRepository tagRepository;
 
 
+    /**
+     * 태그 생성
+     */
     @Transactional
     public Long saveTag(String name) {
         Tag tag = Tag.createTag(name);
@@ -24,6 +27,9 @@ public class TagService {
     }
 
 
+    /**
+     * 태그 전체 조회
+     */
     public List<Tag> findAll() {
         return tagRepository.findAll();
     }
