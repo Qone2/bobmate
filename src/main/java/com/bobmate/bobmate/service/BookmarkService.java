@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -47,9 +49,17 @@ public class BookmarkService {
     }
 
     /**
-     * 북마크 조회
+     * 북마크 단일 조회
      */
     public Bookmark findOne(Long bookmarkId) {
         return bookmarkRepository.findOne(bookmarkId);
     }
+
+    /**
+     * 북마크 전체 조회
+     */
+    public List<Bookmark> findAll() {
+        return bookmarkRepository.findAll();
+    }
+
 }

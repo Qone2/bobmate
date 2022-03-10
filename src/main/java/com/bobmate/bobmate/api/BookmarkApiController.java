@@ -1,5 +1,6 @@
 package com.bobmate.bobmate.api;
 
+import com.bobmate.bobmate.domain.Bookmark;
 import com.bobmate.bobmate.service.BookmarkService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 북마크 관련
@@ -68,4 +72,34 @@ public class BookmarkApiController {
         private Long place_id;
     }
 
+
+    /**
+     * 북마크 전체 조회
+     */
+    @GetMapping("/api/v1/bookmark")
+    public Result bookmarks() {
+        List<Bookmark> bookmarkList = bookmarkService.findAll();
+        List<BookmarkDto> bookmarkDtoList = bookmarkList.stream()
+                .map(bm -> new BookmarkDto(bm.getId(),
+                        bm.getMember().getId(),
+                        bm.getPlace().getId(),
+                        bm.getBookmarkedDate())).collect(Collectors.toList());
+        return new Result(bookmarkDtoList.size(), bookmarkDtoList);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class BookmarkDto {
+        private Long bookmark_id;
+        private Long member_id;
+        private Long place_id;
+        private LocalDateTime bookmarked_date;
+    }
 }
