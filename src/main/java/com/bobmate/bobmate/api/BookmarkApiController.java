@@ -102,4 +102,24 @@ public class BookmarkApiController {
         private Long place_id;
         private LocalDateTime bookmarked_date;
     }
+
+
+    /**
+     * 북마크 상세 조회
+     */
+    @GetMapping("/api/v1/bookmark/{id}")
+    public BookmarkDetailResponse bookmarkDetail(@PathVariable Long id) {
+        Bookmark findBookmark = bookmarkService.findOne(id);
+        return new BookmarkDetailResponse(findBookmark.getId(), findBookmark.getMember().getId(),
+                findBookmark.getPlace().getId(), findBookmark.getBookmarkedDate());
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class BookmarkDetailResponse {
+        private Long bookmark_id;
+        private Long member_id;
+        private Long place_id;
+        private LocalDateTime bookmarked_date;
+    }
 }
