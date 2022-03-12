@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -40,5 +42,12 @@ public class FollowService {
 
         Follow follow = followRepository.findOneByFromMemberIdAndToMemberId(fromMember, toMember);
         followRepository.delete(follow);
+    }
+
+    /**
+     * 팔로우 전체 조회
+     */
+    public List<Follow> findAll() {
+        return followRepository.findAll();
     }
 }
