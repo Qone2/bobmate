@@ -98,4 +98,23 @@ public class FollowApiController {
         private Long from_member_id;
         private Long to_member_id;
     }
+
+
+    /**
+     * 팔로우 상세 조회
+     */
+    @GetMapping("/api/v1/follow/{id}")
+    public FollowDetailResponse followDetail(@PathVariable Long id) {
+        Follow findFollow = followService.findOne(id);
+        return new FollowDetailResponse(findFollow.getId(), findFollow.getFromMember().getId(),
+                findFollow.getToMember().getId());
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class FollowDetailResponse {
+        private Long follow_id;
+        private Long from_member_id;
+        private Long to_member_id;
+    }
 }

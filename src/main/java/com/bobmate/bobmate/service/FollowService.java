@@ -50,4 +50,11 @@ public class FollowService {
     public List<Follow> findAll() {
         return followRepository.findAll();
     }
+
+    /**
+     * 팔로우 단일 조회
+     */
+    public Follow findOne(Long id) {
+        return followRepository.findOne(id);
+    }
 }
