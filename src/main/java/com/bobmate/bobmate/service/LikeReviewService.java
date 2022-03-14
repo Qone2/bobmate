@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -43,5 +45,12 @@ public class LikeReviewService {
 
         LikeReview likeReview = likeReviewRepository.findOneByMemberIdAndReviewId(member, review);
         likeReviewRepository.delete(likeReview);
+    }
+
+    /**
+     * 리뷰좋아요 전체 조회
+     */
+    public List<LikeReview> findAll() {
+        return likeReviewRepository.findAll();
     }
 }

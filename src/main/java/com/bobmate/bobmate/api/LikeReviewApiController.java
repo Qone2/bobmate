@@ -1,5 +1,6 @@
 package com.bobmate.bobmate.api;
 
+import com.bobmate.bobmate.domain.LikeReview;
 import com.bobmate.bobmate.service.LikeReviewService;
 import com.bobmate.bobmate.service.MemberService;
 import com.bobmate.bobmate.service.ReviewService;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 리뷰 좋아요 관련
@@ -70,5 +74,34 @@ public class LikeReviewApiController {
         private Long member_id;
         @NotNull
         private Long review_id;
+    }
+
+
+    /**
+     * 리뷰좋아요 전체 조회
+     */
+    @GetMapping("/api/v1/like-review")
+    public Result likeReviews() {
+        List<LikeReview> likeReviewList = likeReviewService.findAll();
+        List<LikeReviewDto> likeReviewDtoList = likeReviewList.stream()
+                .map(lr -> new LikeReviewDto(lr.getId(), lr.getMember().getId(),
+                        lr.getReview().getId(), lr.getLikeDate())).collect(Collectors.toList());
+        return new Result(likeReviewDtoList.size(), likeReviewDtoList);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class LikeReviewDto {
+        private Long like_review_id;
+        private Long member_id;
+        private Long review_id;
+        private LocalDateTime date;
     }
 }
