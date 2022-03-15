@@ -104,4 +104,24 @@ public class LikeReviewApiController {
         private Long review_id;
         private LocalDateTime date;
     }
+
+
+    /**
+     * 리뷰좋아요 상세 조회
+     */
+    @GetMapping("/api/v1/like-review/{id}")
+    public LikeReviewDetailResponse likeReviewDetail(@PathVariable Long id) {
+        LikeReview findLikeReview = likeReviewService.findOne(id);
+        return new LikeReviewDetailResponse(findLikeReview.getId(), findLikeReview.getMember().getId(),
+                findLikeReview.getReview().getId(), findLikeReview.getLikeDate());
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class LikeReviewDetailResponse {
+        private Long like_review_id;
+        private Long member_id;
+        private Long review_id;
+        private LocalDateTime date;
+    }
 }

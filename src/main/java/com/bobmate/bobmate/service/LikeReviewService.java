@@ -53,4 +53,11 @@ public class LikeReviewService {
     public List<LikeReview> findAll() {
         return likeReviewRepository.findAll();
     }
+
+    /**
+     * 리뷰좋아요 단일 조회
+     */
+    public LikeReview findOne(Long id) {
+        return likeReviewRepository.findOne(id);
+    }
 }
