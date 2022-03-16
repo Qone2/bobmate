@@ -28,6 +28,9 @@ public class TagBookmarkService {
     private final BookmarkRepository bookmarkRepository;
     private final MemberRepository memberRepository;
 
+    /**
+     * 태그북마크 생성
+     */
     @Transactional
     public Long saveTagBookmark(Long tagId, Long bookmarkId, Long memberId) {
         Tag tag = tagRepository.findOne(tagId);
@@ -40,6 +43,9 @@ public class TagBookmarkService {
         return tagBookmark.getId();
     }
 
+    /**
+     * 태그북마크 삭제
+     */
     @Transactional
     public void deleteTagBookmark(Long tagId, Long bookmarkId, Long memberId) {
         Tag tag = tagRepository.findOne(tagId);
@@ -51,6 +57,10 @@ public class TagBookmarkService {
         tagBookmarkRepository.delete(tagBookmark);
     }
 
+    /**
+     * 태그북마크 검색
+     * tagIdList를 참고하여 AND 연산으로 포함되는 태그들을 검색
+     */
     public List<Bookmark> findTaggedBookmark(Long memberId, List<Long> tagIdList) {
         Member member = memberRepository.findOne(memberId);
         Set<Bookmark> bookmarkSet = new HashSet<>();
