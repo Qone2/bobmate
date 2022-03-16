@@ -43,4 +43,11 @@ public class TagService {
         Tag tag = tagRepository.findOne(tagId);
         tagRepository.delete(tag);
     }
+
+    /**
+     * 태그 단일 조회
+     */
+    public Tag findOne(Long id) {
+        return tagRepository.findOne(id);
+    }
 }

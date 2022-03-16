@@ -79,4 +79,21 @@ public class TagApiController {
         private Long tag_id;
         private String message;
     }
+
+
+    /**
+     * 태그 상세 조회
+     */
+    @GetMapping("/api/v1/tag/{id}")
+    public TagDetailResponse tagDetail(@PathVariable Long id) {
+        Tag findTag = tagService.findOne(id);
+        return new TagDetailResponse(findTag.getId(), findTag.getName());
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class TagDetailResponse{
+        private Long tag_id;
+        private String name;
+    }
 }
