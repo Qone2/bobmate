@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 태그 관련
@@ -48,7 +49,9 @@ public class TagApiController {
     @GetMapping("/api/v1/tag")
     public Result tagsV1() {
         List<Tag> tags = tagService.findAll();
-        return new Result(tags.size(), tags);
+        List<TagDto> tagDtoList = tags.stream()
+                .map(t -> new TagDto(t.getId(), t.getName())).collect(Collectors.toList());
+        return new Result(tagDtoList.size(), tagDtoList);
     }
 
     @Data
@@ -59,7 +62,8 @@ public class TagApiController {
     }
 
     @Data
-    static class tagDto {
+    @AllArgsConstructor
+    static class TagDto {
         private Long tag_id;
         private String name;
     }
