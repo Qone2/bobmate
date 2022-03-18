@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -99,5 +101,24 @@ public class TagApiController {
     static class TagDetailResponse{
         private Long tag_id;
         private String name;
+    }
+
+
+    /**
+     * 모든 태그 태그된 횟수순으로 내림차순 조회
+     */
+    @GetMapping("/api/v1/tag/descending")
+    public Result tagsDescending() {
+        List<Map.Entry<Long, Integer>> entryList = tagService.findAllByTaggedCount();
+        List<TagDescendingDto> tagDescendingDtoList = new ArrayList<>();
+        entryList.stream().map(e -> tagDescendingDtoList.add(new TagDescendingDto(e.getKey(), e.getValue())));
+        return new Result(tagDescendingDtoList.size(), tagDescendingDtoList);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class TagDescendingDto {
+        private Long tag_id;
+        private Integer tagged_count;
     }
 }
