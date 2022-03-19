@@ -51,4 +51,14 @@ public class TagBookmarkRepository {
                 .setParameter("member", member)
                 .getResultList();
     }
+
+    /**
+     * 특정 맴버아이디를 가진 모든 태그북마크 조회
+     */
+    public List<TagBookmark> findAllByMemberId(Member member) {
+        return em.createQuery("select tb from TagBookmark tb " +
+                        "where tb.member = :member", TagBookmark.class)
+                .setParameter("member", member)
+                .getResultList();
+    }
 }
