@@ -121,4 +121,16 @@ public class TagApiController {
         private Long tag_id;
         private Integer tagged_count;
     }
+
+
+    /**
+     * 특정 맴버의 모든 태그 태그된 횟수순으로 내림차순 조회
+     */
+    @GetMapping("/api/v1/tag/{member_id}/descending")
+    public Result tagsByMemberDescending(@PathVariable Long member_id) {
+        List<Map.Entry<Long, Integer>> entryList = tagService.findAllByMemberAndTaggedCount(member_id);
+        List<TagDescendingDto> tagDescendingDtoList = new ArrayList<>();
+        entryList.stream().map(e -> tagDescendingDtoList.add(new TagDescendingDto(e.getKey(), e.getValue())));
+        return new Result(tagDescendingDtoList.size(), tagDescendingDtoList);
+    }
 }
