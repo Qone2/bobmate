@@ -85,7 +85,7 @@ public class TagService {
     /**
      * 맴버별 태그된 개수별 내림차순 조회
      */
-    public List findAllByMemberAndTaggedCount(Long memberId) {
+    public List<Map<Long, Integer>> findAllByMemberAndTaggedCount(Long memberId) {
         Member findMember = memberService.findOne(memberId);
         List<TagBookmark> tagBookmarkList = tagBookmarkRepository.findAllByMemberId(findMember);
         HashMap<Long, Integer> map = new HashMap<>();
