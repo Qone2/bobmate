@@ -33,6 +33,8 @@ public class initDB {
         private final MeetService meetService;
         private final PasswordEncoder passwordEncoder;
         private final TagService tagService;
+        private final BookmarkService bookmarkService;
+        private final TagBookmarkService tagBookmarkService;
 
         public void dbInit1() {
             Member member1 = new Member();
@@ -85,11 +87,17 @@ public class initDB {
             meetService.addMember(member5.getId(), meetId1);
 
 
-            tagService.saveTag("가성비");
-            tagService.saveTag("카페");
-            tagService.saveTag("양식");
-            tagService.saveTag("일식");
-            tagService.saveTag("한식");
+            Long tag0Id = tagService.saveTag("가성비");
+            Long tag1Id = tagService.saveTag("카페");
+            Long tag2Id = tagService.saveTag("양식");
+            Long tag3Id = tagService.saveTag("일식");
+            Long tag4Id = tagService.saveTag("한식");
+
+            Long bookmark0Id = bookmarkService.saveBookmark(member1.getId(), place1.getId());
+
+            Long tagBookmark0Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark0Id, member1.getId());
+            Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark0Id, member1.getId());
+
         }
     }
 }
