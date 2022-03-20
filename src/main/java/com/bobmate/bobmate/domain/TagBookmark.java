@@ -7,6 +7,11 @@ import javax.persistence.*;
 
 @Entity
 @Getter @Setter
+@Table(
+        uniqueConstraints = {
+                @UniqueConstraint(name = "NoSameMember", columnNames = {"tag_id", "bookmark_id", "member_id"})
+        }
+)
 public class TagBookmark {
 
     @Id
