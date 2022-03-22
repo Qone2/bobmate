@@ -65,9 +65,9 @@ public class TagService {
         for (TagBookmark tagBookmark : tagBookmarkList) {
             Long id = tagBookmark.getTag().getId();
             if (map.containsKey(id)) {
-                map.put(id, 1);
-            } else {
                 map.put(id, map.get(id) + 1);
+            } else {
+                map.put(id, 1);
             }
         }
 
@@ -92,9 +92,9 @@ public class TagService {
         for (TagBookmark tagBookmark : tagBookmarkList) {
             Long id = tagBookmark.getTag().getId();
             if (map.containsKey(id)) {
-                map.put(id, 1);
-            } else {
                 map.put(id, map.get(id) + 1);
+            } else {
+                map.put(id, 1);
             }
         }
 
