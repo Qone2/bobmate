@@ -35,6 +35,16 @@ class TagServiceTest {
         member1.setPassword(passwordEncoder.encode("password1"));
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member1);
+        Member member2 = new Member();
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member2);
+        Member member3 = new Member();
+        member3.setEmail("member3@member1.com");
+        member3.setPassword(passwordEncoder.encode("password1"));
+        member3.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member3);
 
         Place place1 = new Place();
         place1.setName("식당1");
@@ -58,6 +68,9 @@ class TagServiceTest {
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place1.getId());
         Long bookmarkId2 = bookmarkService.saveBookmark(member1.getId(), place2.getId());
         Long bookmarkId3 = bookmarkService.saveBookmark(member1.getId(), place3.getId());
+        Long bookmarkId4 = bookmarkService.saveBookmark(member2.getId(), place2.getId());
+        Long bookmarkId5 = bookmarkService.saveBookmark(member3.getId(), place3.getId());
+        Long bookmarkId6 = bookmarkService.saveBookmark(member3.getId(), place2.getId());
 
         //when
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
@@ -66,11 +79,13 @@ class TagServiceTest {
         tagBookmarkService.saveTagBookmark(tagId3, bookmarkId3, member1.getId());
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId3, member1.getId());
         tagBookmarkService.saveTagBookmark(tagId2, bookmarkId2, member1.getId());
+        tagBookmarkService.saveTagBookmark(tagId3, bookmarkId4, member2.getId());
+        tagBookmarkService.saveTagBookmark(tagId3, bookmarkId5, member3.getId());
+        tagBookmarkService.saveTagBookmark(tagId3, bookmarkId6, member3.getId());
 
         //then
         List<Map.Entry<Long, Integer>> entryList = tagService.findAllByTaggedCount();
-        assertEquals(3, entryList.get(0).getValue());
-        assertEquals(2, entryList.get(1).getValue());
-        assertTrue(entryList.get(0).getKey() < entryList.get(1).getKey());
+        assertTrue(entryList.get(0).getValue() > entryList.get(1).getValue());
+        assertEquals(tagId3, entryList.get(0).getKey());
     }
 }
