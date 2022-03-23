@@ -1,7 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.Member;
-import com.bobmate.bobmate.exception.MemberEmailException;
+import com.bobmate.bobmate.exception.EmailDuplicateException;
 import com.bobmate.bobmate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class MemberService {
     private void validDuplicateMember(Member member) {
         Optional<Member> findMember = memberRepository.findByEmail(member.getEmail());
         if (findMember.isPresent()) {
-            throw new MemberEmailException("이미 존재하는 이메일 입니다.");
+            throw new EmailDuplicateException("이미 존재하는 이메일 입니다.");
         }
     }
 
