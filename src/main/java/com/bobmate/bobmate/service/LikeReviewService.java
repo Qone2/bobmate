@@ -3,6 +3,7 @@ package com.bobmate.bobmate.service;
 import com.bobmate.bobmate.domain.LikeReview;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.Review;
+import com.bobmate.bobmate.exception.LikeDuplicateException;
 import com.bobmate.bobmate.repository.LikeReviewRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
 import com.bobmate.bobmate.repository.ReviewRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +31,21 @@ public class LikeReviewService {
         Member member = memberRepository.findOne(memberId);
         Review review = reviewRepository.findOne(reviewId);
 
+        validDuplicateLike(member, review);
         LikeReview likeReview = LikeReview.createLikeReview(member, review);
         likeReviewRepository.save(likeReview);
 
         return likeReview.getId();
+    }
+
+    /**
+     * 중복 좋아요 확인
+     */
+    public void validDuplicateLike(Member member, Review review) {
+        LikeReview findLikeReview = likeReviewRepository.findOneByMemberIdAndReviewId(member, review);
+        if (findLikeReview != null) {
+            throw new LikeDuplicateException("좋아요를 두번 할 수는 없습니다.");
+        }
     }
 
     /**
