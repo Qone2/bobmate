@@ -3,6 +3,7 @@ package com.bobmate.bobmate.service;
 import com.bobmate.bobmate.domain.Bookmark;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.Place;
+import com.bobmate.bobmate.exception.BookmarkDuplicateException;
 import com.bobmate.bobmate.repository.BookmarkRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
 import com.bobmate.bobmate.repository.PlaceRepository;
@@ -29,10 +30,22 @@ public class BookmarkService {
         Member member = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
+        validateDuplicateBookmark(member, place);
+
         Bookmark bookmark = Bookmark.createBookmark(member, place);
 
         bookmarkRepository.save(bookmark);
         return bookmark.getId();
+    }
+
+    /**
+     * 북마크 중복 확인
+     */
+    public void validateDuplicateBookmark(Member member, Place place) {
+        Bookmark findBookmark = bookmarkRepository.findOneByMemberIdAndPlaceId(member, place);
+        if (findBookmark != null) {
+            throw new BookmarkDuplicateException("이미 생성된 북마크 입니다.");
+        }
     }
 
     /**
