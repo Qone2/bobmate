@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.exception.FollowDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -131,6 +132,39 @@ class FollowServiceTest {
         assertEquals(member1, member1.getFollowing().get(0).getFromMember());
         assertEquals(member4, member1.getFollowers().get(0).getFromMember());
 
+    }
+
+    @Test
+    public void 팔로우중복() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member1);
+        Member member2 = new Member();
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member2);
+        Member member3 = new Member();
+        member3.setEmail("member3@member1.com");
+        member3.setPassword(passwordEncoder.encode("password1"));
+        member3.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member3);
+        Member member4 = new Member();
+        member4.setEmail("member4@member1.com");
+        member4.setPassword(passwordEncoder.encode("password1"));
+        member4.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member4);
+
+        //when
+        followService.follow(member1.getId(), member2.getId());
+        followService.follow(member1.getId(), member3.getId());
+        followService.follow(member4.getId(), member1.getId());
+
+        //then
+        assertThrows(FollowDuplicateException.class, () -> followService.follow(member1.getId(), member2.getId()));
     }
 
 }
