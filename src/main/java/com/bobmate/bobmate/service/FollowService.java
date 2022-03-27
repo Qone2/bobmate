@@ -2,6 +2,7 @@ package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.Follow;
 import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.exception.FollowDuplicateException;
 import com.bobmate.bobmate.repository.FollowRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,10 +27,21 @@ public class FollowService {
         Member fromMember = memberRepository.findOne(fromId);
         Member toMember = memberRepository.findOne(toId);
 
+        validateDuplicateFollow(fromMember, toMember);
         Follow follow = Follow.createFollow(fromMember, toMember);
 
         followRepository.save(follow);
         return follow.getId();
+    }
+
+    /**
+     * 팔로우 중복 확인
+     */
+    public void validateDuplicateFollow(Member fromMember, Member toMember) {
+        Follow findFollow = followRepository.findOneByFromMemberIdAndToMemberId(fromMember, toMember);
+        if(findFollow != null) {
+            throw new FollowDuplicateException("이미 팔로우 중입니다.");
+        }
     }
 
     /**
