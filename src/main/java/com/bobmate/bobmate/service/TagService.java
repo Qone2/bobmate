@@ -3,6 +3,7 @@ package com.bobmate.bobmate.service;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.Tag;
 import com.bobmate.bobmate.domain.TagBookmark;
+import com.bobmate.bobmate.exception.TagNameDuplicateException;
 import com.bobmate.bobmate.repository.TagBookmarkRepository;
 import com.bobmate.bobmate.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,19 @@ public class TagService {
     @Transactional
     public Long saveTag(String name) {
         Tag tag = Tag.createTag(name);
+        validateDuplicateTagName(name);
         tagRepository.save(tag);
         return tag.getId();
+    }
+
+    /**
+     * 태그 이름 중복 확인
+     */
+    public void validateDuplicateTagName(String name) {
+        Tag findTag = tagRepository.findOneByName(name);
+        if (findTag != null) {
+            throw new TagNameDuplicateException("해당 이름으로 생성된 태그가 이미 존재합니다.");
+        }
     }
 
 
