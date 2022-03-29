@@ -28,6 +28,16 @@ public class TagRepository {
     }
 
     /**
+     * 이름으로 태그 단일 조회
+     */
+    public Tag findOneByName(String name) {
+        return em.createQuery("select t from Tag t " +
+                "where t.name = :name", Tag.class)
+                .setParameter("name", name)
+                .getResultList().stream().findFirst().orElse(null);
+    }
+
+    /**
      * 태그 전체 조회
      */
     public List<Tag> findAll() {
