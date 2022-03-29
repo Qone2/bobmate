@@ -41,6 +41,7 @@ class MeetServiceTest {
         assertEquals(member, meet.getHeadMember());
         assertEquals(place, meet.getPlace());
         assertEquals(1, meet.getMemberMeets().size());
+        assertEquals(meet.getMemberMeets().size(), meet.getMemberCount());
 
         assertEquals(1, member.getMemberMeets().size());
 
@@ -82,6 +83,7 @@ class MeetServiceTest {
 
         //then
         assertEquals(3, meet.getMemberMeets().size());
+        assertEquals(meet.getMemberMeets().size(), meet.getMemberCount());
         assertEquals(member1.getMemberMeets().get(0).getMeet(), member2.getMemberMeets().get(0).getMeet());
         assertEquals(member1.getMemberMeets().get(0).getMeet(), member3.getMemberMeets().get(0).getMeet());
 
@@ -122,6 +124,7 @@ class MeetServiceTest {
 
         //then
         assertEquals(2, meet.getMemberMeets().size());
+        assertEquals(meet.getMemberMeets().size(), meet.getMemberCount());
     }
 
     @Test
