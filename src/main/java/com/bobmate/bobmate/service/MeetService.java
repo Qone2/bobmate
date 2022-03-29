@@ -33,9 +33,9 @@ public class MeetService {
         Member headMember = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
-        MemberMeet memberMeet = MemberMeet.createMemberMeet(headMember);
+        Meet meet = Meet.createMeet(headMember, place, name, link);
 
-        Meet meet = Meet.createMeet(headMember, memberMeet, place, name, link);
+        MemberMeet memberMeet = MemberMeet.createMemberMeet(headMember, meet);
 
         meetRepository.save(meet);
         memberMeetRepository.save(memberMeet);
@@ -50,8 +50,7 @@ public class MeetService {
         Member member = memberRepository.findOne(memberId);
         Meet meet = meetRepository.findOne(meetId);
 
-        MemberMeet memberMeet = MemberMeet.createMemberMeet(member);
-        meet.addMember(memberMeet);
+        MemberMeet memberMeet = MemberMeet.createMemberMeet(member, meet);
         memberMeetRepository.save(memberMeet);
         return memberMeet.getId();
     }

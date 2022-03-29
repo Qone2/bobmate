@@ -30,10 +30,23 @@ public class MemberMeet {
 
     private LocalDateTime joinDate;
 
+    //==연관관계 메서드==//
+    public void setMeet(Meet meet) {
+        this.meet = meet;
+        meet.getMemberMeets().add(this);
+        meet.setMemberCount();
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
+        member.getMemberMeets().add(this);
+    }
+
     //==생성 메서드==//
-    public static MemberMeet createMemberMeet(Member member) {
+    public static MemberMeet createMemberMeet(Member member, Meet meet) {
         MemberMeet memberMeet = new MemberMeet();
         memberMeet.setMember(member);
+        memberMeet.setMeet(meet);
         memberMeet.setJoinDate(LocalDateTime.now());
 
         return memberMeet;

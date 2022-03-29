@@ -37,11 +37,6 @@ public class Meet {
     private LocalDateTime createdDate;
 
     //==연관관계 메서드==//
-    public void setHeadMember(Member headMember, MemberMeet memberMeet) {
-        this.headMember = headMember;
-        headMember.getMemberMeets().add(memberMeet);
-    }
-
     public void setPlace(Place place) {
         this.place = place;
         place.getMeets().add(this);
@@ -51,20 +46,13 @@ public class Meet {
         this.memberCount = this.memberMeets.size();
     }
 
-    public void addMemberMeets(MemberMeet memberMeet) {
-        this.memberMeets.add(memberMeet);
-        memberMeet.setMeet(this);
-        setMemberCount();
-    }
-
     //==생성 메서드==//
-    public static Meet createMeet(Member headMember, MemberMeet memberMeet, Place place, String name, String link) {
+    public static Meet createMeet(Member headMember, Place place, String name, String link) {
         Meet meet = new Meet();
-        meet.setHeadMember(headMember, memberMeet);
+        meet.setHeadMember(headMember);
         meet.setPlace(place);
         meet.setName(name);
         meet.setLink(link);
-        meet.addMemberMeets(memberMeet);
         meet.setCreatedDate(LocalDateTime.now());
         meet.setMemberCount();
 
@@ -72,10 +60,4 @@ public class Meet {
     }
 
     //==비즈니스 로직==//
-    public void addMember(MemberMeet memberMeet) {
-        this.memberMeets.add(memberMeet);
-        memberMeet.setMeet(this);
-        memberMeet.getMember().getMemberMeets().add(memberMeet);
-        this.setMemberCount();
-    }
 }
