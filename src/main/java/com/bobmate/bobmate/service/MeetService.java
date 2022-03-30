@@ -5,6 +5,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberMeet;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.exception.HeadMemberException;
+import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import com.bobmate.bobmate.repository.MeetRepository;
 import com.bobmate.bobmate.repository.MemberMeetRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
@@ -51,8 +52,19 @@ public class MeetService {
         Meet meet = meetRepository.findOne(meetId);
 
         MemberMeet memberMeet = MemberMeet.createMemberMeet(member, meet);
+        validateDuplicateMemberMeet(member, meet);
         memberMeetRepository.save(memberMeet);
         return memberMeet.getId();
+    }
+
+    /**
+     * 멤버가 모임에 중복 참여하는지 확인
+     */
+    public void validateDuplicateMemberMeet(Member member, Meet meet) {
+        MemberMeet findMemberMeet = memberMeetRepository.findOneByMemberIdAndMeetId(member, meet);
+        if (findMemberMeet != null) {
+            throw new MemberMeetDuplicateException("이미 모임에 참여한 멤버입니다.");
+        }
     }
 
     /**
