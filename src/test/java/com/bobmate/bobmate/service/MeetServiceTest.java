@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.exception.HeadMemberException;
 import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +160,40 @@ class MeetServiceTest {
 
         //then
         assertThrows(MemberMeetDuplicateException.class, () -> meetService.addMember(member2.getId(), meetId));
+    }
+    
+    @Test
+    public void 멤버삭제시_방장일경우() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member1);
+        Member member2 = new Member();
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member2);
+        Member member3 = new Member();
+        member3.setEmail("member3@member1.com");
+        member3.setPassword(passwordEncoder.encode("password1"));
+        member3.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member3);
+
+        Place place = new Place();
+        place.setName("식당0");
+        place.setCoordinate(new Coordinate(123.123, 321.321));
+        placeService.savePlace(place);
+
+        //when
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
+        meetService.addMember(member2.getId(), meetId);
+        meetService.addMember(member3.getId(), meetId);
+
+        //then
+        meetService.deleteMember(member3.getId(), meetId);
+        assertThrows(HeadMemberException.class, () -> meetService.deleteMember(member1.getId(), meetId));
     }
 
 }
