@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -157,8 +158,7 @@ class MeetServiceTest {
         meetService.addMember(member3.getId(), meetId);
 
         //then
-        meetService.addMember(member2.getId(), meetId);
-
+        assertThrows(MemberMeetDuplicateException.class, () -> meetService.addMember(member2.getId(), meetId));
     }
 
 }
