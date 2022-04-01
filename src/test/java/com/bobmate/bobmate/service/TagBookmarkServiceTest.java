@@ -2,6 +2,7 @@ package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
 import com.bobmate.bobmate.exception.TagBookmarkDuplicateException;
+import com.bobmate.bobmate.exception.TagBookmarkMemberException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -182,6 +183,37 @@ class TagBookmarkServiceTest {
 
         //then
         assertThrows(TagBookmarkDuplicateException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
+
+    }
+
+    @Test
+    public void 태그북마크멤버불일치() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member1);
+        Member member2 = new Member();
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member2);
+
+        Place place = new Place();
+        place.setName("식당0");
+        place.setCoordinate(new Coordinate(123.123, 321.321));
+        placeService.savePlace(place);
+
+        Long tagId1 = tagService.saveTag("맛있는");
+        Long tagId2 = tagService.saveTag("깔끔한");
+
+        //when
+        Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
+        tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
+
+        //then
+        assertThrows(TagBookmarkMemberException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member2.getId()));
 
     }
 }
