@@ -1,7 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
-import com.bobmate.bobmate.exception.BookmarkDuplicateException;
+import com.bobmate.bobmate.exception.TagBookmarkDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -181,7 +181,7 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
 
         //then
-        assertThrows(BookmarkDuplicateException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
+        assertThrows(TagBookmarkDuplicateException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
 
     }
 }
