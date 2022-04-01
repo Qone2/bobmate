@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.exception.BookmarkDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -155,5 +156,32 @@ class TagBookmarkServiceTest {
         assertEquals(1, taggedBookmark2.size());
 
         assertEquals(3, findMember.getTagBookmarks().size());
+    }
+
+    @Test
+    public void 태그중복() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member1);
+
+        Place place = new Place();
+        place.setName("식당0");
+        place.setCoordinate(new Coordinate(123.123, 321.321));
+        placeService.savePlace(place);
+
+        Long tagId1 = tagService.saveTag("맛있는");
+        Long tagId2 = tagService.saveTag("깔끔한");
+
+        Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
+
+        //when
+        tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
+
+        //then
+        assertThrows(BookmarkDuplicateException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
+
     }
 }
