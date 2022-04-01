@@ -5,6 +5,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.Tag;
 import com.bobmate.bobmate.domain.TagBookmark;
 import com.bobmate.bobmate.exception.TagBookmarkDuplicateException;
+import com.bobmate.bobmate.exception.TagBookmarkMemberException;
 import com.bobmate.bobmate.repository.BookmarkRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
 import com.bobmate.bobmate.repository.TagBookmarkRepository;
@@ -41,6 +42,7 @@ public class TagBookmarkService {
         TagBookmark tagBookmark = TagBookmark.createTagBookmark(tag, bookmark, member);
 
         validateDuplicateTagBookmark(tag, bookmark, member);
+        validateBookmarkMember(bookmark, member);
         tagBookmarkRepository.save(tagBookmark);
         return tagBookmark.getId();
     }
@@ -52,6 +54,15 @@ public class TagBookmarkService {
         TagBookmark findTagBookmark = tagBookmarkRepository.findOneByTagIdAndBookmarkIdAndMemberId(tag, bookmark, member);
         if (findTagBookmark != null) {
             throw new TagBookmarkDuplicateException("이미 생성되어있는 북마크 입니다.");
+        }
+    }
+
+    /**
+     * 태그북마크 멤버 확인
+     */
+    public void validateBookmarkMember(Bookmark bookmark, Member member) {
+        if (bookmark.getMember() != member) {
+            throw new TagBookmarkMemberException("북마크의 멤버와 신청하는 멤버가 일치하지 않습니다.");
         }
     }
 
