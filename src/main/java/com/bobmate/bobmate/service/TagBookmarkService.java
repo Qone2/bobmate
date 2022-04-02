@@ -39,9 +39,9 @@ public class TagBookmarkService {
         Bookmark bookmark = bookmarkRepository.findOne(bookmarkId);
         Member member = memberRepository.findOne(memberId);
 
-        TagBookmark tagBookmark = TagBookmark.createTagBookmark(tag, bookmark, member);
+        TagBookmark tagBookmark = TagBookmark.createTagBookmark(tag, bookmark);
 
-        validateDuplicateTagBookmark(tag, bookmark, member);
+        validateDuplicateTagBookmark(tag, bookmark);
         validateBookmarkMember(bookmark, member);
         tagBookmarkRepository.save(tagBookmark);
         return tagBookmark.getId();
@@ -50,8 +50,8 @@ public class TagBookmarkService {
     /**
      * 태그북마크 중복 확인
      */
-    public void validateDuplicateTagBookmark(Tag tag, Bookmark bookmark, Member member) {
-        TagBookmark findTagBookmark = tagBookmarkRepository.findOneByTagIdAndBookmarkIdAndMemberId(tag, bookmark, member);
+    public void validateDuplicateTagBookmark(Tag tag, Bookmark bookmark) {
+        TagBookmark findTagBookmark = tagBookmarkRepository.findOneByTagIdAndBookmarkId(tag, bookmark);
         if (findTagBookmark != null) {
             throw new TagBookmarkDuplicateException("이미 생성되어있는 북마크 입니다.");
         }
@@ -75,7 +75,8 @@ public class TagBookmarkService {
         Bookmark bookmark = bookmarkRepository.findOne(bookmarkId);
         Member member = memberRepository.findOne(memberId);
 
-        TagBookmark tagBookmark = tagBookmarkRepository.findOneByTagIdAndBookmarkIdAndMemberId(tag, bookmark, member);
+        TagBookmark tagBookmark = tagBookmarkRepository.findOneByTagIdAndBookmarkId(tag, bookmark);
+        validateBookmarkMember(bookmark, member);
 
         tagBookmarkRepository.delete(tagBookmark);
     }

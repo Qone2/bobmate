@@ -35,18 +35,17 @@ public class TagBookmarkRepository {
         em.clear();
     }
 
-    public TagBookmark findOneByTagIdAndBookmarkIdAndMemberId(Tag tag, Bookmark bookmark, Member member) {
+    public TagBookmark findOneByTagIdAndBookmarkId(Tag tag, Bookmark bookmark) {
         return em.createQuery("select tb from TagBookmark tb " +
-                "where tb.tag = :tag and tb.bookmark = :bookmark and tb.member = :member", TagBookmark.class)
+                "where tb.tag = :tag and tb.bookmark = :bookmark", TagBookmark.class)
                 .setParameter("tag", tag)
                 .setParameter("bookmark", bookmark)
-                .setParameter("member", member)
                 .getResultList().stream().findFirst().orElse(null);
     }
 
     public List<TagBookmark> findAllByTagIdAndMemberId(Tag tag, Member member) {
         return em.createQuery("select tb from TagBookmark tb " +
-                "where tb.tag = :tag and tb.member = :member", TagBookmark.class)
+                "where tb.bookmark.member = :member and tb.tag = :tag", TagBookmark.class)
                 .setParameter("tag", tag)
                 .setParameter("member", member)
                 .getResultList();
@@ -57,7 +56,7 @@ public class TagBookmarkRepository {
      */
     public List<TagBookmark> findAllByMemberId(Member member) {
         return em.createQuery("select tb from TagBookmark tb " +
-                        "where tb.member = :member", TagBookmark.class)
+                        "where tb.bookmark.member = :member", TagBookmark.class)
                 .setParameter("member", member)
                 .getResultList();
     }

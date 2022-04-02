@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter @Setter
 @Table(
         uniqueConstraints = {
-                @UniqueConstraint(name = "NoSameMember", columnNames = {"tag_id", "bookmark_id", "member_id"})
+                @UniqueConstraint(name = "NoSameMember", columnNames = {"tag_id", "bookmark_id"})
         }
 )
 public class TagBookmark {
@@ -27,24 +27,14 @@ public class TagBookmark {
     @JoinColumn(name = "bookmark_id")
     private Bookmark bookmark;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
 
     //==연관관계 메서드==//
-    public void setMember(Member member) {
-        this.member = member;
-        member.getTagBookmarks().add(this);
-    }
-
 
     //==생성 메서드==//
-    public static TagBookmark createTagBookmark(Tag tag, Bookmark bookmark, Member member) {
+    public static TagBookmark createTagBookmark(Tag tag, Bookmark bookmark) {
         TagBookmark tagBookmark = new TagBookmark();
         tagBookmark.setTag(tag);
         tagBookmark.setBookmark(bookmark);
-        tagBookmark.setMember(member);
 
         return tagBookmark;
     }
