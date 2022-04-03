@@ -109,4 +109,12 @@ public class TagBookmarkService {
 
         return new ArrayList<>(bookmarkSet);
     }
+
+    /**
+     * 특정 맴버로 태그북마크 검색
+     */
+    public List<TagBookmark> findAllByMemberId(Long memberId) {
+        Member member = memberRepository.findOne(memberId);
+        return tagBookmarkRepository.findAllByMemberId(member);
+    }
 }
