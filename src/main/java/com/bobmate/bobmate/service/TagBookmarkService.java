@@ -90,6 +90,11 @@ public class TagBookmarkService {
         Set<Bookmark> bookmarkSet = new HashSet<>();
         boolean isFirst = true;
 
+        if (tagIdList.size() == 0) {
+            return tagBookmarkRepository.findAllByMemberId(member).stream().map(tb -> tb.getBookmark())
+                    .collect(Collectors.toList());
+        }
+
         for (Long tagId : tagIdList) {
             Tag tag = tagRepository.findOne(tagId);
             if (isFirst) {
