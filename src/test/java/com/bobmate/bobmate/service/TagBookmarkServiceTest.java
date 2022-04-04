@@ -51,8 +51,8 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
 
         //then
-        assertEquals(1, member1.getTagBookmarks().size());
-        assertEquals(bookmarkId1, member1.getTagBookmarks().get(0).getBookmark().getId());
+        assertEquals(1, tagBookmarkService.findAllByMemberId(member1.getId()).size());
+        assertEquals(bookmarkId1, tagBookmarkService.findAllByMemberId(member1.getId()).get(0).getBookmark().getId());
 
     }
 
@@ -156,7 +156,7 @@ class TagBookmarkServiceTest {
         assertEquals(0, taggedBookmark1.size());
         assertEquals(1, taggedBookmark2.size());
 
-        assertEquals(3, findMember.getTagBookmarks().size());
+        assertEquals(3, tagBookmarkService.findAllByMemberId(findMember.getId()).size());
     }
 
     @Test
