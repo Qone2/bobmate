@@ -41,8 +41,8 @@ public class TagBookmarkService {
 
         TagBookmark tagBookmark = TagBookmark.createTagBookmark(tag, bookmark);
 
-        validateDuplicateTagBookmark(tag, bookmark);
         validateBookmarkMember(bookmark, member);
+        validateDuplicateTagBookmark(tag, bookmark);
         tagBookmarkRepository.save(tagBookmark);
         return tagBookmark.getId();
     }
