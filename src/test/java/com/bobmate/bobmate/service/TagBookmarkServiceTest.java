@@ -42,8 +42,8 @@ class TagBookmarkServiceTest {
         place.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
 
@@ -80,8 +80,8 @@ class TagBookmarkServiceTest {
         place3.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place3);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
         Long tagId3 = tagService.saveTag("kind");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place1.getId());
@@ -129,8 +129,8 @@ class TagBookmarkServiceTest {
         place3.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place3);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
         Long tagId3 = tagService.saveTag("kind");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place1.getId());
@@ -173,8 +173,8 @@ class TagBookmarkServiceTest {
         place.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
 
@@ -205,8 +205,8 @@ class TagBookmarkServiceTest {
         place.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
 
         //when
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
