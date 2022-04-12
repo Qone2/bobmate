@@ -89,9 +89,12 @@ public class initDB {
 
             Long tag0Id = tagService.saveTag("가성비");
             Long tag1Id = tagService.saveTag("카페");
-            Long tag2Id = tagService.saveTag("양식");
+            Long tag2Id = tagService.saveTag("한식");
             Long tag3Id = tagService.saveTag("일식");
-            Long tag4Id = tagService.saveTag("한식");
+            Long tag4Id = tagService.saveTag("양식");
+            Long tag5Id = tagService.saveTag("맛있는");
+            Long tag6Id = tagService.saveTag("데이트");
+            Long tag7Id = tagService.saveTag("친절한");
 
             Long bookmark0Id = bookmarkService.saveBookmark(member1.getId(), place1.getId());
 
