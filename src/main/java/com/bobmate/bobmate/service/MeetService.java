@@ -5,6 +5,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberMeet;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.exception.HeadMemberException;
+import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import com.bobmate.bobmate.repository.MeetRepository;
 import com.bobmate.bobmate.repository.MemberMeetRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
@@ -33,9 +34,9 @@ public class MeetService {
         Member headMember = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
-        MemberMeet memberMeet = MemberMeet.createMemberMeet(headMember);
+        Meet meet = Meet.createMeet(headMember, place, name, link);
 
-        Meet meet = Meet.createMeet(headMember, memberMeet, place, name, link);
+        MemberMeet memberMeet = MemberMeet.createMemberMeet(headMember, meet);
 
         meetRepository.save(meet);
         memberMeetRepository.save(memberMeet);
@@ -50,10 +51,20 @@ public class MeetService {
         Member member = memberRepository.findOne(memberId);
         Meet meet = meetRepository.findOne(meetId);
 
-        MemberMeet memberMeet = MemberMeet.createMemberMeet(member);
-        meet.addMember(memberMeet);
+        MemberMeet memberMeet = MemberMeet.createMemberMeet(member, meet);
+        validateDuplicateMemberMeet(member, meet);
         memberMeetRepository.save(memberMeet);
         return memberMeet.getId();
+    }
+
+    /**
+     * 멤버가 모임에 중복 참여하는지 확인
+     */
+    public void validateDuplicateMemberMeet(Member member, Meet meet) {
+        MemberMeet findMemberMeet = memberMeetRepository.findOneByMemberIdAndMeetId(member, meet);
+        if (findMemberMeet != null) {
+            throw new MemberMeetDuplicateException("이미 모임에 참여한 멤버입니다.");
+        }
     }
 
     /**
@@ -69,6 +80,8 @@ public class MeetService {
             throw new HeadMemberException("모임 방장은 모임을 삭제하거나 다른 사람에게 방장을 넘겨주기 전까지는 탈퇴할 수 없습니다.");
         }
         memberMeetRepository.delete(memberMeet);
+        meet = meetRepository.findOne(meetId);
+        meet.setMemberCount();
     }
 
     public Meet findOne(Long meetId) {

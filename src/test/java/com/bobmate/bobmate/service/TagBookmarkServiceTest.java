@@ -1,6 +1,8 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.exception.TagBookmarkDuplicateException;
+import com.bobmate.bobmate.exception.TagBookmarkMemberException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,8 +42,8 @@ class TagBookmarkServiceTest {
         place.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
 
@@ -49,8 +51,8 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
 
         //then
-        assertEquals(1, member1.getTagBookmarks().size());
-        assertEquals(bookmarkId1, member1.getTagBookmarks().get(0).getBookmark().getId());
+        assertEquals(1, tagBookmarkService.findAllByMemberId(member1.getId()).size());
+        assertEquals(bookmarkId1, tagBookmarkService.findAllByMemberId(member1.getId()).get(0).getBookmark().getId());
 
     }
 
@@ -78,8 +80,8 @@ class TagBookmarkServiceTest {
         place3.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place3);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
         Long tagId3 = tagService.saveTag("kind");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place1.getId());
@@ -127,8 +129,8 @@ class TagBookmarkServiceTest {
         place3.setCoordinate(new Coordinate(123.123, 321.321));
         placeService.savePlace(place3);
 
-        Long tagId1 = tagService.saveTag("맛있는");
-        Long tagId2 = tagService.saveTag("깔끔한");
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
         Long tagId3 = tagService.saveTag("kind");
 
         Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place1.getId());
@@ -154,6 +156,64 @@ class TagBookmarkServiceTest {
         assertEquals(0, taggedBookmark1.size());
         assertEquals(1, taggedBookmark2.size());
 
-        assertEquals(3, findMember.getTagBookmarks().size());
+        assertEquals(3, tagBookmarkService.findAllByMemberId(findMember.getId()).size());
+    }
+
+    @Test
+    public void 태그중복() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member1);
+
+        Place place = new Place();
+        place.setName("식당0");
+        place.setCoordinate(new Coordinate(123.123, 321.321));
+        placeService.savePlace(place);
+
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
+
+        Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
+
+        //when
+        tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
+
+        //then
+        assertThrows(TagBookmarkDuplicateException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
+
+    }
+
+    @Test
+    public void 태그북마크멤버불일치() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setEmail("member1@member1.com");
+        member1.setPassword(passwordEncoder.encode("password1"));
+        member1.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member1);
+        Member member2 = new Member();
+        member2.setEmail("member2@member1.com");
+        member2.setPassword(passwordEncoder.encode("password1"));
+        member2.setRoles(Collections.singletonList("ROLE_USER"));
+        memberService.join(member2);
+
+        Place place = new Place();
+        place.setName("식당0");
+        place.setCoordinate(new Coordinate(123.123, 321.321));
+        placeService.savePlace(place);
+
+        Long tagId1 = tagService.saveTag("good");
+        Long tagId2 = tagService.saveTag("clean");
+
+        //when
+        Long bookmarkId1 = bookmarkService.saveBookmark(member1.getId(), place.getId());
+        tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
+
+        //then
+        assertThrows(TagBookmarkMemberException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member2.getId()));
+
     }
 }
