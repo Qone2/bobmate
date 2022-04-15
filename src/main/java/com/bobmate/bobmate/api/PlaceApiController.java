@@ -3,6 +3,7 @@ package com.bobmate.bobmate.api;
 import com.bobmate.bobmate.domain.Coordinate;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.service.PlaceService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class PlaceApiController {
      */
     @PostMapping("/api/v1/place")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("장소 등록")
     public CreatePlaceResponse savePlaceV1(@RequestBody @Valid CreatePlaceRequest createPlaceRequest) {
 
         Coordinate coordinate = new Coordinate(createPlaceRequest.getX(), createPlaceRequest.getY());
@@ -59,6 +61,7 @@ public class PlaceApiController {
      * 모든 장소 조회
      */
     @GetMapping("/api/v1/place")
+    @ApiOperation("모든 장소 조회")
     public Result placesV1() {
         List<PlaceDto> collect = placeService.findAll()
                 .stream().map(p -> new PlaceDto(p.getId(), p.getName(), p.getReviewCount(), p.getAvgStar(),
@@ -90,6 +93,7 @@ public class PlaceApiController {
      * 장소 상세 조회
      */
     @GetMapping("/api/v1/place/{id}")
+    @ApiOperation("장소 상세 조회")
     public PlaceDetailResponse placeDetail(@PathVariable("id") Long id) {
         Place place = placeService.findOne(id);
         return new PlaceDetailResponse(place.getId(), place.getName(), place.getCoordinate(),

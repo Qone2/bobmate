@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Meet;
 import com.bobmate.bobmate.service.MeetService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class MeetApiController {
      */
     @PostMapping("/api/v1/meet")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "모임 생성")
     public CreateMeetResponse createMeetV1(@RequestBody @Valid CreateMeetRequest request) {
         return new CreateMeetResponse(meetService.saveMeet(request.getMember_id(), request.getPlace_id(),
                 request.getName(), request.getLink()));
@@ -60,6 +62,7 @@ public class MeetApiController {
      * 모임에 맴버 추가
      */
     @PostMapping("/api/v1/meet/{meet_id}")
+    @ApiOperation(value = "모임에 맴버 추가")
     public CreateMemberMeetResponse addMemberV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
         return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
     }
@@ -81,6 +84,7 @@ public class MeetApiController {
      * 전체 모임 조회
      */
     @GetMapping("/api/v1/meet")
+    @ApiOperation(value = "전체 모임 조회")
     public Result meets() {
         List<MeetDto> collect = meetService.findAll()
                 .stream().map(m -> new MeetDto(m.getId(), m.getHeadMember().getId(),
@@ -111,6 +115,7 @@ public class MeetApiController {
      * 모임 상세 조회
      */
     @GetMapping("/api/v1/meet/{id}")
+    @ApiOperation(value = "모임 상세 조회")
     public MeetDetailResponse meetDetail(@PathVariable("id") Long id) {
         Meet meet = meetService.findOne(id);
         return new MeetDetailResponse(meet.getId(), meet.getHeadMember().getId(), meet.getPlace().getId(),

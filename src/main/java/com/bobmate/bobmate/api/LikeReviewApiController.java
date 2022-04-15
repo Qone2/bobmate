@@ -4,6 +4,7 @@ import com.bobmate.bobmate.domain.LikeReview;
 import com.bobmate.bobmate.service.LikeReviewService;
 import com.bobmate.bobmate.service.MemberService;
 import com.bobmate.bobmate.service.ReviewService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class LikeReviewApiController {
      */
     @PostMapping("/api/v1/like-review")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "리뷰좋아요")
     public LikeReviewResponse likeReview(@RequestBody @Valid LikeReviewRequest request) {
         Long likeReviewId =  likeReviewService.likeReview(request.getMember_id(), request.getReview_id());
         return new LikeReviewResponse(likeReviewId);
@@ -57,6 +59,7 @@ public class LikeReviewApiController {
      */
     @DeleteMapping("/api/v1/like-review")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "리뷰 좋아요 취소")
     public UnlikeReviewResponse unlikeReview(@RequestBody @Valid UnlikeReviewRequest request) {
         likeReviewService.unlikeReview(request.getMember_id(), request.getReview_id());
         return new UnlikeReviewResponse("done!");
@@ -81,6 +84,7 @@ public class LikeReviewApiController {
      * 리뷰좋아요 전체 조회
      */
     @GetMapping("/api/v1/like-review")
+    @ApiOperation(value = "리뷰좋아요 전체 조회")
     public Result likeReviews() {
         List<LikeReview> likeReviewList = likeReviewService.findAll();
         List<LikeReviewDto> likeReviewDtoList = likeReviewList.stream()
@@ -110,6 +114,7 @@ public class LikeReviewApiController {
      * 리뷰좋아요 상세 조회
      */
     @GetMapping("/api/v1/like-review/{id}")
+    @ApiOperation(value = "리뷰좋아요 상세 조회")
     public LikeReviewDetailResponse likeReviewDetail(@PathVariable Long id) {
         LikeReview findLikeReview = likeReviewService.findOne(id);
         return new LikeReviewDetailResponse(findLikeReview.getId(), findLikeReview.getMember().getId(),

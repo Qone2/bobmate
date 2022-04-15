@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Bookmark;
 import com.bobmate.bobmate.service.TagBookmarkService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class TagBookmarkApiController {
      */
     @PostMapping("/api/v1/tagbookmark")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("북마크 태그 설정")
     public CreateTagBookmarkResponse createTagBookmarkV1(@RequestBody @Valid CreateTagBookmarkRequest request) {
         Long tagBookmarkId = tagBookmarkService.saveTagBookmark(request.getTag_id(), request.getBookmark_id(), request.getMember_id());
         return new CreateTagBookmarkResponse(tagBookmarkId);
@@ -53,6 +55,7 @@ public class TagBookmarkApiController {
      * 해당 태그(들)을 설정한 북마크 전체 조회
      */
     @GetMapping("/api/v1/tagbookmark")
+    @ApiOperation("해당 태그(들)을 설정한 북마크 전체 조회")
     public GetTagBookmarkResponse taggedBookmarksV1(@RequestBody @Valid GetTagBookmarkRequest request) {
         List<Bookmark> taggedBookmark = tagBookmarkService.findTaggedBookmark(request.getMember_id(), request.getTag_id_list());
 
@@ -82,6 +85,7 @@ public class TagBookmarkApiController {
      */
     @DeleteMapping("/api/v1/tagbookmark")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("북마크 태그 설정 취소")
     public DeleteTagBookmarkResponse deleteTagBookmark(@RequestBody @Valid DeleteTagBookmarkRequest request) {
         tagBookmarkService.deleteTagBookmark(request.getTag_id(), request.getBookmark_id(), request.getMember_id());
         return new DeleteTagBookmarkResponse("태그 취소됨");

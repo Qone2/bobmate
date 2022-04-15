@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Tag;
 import com.bobmate.bobmate.service.TagService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class TagApiController {
      * 태그 등록
      */
     @PostMapping("/api/v1/tag")
+    @ApiOperation("태그 등록")
     public CreateTagResponse createTagV1(@RequestBody @Valid CreateTagRequest request) {
         Long tagId = tagService.saveTag(request.getName());
         return new CreateTagResponse(tagId);
@@ -49,6 +51,7 @@ public class TagApiController {
      * 모든 태그 조회
      */
     @GetMapping("/api/v1/tag")
+    @ApiOperation("모든 태그 조회")
     public Result tagsV1() {
         List<Tag> tags = tagService.findAll();
         List<TagDto> tagDtoList = tags.stream()
@@ -74,6 +77,7 @@ public class TagApiController {
      * 태그 삭제
      */
     @DeleteMapping("/api/v1/tag/{tag_id}")
+    @ApiOperation("태그 삭제")
     public DeleteTagResponse deleteTagV1(@PathVariable Long tag_id) {
         tagService.deleteTag(tag_id);
         return new DeleteTagResponse(tag_id, "성공적으로 삭제되었습니다.");
@@ -91,6 +95,7 @@ public class TagApiController {
      * 태그 상세 조회
      */
     @GetMapping("/api/v1/tag/{id}")
+    @ApiOperation("태그 상세 조회")
     public TagDetailResponse tagDetail(@PathVariable Long id) {
         Tag findTag = tagService.findOne(id);
         return new TagDetailResponse(findTag.getId(), findTag.getName());
@@ -108,6 +113,7 @@ public class TagApiController {
      * 모든 태그 태그된 횟수순으로 내림차순 조회
      */
     @GetMapping("/api/v1/tag/descending")
+    @ApiOperation("모든 태그 태그된 횟수순으로 내림차순 조회")
     public Result tagsDescending() {
         List<Map.Entry<Long, Integer>> entryList = tagService.findAllByTaggedCount();
         List<TagDescendingDto> tagDescendingDtoList = new ArrayList<>();
@@ -127,6 +133,7 @@ public class TagApiController {
      * 특정 맴버의 모든 태그 태그된 횟수순으로 내림차순 조회
      */
     @GetMapping("/api/v1/tag/{member_id}/descending")
+    @ApiOperation("특정 맴버의 모든 태그 태그된 횟수순으로 내림차순 조회")
     public Result tagsByMemberDescending(@PathVariable Long member_id) {
         List<Map.Entry<Long, Integer>> entryList = tagService.findAllByMemberAndTaggedCount(member_id);
         List<TagDescendingDto> tagDescendingDtoList = new ArrayList<>();

@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Follow;
 import com.bobmate.bobmate.service.FollowService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class FollowApiController {
      */
     @PostMapping("/api/v1/follow")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "팔로우 하기")
     public FollowResponse followV1(@RequestBody @Valid FollowRequest request) {
         Long followId = followService.follow(request.getFromId(), request.getToId());
         return new FollowResponse(followId);
@@ -52,6 +54,7 @@ public class FollowApiController {
      */
     @DeleteMapping("/api/v1/follow")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "팔로우 취소")
     public UnfollowResponse unfollowV1(@RequestBody @Valid UnfollowRequest request) {
         followService.unfollow(request.getFromId(), request.getToId());
         return new UnfollowResponse("unfollowed");
@@ -76,6 +79,7 @@ public class FollowApiController {
      * 팔로우 전체 조회
      */
     @GetMapping("/api/v1/follow")
+    @ApiOperation(value = "팔로우 전체 조회")
     public Result follows() {
         List<Follow> followList = followService.findAll();
         List<FollowDto> followDtoList = followList.stream()
@@ -104,6 +108,7 @@ public class FollowApiController {
      * 팔로우 상세 조회
      */
     @GetMapping("/api/v1/follow/{id}")
+    @ApiOperation(value = "팔로우 상세 조회")
     public FollowDetailResponse followDetail(@PathVariable Long id) {
         Follow findFollow = followService.findOne(id);
         return new FollowDetailResponse(findFollow.getId(), findFollow.getFromMember().getId(),

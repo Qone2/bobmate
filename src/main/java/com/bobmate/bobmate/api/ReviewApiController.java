@@ -5,6 +5,7 @@ import com.bobmate.bobmate.domain.Review;
 import com.bobmate.bobmate.domain.ReviewStatus;
 import com.bobmate.bobmate.handler.PhotoHandler;
 import com.bobmate.bobmate.service.ReviewService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class ReviewApiController {
      */
     @PostMapping("/api/v1/review")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("리뷰 등록")
     public CreateReviewResponse saveReviewV1(@Valid CreateReviewRequest request) {
         List<Photo> photoList = photoHandler.parseFileInfo(request.getPhotos());
         Long id = reviewService.saveReview(request.getMember_id(), request.getPlace_id(),
@@ -67,6 +69,7 @@ public class ReviewApiController {
      * 전체 리뷰 조회
      */
     @GetMapping("/api/v1/review")
+    @ApiOperation("전체 리뷰 조회")
     public Result reviewsV1() {
         List<Review> reviews = reviewService.findAll();
         List<ReviewDto> collect = reviews.stream()
@@ -102,6 +105,7 @@ public class ReviewApiController {
      * 리뷰 상세 조회
      */
     @GetMapping("/api/v1/review/{id}")
+    @ApiOperation("리뷰 상세 조회")
     public ReviewDetailResponse reviewDetailV1(@PathVariable("id") Long id) {
         Review review = reviewService.findOne(id);
         return new ReviewDetailResponse(review.getId(), review.getMember().getId(), review.getPlace().getId(),

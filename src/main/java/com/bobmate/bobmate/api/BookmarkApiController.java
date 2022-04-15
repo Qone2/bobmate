@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Bookmark;
 import com.bobmate.bobmate.service.BookmarkService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class BookmarkApiController {
      */
     @PostMapping("/api/v1/bookmark")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "북마크 등록")
     public CreateBookmarkResponse createBookmarkV1(@RequestBody @Valid CreateBookmarkRequest request) {
         Long bookmarkId = bookmarkService.saveBookmark(request.getMember_id(), request.getPlace_id());
         return new CreateBookmarkResponse(bookmarkId);
@@ -53,6 +55,7 @@ public class BookmarkApiController {
      */
     @DeleteMapping("/api/v1/bookmark")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "북마크 삭제")
     public DeleteBookmarkResponse deleteBookmarkV1(@RequestBody @Valid DeleteBookmarkRequest request) {
         bookmarkService.deleteBookmark(request.getMember_id(), request.getPlace_id());
         return new DeleteBookmarkResponse("북마크 삭제됨");
@@ -77,6 +80,7 @@ public class BookmarkApiController {
      * 북마크 전체 조회
      */
     @GetMapping("/api/v1/bookmark")
+    @ApiOperation("북마크 전체 조회")
     public Result bookmarks() {
         List<Bookmark> bookmarkList = bookmarkService.findAll();
         List<BookmarkDto> bookmarkDtoList = bookmarkList.stream()
@@ -108,6 +112,7 @@ public class BookmarkApiController {
      * 북마크 상세 조회
      */
     @GetMapping("/api/v1/bookmark/{id}")
+    @ApiOperation(value = "북마크 상세 조회")
     public BookmarkDetailResponse bookmarkDetail(@PathVariable Long id) {
         Bookmark findBookmark = bookmarkService.findOne(id);
         return new BookmarkDetailResponse(findBookmark.getId(), findBookmark.getMember().getId(),

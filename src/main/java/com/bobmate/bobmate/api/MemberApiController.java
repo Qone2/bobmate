@@ -3,6 +3,7 @@ package com.bobmate.bobmate.api;
 import com.bobmate.bobmate.config.security.JwtTokenProvider;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.service.MemberService;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,7 @@ public class MemberApiController {
      * 전체회원 조회
      */
     @GetMapping("/api/v1/member")
+    @ApiOperation(value = "전체회원 조회")
     public Result membersV1() {
         List<Member> memberList = memberService.findAll();
         List<MemberDto> collect = memberList.stream()
@@ -90,6 +92,7 @@ public class MemberApiController {
      * 멤버상세 조회
      */
     @GetMapping("/api/v1/member/{id}")
+    @ApiOperation(value = "멤버상세 조회")
     public MemberDetailResponse memberDetailV1(@PathVariable("id") Long id) {
         Member member = memberService.findOne(id);
         return new MemberDetailResponse(member.getId(), member.getEmail(),
@@ -119,6 +122,7 @@ public class MemberApiController {
      */
     @PostMapping("/api/v2/join")
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "회원가입")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
         Member member = new Member();
         member.setEmail(request.getEmail());
@@ -141,6 +145,7 @@ public class MemberApiController {
      * 로그인
      */
     @GetMapping("/api/v2/login")
+    @ApiOperation(value = "로그인")
     public LoginResponse loginV2(@RequestBody @Valid LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
@@ -174,6 +179,7 @@ public class MemberApiController {
      */
     @DeleteMapping("/api/v1/member/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "맴버 삭제")
     public DeleteMemberResponse deleteMemberV1(@PathVariable("id") Long member_id) {
         memberService.deleteMember(member_id);
         return new DeleteMemberResponse("삭제성공");
