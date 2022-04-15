@@ -63,7 +63,8 @@ public class MemberApiController {
                         m.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()),
                         m.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()),
                         m.getFollowers().stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList()),
-                        m.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList())))
+                        m.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList()),
+                        m.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -78,6 +79,7 @@ public class MemberApiController {
         private List<Long> liked_review_ids;
         private List<Long> follower_ids;
         private List<Long> following_ids;
+        private List<Long> bookmark_ids;
     }
 
     @Data
