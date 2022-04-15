@@ -101,7 +101,7 @@ public class MemberApiController {
                 member.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()),
                 member.getFollowers().stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList()),
                 member.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList()),
-                member.getBookmarks().stream().map(bm -> bm.getMember().getId()).collect(Collectors.toList()));
+                member.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList()));
     }
 
     @Data
