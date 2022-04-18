@@ -62,7 +62,7 @@ public class MeetApiController {
      * 모임에 맴버 추가
      */
     @PostMapping("/api/v1/meet/member/{meet_id}")
-    @ApiOperation(value = "모임에 맴버 추가")
+    @ApiOperation(value = "모임에 맴버 추가", notes = "pathvariable의 meet id에 해당하는 모임에 requestbody의 member id에 해당하는 멤버 추가")
     public CreateMemberMeetResponse addMemberMeetV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
         return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
     }
@@ -141,7 +141,7 @@ public class MeetApiController {
      * 모임에 맴버 삭제
      */
     @DeleteMapping("/api/v1/meet/member/{meet_id}")
-    @ApiOperation("모임에 맴버 삭제")
+    @ApiOperation(value = "모임에 맴버 삭제", notes = "pathvariable의 meet id에 해당하는 모임에 requestbody의 member id에 해당하는 멤버 삭제")
     public DeleteMemberMeetResponse deleteMemberMeetV1(@PathVariable Long meet_id, @RequestBody @Valid DeleteMemberMeetRequest request) {
         return new DeleteMemberMeetResponse(meetService.deleteMember(request.member_id, meet_id));
     }
