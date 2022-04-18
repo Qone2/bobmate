@@ -61,9 +61,9 @@ public class MeetApiController {
     /**
      * 모임에 맴버 추가
      */
-    @PostMapping("/api/v1/meet/{meet_id}")
+    @PostMapping("/api/v1/meet/member/{meet_id}")
     @ApiOperation(value = "모임에 맴버 추가")
-    public CreateMemberMeetResponse addMemberV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
+    public CreateMemberMeetResponse addMemberMeetV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
         return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
     }
 
