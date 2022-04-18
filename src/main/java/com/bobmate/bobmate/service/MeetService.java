@@ -71,7 +71,7 @@ public class MeetService {
      * 모임에 멤버 삭제
      */
     @Transactional
-    public void deleteMember(Long memberId, Long meetId) {
+    public Long deleteMember(Long memberId, Long meetId) {
         Member member = memberRepository.findOne(memberId);
         Meet meet = meetRepository.findOne(meetId);
 
@@ -82,6 +82,7 @@ public class MeetService {
         memberMeetRepository.delete(memberMeet);
         meet = meetRepository.findOne(meetId);
         meet.setMemberCount();
+        return memberMeet.getId();
     }
 
     public Meet findOne(Long meetId) {

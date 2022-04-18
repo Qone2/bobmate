@@ -135,4 +135,26 @@ public class MeetApiController {
         private int member_count;
         private LocalDateTime created_date;
     }
+
+
+    /**
+     * 모임에 맴버 삭제
+     */
+    @DeleteMapping("/api/v1/meet/member/{meet_id}")
+    @ApiOperation("모임에 맴버 삭제")
+    public DeleteMemberMeetResponse deleteMemberMeet(@PathVariable Long meet_id, @RequestBody @Valid DeleteMemberMeetRequest request) {
+        return new DeleteMemberMeetResponse(meetService.deleteMember(request.member_id, meet_id));
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class DeleteMemberMeetResponse {
+        private Long member_meet_id;
+    }
+
+    @Data
+    static class DeleteMemberMeetRequest {
+        @NotNull
+        private Long member_id;
+    }
 }
