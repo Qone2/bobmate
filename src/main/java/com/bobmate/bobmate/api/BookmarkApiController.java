@@ -81,7 +81,7 @@ public class BookmarkApiController {
      */
     @GetMapping("/api/v1/bookmark")
     @ApiOperation("북마크 전체 조회")
-    public Result bookmarks() {
+    public Result bookmarksV1() {
         List<Bookmark> bookmarkList = bookmarkService.findAll();
         List<BookmarkDto> bookmarkDtoList = bookmarkList.stream()
                 .map(bm -> new BookmarkDto(bm.getId(),
@@ -113,7 +113,7 @@ public class BookmarkApiController {
      */
     @GetMapping("/api/v1/bookmark/{id}")
     @ApiOperation(value = "북마크 상세 조회")
-    public BookmarkDetailResponse bookmarkDetail(@PathVariable Long id) {
+    public BookmarkDetailResponse bookmarkDetailV1(@PathVariable Long id) {
         Bookmark findBookmark = bookmarkService.findOne(id);
         return new BookmarkDetailResponse(findBookmark.getId(), findBookmark.getMember().getId(),
                 findBookmark.getPlace().getId(), findBookmark.getBookmarkedDate());

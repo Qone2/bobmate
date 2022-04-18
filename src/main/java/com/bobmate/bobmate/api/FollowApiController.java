@@ -80,7 +80,7 @@ public class FollowApiController {
      */
     @GetMapping("/api/v1/follow")
     @ApiOperation(value = "팔로우 전체 조회")
-    public Result follows() {
+    public Result followsV1() {
         List<Follow> followList = followService.findAll();
         List<FollowDto> followDtoList = followList.stream()
                 .map(f -> new FollowDto(f.getId(), f.getFromMember().getId(), f.getToMember().getId()))
@@ -109,7 +109,7 @@ public class FollowApiController {
      */
     @GetMapping("/api/v1/follow/{id}")
     @ApiOperation(value = "팔로우 상세 조회")
-    public FollowDetailResponse followDetail(@PathVariable Long id) {
+    public FollowDetailResponse followDetailV1(@PathVariable Long id) {
         Follow findFollow = followService.findOne(id);
         return new FollowDetailResponse(findFollow.getId(), findFollow.getFromMember().getId(),
                 findFollow.getToMember().getId());

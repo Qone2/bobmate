@@ -85,7 +85,7 @@ public class MeetApiController {
      */
     @GetMapping("/api/v1/meet")
     @ApiOperation(value = "전체 모임 조회")
-    public Result meets() {
+    public Result meetsV1() {
         List<MeetDto> collect = meetService.findAll()
                 .stream().map(m -> new MeetDto(m.getId(), m.getHeadMember().getId(),
                         m.getPlace().getId(), m.getName(), m.getMemberCount()))
@@ -116,7 +116,7 @@ public class MeetApiController {
      */
     @GetMapping("/api/v1/meet/{id}")
     @ApiOperation(value = "모임 상세 조회")
-    public MeetDetailResponse meetDetail(@PathVariable("id") Long id) {
+    public MeetDetailResponse meetDetailV1(@PathVariable("id") Long id) {
         Meet meet = meetService.findOne(id);
         return new MeetDetailResponse(meet.getId(), meet.getHeadMember().getId(), meet.getPlace().getId(),
                 meet.getMemberMeets().stream().map(mm -> mm.getMember().getId()).collect(Collectors.toList()),
@@ -142,7 +142,7 @@ public class MeetApiController {
      */
     @DeleteMapping("/api/v1/meet/member/{meet_id}")
     @ApiOperation("모임에 맴버 삭제")
-    public DeleteMemberMeetResponse deleteMemberMeet(@PathVariable Long meet_id, @RequestBody @Valid DeleteMemberMeetRequest request) {
+    public DeleteMemberMeetResponse deleteMemberMeetV1(@PathVariable Long meet_id, @RequestBody @Valid DeleteMemberMeetRequest request) {
         return new DeleteMemberMeetResponse(meetService.deleteMember(request.member_id, meet_id));
     }
 

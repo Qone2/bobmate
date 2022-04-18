@@ -94,7 +94,7 @@ public class PlaceApiController {
      */
     @GetMapping("/api/v1/place/{id}")
     @ApiOperation("장소 상세 조회")
-    public PlaceDetailResponse placeDetail(@PathVariable("id") Long id) {
+    public PlaceDetailResponse placeDetailV1(@PathVariable("id") Long id) {
         Place place = placeService.findOne(id);
         return new PlaceDetailResponse(place.getId(), place.getName(), place.getCoordinate(),
                 place.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),

@@ -96,7 +96,7 @@ public class TagApiController {
      */
     @GetMapping("/api/v1/tag/{id}")
     @ApiOperation("태그 상세 조회")
-    public TagDetailResponse tagDetail(@PathVariable Long id) {
+    public TagDetailResponse tagDetailV1(@PathVariable Long id) {
         Tag findTag = tagService.findOne(id);
         return new TagDetailResponse(findTag.getId(), findTag.getName());
     }
@@ -114,7 +114,7 @@ public class TagApiController {
      */
     @GetMapping("/api/v1/tag/descending")
     @ApiOperation("모든 태그 태그된 횟수순으로 내림차순 조회")
-    public Result tagsDescending() {
+    public Result tagsDescendingV1() {
         List<Map.Entry<Long, Integer>> entryList = tagService.findAllByTaggedCount();
         List<TagDescendingDto> tagDescendingDtoList = new ArrayList<>();
         entryList.stream().map(e -> tagDescendingDtoList.add(new TagDescendingDto(e.getKey(), e.getValue())));
@@ -134,7 +134,7 @@ public class TagApiController {
      */
     @GetMapping("/api/v1/tag/{member_id}/descending")
     @ApiOperation("특정 맴버의 모든 태그 태그된 횟수순으로 내림차순 조회")
-    public Result tagsByMemberDescending(@PathVariable Long member_id) {
+    public Result tagsByMemberDescendingV1(@PathVariable Long member_id) {
         List<Map.Entry<Long, Integer>> entryList = tagService.findAllByMemberAndTaggedCount(member_id);
         List<TagDescendingDto> tagDescendingDtoList = new ArrayList<>();
         entryList.stream().map(e -> tagDescendingDtoList.add(new TagDescendingDto(e.getKey(), e.getValue())));
