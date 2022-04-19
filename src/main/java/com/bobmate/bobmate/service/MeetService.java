@@ -92,4 +92,14 @@ public class MeetService {
     public List<Meet> findAll() {
         return meetRepository.findAll();
     }
+
+    /**
+     * 모임 삭제
+     */
+    @Transactional
+    public Long deleteMeet(Long meetId) {
+        Meet meet = meetRepository.findOne(meetId);
+        meetRepository.delete(meet);
+        return meet.getId();
+    }
 }
