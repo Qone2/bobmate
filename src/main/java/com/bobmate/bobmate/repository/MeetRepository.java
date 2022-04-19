@@ -25,4 +25,10 @@ public class MeetRepository {
         return em.createQuery("select meet from Meet meet", Meet.class)
                 .getResultList();
     }
+
+    public void delete(Meet meet) {
+        em.remove(meet);
+        em.flush();
+        em.clear();
+    }
 }
