@@ -157,4 +157,19 @@ public class MeetApiController {
         @NotNull
         private Long member_id;
     }
+
+    /**
+     * 모임 삭제
+     */
+    @DeleteMapping("/api/v1/meet/{meet_id}")
+    @ApiOperation("모임 삭제")
+    public DeleteMeetResponse deleteMeetV1(@PathVariable Long meet_id) {
+        return new DeleteMeetResponse(meetService.deleteMeet(meet_id));
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class DeleteMeetResponse {
+        private Long meet_id;
+    }
 }
