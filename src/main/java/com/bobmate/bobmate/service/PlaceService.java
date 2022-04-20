@@ -20,9 +20,9 @@ public class PlaceService {
      */
     @Transactional
     public Long savePlace(Place place) {
-        place.setReviewCount(0);
-        placeRepository.save(place);
-        return place.getId();
+        Place place1 = Place.createPlace(place.getName(), place.getCoordinate());
+        placeRepository.save(place1);
+        return place1.getId();
     }
 
     public Place findOne(Long placeId) {

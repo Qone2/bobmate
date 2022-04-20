@@ -30,14 +30,18 @@ public class Place {
 
     private Double avgStar;
 
+    private PlaceStatus placeStatus;
+
     //==생성 메서드==//
-//    public static Place createPlace(Place place) {
-//        Place place1 = new Place();
-//        place1.setName(place.getName());
-//        place1.setCoordinate(place.getCoordinate());
-//        place1.setReviewCount(0);
-//        return place1;
-//    }
+    public static Place createPlace(String name, Coordinate coordinate) {
+        Place place = new Place();
+        place.setName(name);
+        place.setCoordinate(coordinate);
+        place.setReviewCount(0);
+        place.setAvgStar((double) 0);
+        place.setPlaceStatus(PlaceStatus.VALID);
+        return place;
+    }
 
     //==비즈니스 로직==//
     /**
