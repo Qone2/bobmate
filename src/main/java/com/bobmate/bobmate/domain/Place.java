@@ -68,4 +68,12 @@ public class Place {
     public void subtractReviewCount() {
         this.reviewCount -= 1;
     }
+
+    /**
+     * 장소 삭제
+     * 논리적 삭제
+     */
+    public void delete() {
+        setPlaceStatus(PlaceStatus.DELETED);
+    }
 }

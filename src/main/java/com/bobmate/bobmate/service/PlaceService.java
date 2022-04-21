@@ -32,4 +32,14 @@ public class PlaceService {
     public List<Place> findAll() {
         return placeRepository.findAll();
     }
+
+    /**
+     * 장소 삭제
+     */
+    @Transactional
+    public Long deletePlace(Long placeId) {
+        Place place = placeRepository.findOne(placeId);
+        place.delete();
+        return place.getId();
+    }
 }
