@@ -32,13 +32,11 @@ class BookmarkServiceTest {
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member1);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
-        bookmarkService.saveBookmark(member1.getId(), place.getId());
+        bookmarkService.saveBookmark(member1.getId(), placeId);
 
         //then
         assertEquals(place, member1.getBookmarks().get(0).getPlace());
@@ -55,10 +53,8 @@ class BookmarkServiceTest {
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member1);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         bookmarkService.saveBookmark(member1.getId(), place.getId());
@@ -80,10 +76,8 @@ class BookmarkServiceTest {
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member1);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         bookmarkService.saveBookmark(member1.getId(), place.getId());

@@ -1,5 +1,6 @@
 package com.bobmate.bobmate.service;
 
+import com.bobmate.bobmate.domain.Coordinate;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class PlaceService {
      * 장소 등록
      */
     @Transactional
-    public Long savePlace(Place place) {
-        Place place1 = Place.createPlace(place.getName(), place.getCoordinate());
+    public Long savePlace(String name, Coordinate coordinate) {
+        Place place1 = Place.createPlace(name, coordinate);
         placeRepository.save(place1);
         return place1.getId();
     }

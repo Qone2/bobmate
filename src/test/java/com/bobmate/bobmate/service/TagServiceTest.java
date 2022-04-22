@@ -46,20 +46,14 @@ class TagServiceTest {
         member3.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member3);
 
-        Place place1 = new Place();
-        place1.setName("식당1");
-        place1.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place1);
+        Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place1 = placeService.findOne(placeId1);
 
-        Place place2 = new Place();
-        place2.setName("식당2");
-        place2.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place2);
+        Long placeId2 = placeService.savePlace("식당2", new Coordinate(123.123, 321.321));
+        Place place2 = placeService.findOne(placeId2);
 
-        Place place3 = new Place();
-        place3.setName("식당3");
-        place3.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place3);
+        Long placeId3 = placeService.savePlace("식당3", new Coordinate(123.123, 321.321));
+        Place place3 = placeService.findOne(placeId3);
 
         Long tagId1 = tagService.saveTag("good");
         Long tagId2 = tagService.saveTag("clean");
@@ -108,20 +102,14 @@ class TagServiceTest {
         member3.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member3);
 
-        Place place1 = new Place();
-        place1.setName("식당1");
-        place1.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place1);
+        Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place1 = placeService.findOne(placeId1);
 
-        Place place2 = new Place();
-        place2.setName("식당2");
-        place2.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place2);
+        Long placeId2 = placeService.savePlace("식당2", new Coordinate(123.123, 321.321));
+        Place place2 = placeService.findOne(placeId2);
 
-        Place place3 = new Place();
-        place3.setName("식당3");
-        place3.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place3);
+        Long placeId3 = placeService.savePlace("식당3", new Coordinate(123.123, 321.321));
+        Place place3 = placeService.findOne(placeId3);
 
         Long tagId1 = tagService.saveTag("good");
         Long tagId2 = tagService.saveTag("clean");
