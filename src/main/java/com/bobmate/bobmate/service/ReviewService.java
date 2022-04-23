@@ -1,9 +1,7 @@
 package com.bobmate.bobmate.service;
 
-import com.bobmate.bobmate.domain.Member;
-import com.bobmate.bobmate.domain.Photo;
-import com.bobmate.bobmate.domain.Place;
-import com.bobmate.bobmate.domain.Review;
+import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.exception.DeletedPlaceException;
 import com.bobmate.bobmate.handler.PhotoHandler;
 import com.bobmate.bobmate.repository.MemberRepository;
 import com.bobmate.bobmate.repository.PhotoRepository;
@@ -33,6 +31,9 @@ public class ReviewService {
     public Long saveReview(Long memberId, Long placeId, String contents, Double star, List<Photo> photoList) {
         Member member = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
+        if (place.getPlaceStatus() == PlaceStatus.DELETED) {
+            throw new DeletedPlaceException("해당 장소는 삭제된 장소 입니다.");
+        }
 
         Review review = Review.createReview(member, place, contents, star);
         reviewRepository.save(review);
