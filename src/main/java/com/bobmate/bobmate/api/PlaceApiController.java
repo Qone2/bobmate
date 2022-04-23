@@ -33,11 +33,8 @@ public class PlaceApiController {
     public CreatePlaceResponse savePlaceV1(@RequestBody @Valid CreatePlaceRequest createPlaceRequest) {
 
         Coordinate coordinate = new Coordinate(createPlaceRequest.getX(), createPlaceRequest.getY());
-        Place place = new Place();
-        place.setName(createPlaceRequest.getName());
-        place.setCoordinate(coordinate);
 
-        Long id = placeService.savePlace(place);
+        Long id = placeService.savePlace(createPlaceRequest.getName(), coordinate);
         return new CreatePlaceResponse(id);
     }
 

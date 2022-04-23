@@ -40,11 +40,7 @@ class LikeReviewServiceTest {
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         Long memberId = memberService.join(member1);
 
-        Place place = new Place();
-        place.setName("식당1");
-        Coordinate coordinate = new Coordinate(123.1, 321.3);
-        place.setCoordinate(coordinate);
-        Long placeId = placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.1, 321.3));
 
         //when
         String contents = "맛있다!";

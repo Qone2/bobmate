@@ -31,11 +31,8 @@ class ReviewServiceTest {
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         Long memberId = memberService.join(member1);
 
-        Place place = new Place();
-        place.setName("식당1");
-        Coordinate coordinate = new Coordinate(123.1, 321.3);
-        place.setCoordinate(coordinate);
-        Long placeId = placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         String contents = "맛있다!";
@@ -57,11 +54,8 @@ class ReviewServiceTest {
         member1.setRoles(Collections.singletonList("ROLE_USER"));
         Long memberId = memberService.join(member1);
 
-        Place place = new Place();
-        place.setName("식당1");
-        Coordinate coordinate = new Coordinate(123.1, 321.3);
-        place.setCoordinate(coordinate);
-        Long placeId = placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         String contents = "맛있다!";
@@ -80,11 +74,8 @@ class ReviewServiceTest {
         member.setEmail("회원1");
         Long memberId = memberService.join(member);
 
-        Place place = new Place();
-        place.setName("식당1");
-        Coordinate coordinate = new Coordinate(123.1, 321.3);
-        place.setCoordinate(coordinate);
-        Long placeId = placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         String contents = "맛있다!";
@@ -104,11 +95,8 @@ class ReviewServiceTest {
         member.setEmail("회원1");
         Long memberId = memberService.join(member);
 
-        Place place = new Place();
-        place.setName("식당1");
-        Coordinate coordinate = new Coordinate(123.1, 321.3);
-        place.setCoordinate(coordinate);
-        Long placeId = placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         String contents = "맛있다!";

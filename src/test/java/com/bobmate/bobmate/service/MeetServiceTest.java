@@ -30,10 +30,8 @@ class MeetServiceTest {
         member.setEmail("member0@member.com");
         memberService.join(member);
 
-        Place place = new Place();
-        place.setName("식당1");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         Long meetId = meetService.saveMeet(member.getId(), place.getId(), "모임1", "http://dfsf.c");
@@ -72,10 +70,8 @@ class MeetServiceTest {
         member3.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member3);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
@@ -112,10 +108,8 @@ class MeetServiceTest {
         member3.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member3);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
@@ -148,10 +142,8 @@ class MeetServiceTest {
         member3.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member3);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
@@ -181,10 +173,8 @@ class MeetServiceTest {
         member3.setRoles(Collections.singletonList("ROLE_USER"));
         memberService.join(member3);
 
-        Place place = new Place();
-        place.setName("식당0");
-        place.setCoordinate(new Coordinate(123.123, 321.321));
-        placeService.savePlace(place);
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
 
         //when
         Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");

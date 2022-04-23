@@ -63,26 +63,17 @@ public class initDB {
             member5.setRoles(Collections.singletonList("ROLE_USER"));
             memberService.join(member5);
 
-            Place place1 = new Place();
-            place1.setCoordinate(new Coordinate(123.123, 321.321));
-            place1.setName("식당1");
-            placeService.savePlace(place1);
-            Place place2 = new Place();
-            place2.setCoordinate(new Coordinate(13.123, 31.321));
-            place2.setName("식당2");
-            placeService.savePlace(place2);
-            Place place3 = new Place();
-            place3.setCoordinate(new Coordinate(12.123, 32.321));
-            place3.setName("식당3");
-            placeService.savePlace(place3);
+            Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+            Long placeId2 = placeService.savePlace("식당2", new Coordinate(13.123, 31.321));
+            Long placeId3 = placeService.savePlace("식당3", new Coordinate(12.123, 32.321));
 
-            reviewService.saveReview(member1.getId(), place1.getId(), "리뷰내용1", 1.5, new ArrayList<>());
-            reviewService.saveReview(member1.getId(), place1.getId(), "리뷰내용2", 2.5, new ArrayList<>());
-            reviewService.saveReview(member1.getId(), place2.getId(), "리뷰내용3", 3.5, new ArrayList<>());
-            reviewService.saveReview(member2.getId(), place2.getId(), "리뷰내용4", 4.5, new ArrayList<>());
-            reviewService.saveReview(member3.getId(), place3.getId(), "리뷰내용5", 3.5, new ArrayList<>());
+            reviewService.saveReview(member1.getId(), placeId1, "리뷰내용1", 1.5, new ArrayList<>());
+            reviewService.saveReview(member1.getId(), placeId1, "리뷰내용2", 2.5, new ArrayList<>());
+            reviewService.saveReview(member1.getId(), placeId2, "리뷰내용3", 3.5, new ArrayList<>());
+            reviewService.saveReview(member2.getId(), placeId2, "리뷰내용4", 4.5, new ArrayList<>());
+            reviewService.saveReview(member3.getId(), placeId3, "리뷰내용5", 3.5, new ArrayList<>());
 
-            Long meetId1 = meetService.saveMeet(member1.getId(), place3.getId(), "모임1", "링크1");
+            Long meetId1 = meetService.saveMeet(member1.getId(), placeId3, "모임1", "링크1");
             meetService.addMember(member4.getId(), meetId1);
             meetService.addMember(member5.getId(), meetId1);
 
@@ -96,7 +87,7 @@ public class initDB {
             Long tag6Id = tagService.saveTag("데이트");
             Long tag7Id = tagService.saveTag("친절한");
 
-            Long bookmark0Id = bookmarkService.saveBookmark(member1.getId(), place1.getId());
+            Long bookmark0Id = bookmarkService.saveBookmark(member1.getId(), placeId1);
 
             Long tagBookmark0Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark0Id, member1.getId());
             Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark0Id, member1.getId());
