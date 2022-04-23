@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.exception.DeletedPlaceException;
 import com.bobmate.bobmate.exception.StarValueException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +113,23 @@ class ReviewServiceTest {
         assertEquals(5, place1.getAvgStar());
 
         assertEquals(ReviewStatus.DELETED, member.getReviews().get(1).getReviewStatus());
+    }
+
+    @Test
+    public void 삭제된장소의리뷰() throws Exception {
+        //given
+        Member member = new Member();
+        member.setEmail("회원1");
+        Long memberId = memberService.join(member);
+
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
+
+        //when
+        String contents = "맛있다!";
+        place.delete();
+
+        //then
+        assertThrows(DeletedPlaceException.class, () -> reviewService.saveReview(memberId, placeId, contents, 5.0, new ArrayList<>()));
     }
 }
