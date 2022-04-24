@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Coordinate;
 import com.bobmate.bobmate.domain.Place;
+import com.bobmate.bobmate.domain.PlaceStatus;
 import com.bobmate.bobmate.service.PlaceService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -63,7 +64,8 @@ public class PlaceApiController {
         List<PlaceDto> collect = placeService.findAll()
                 .stream().map(p -> new PlaceDto(p.getId(), p.getName(), p.getReviewCount(), p.getAvgStar(),
                         p.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
-                        p.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList())))
+                        p.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList()),
+                        p.getPlaceStatus()))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -84,6 +86,7 @@ public class PlaceApiController {
         private Double avg_star;
         private List<Long> review_ids;
         private List<Long> meet_ids;
+        private PlaceStatus placeStatus;
     }
 
     /**
@@ -96,7 +99,7 @@ public class PlaceApiController {
         return new PlaceDetailResponse(place.getId(), place.getName(), place.getCoordinate(),
                 place.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
                 place.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList()),
-                place.getReviewCount(), place.getAvgStar());
+                place.getReviewCount(), place.getAvgStar(), place.getPlaceStatus());
     }
 
     @Data
@@ -109,5 +112,6 @@ public class PlaceApiController {
         private List<Long> meet_ids;
         private int review_count;
         private Double avg_star;
+        private PlaceStatus placeStatus;
     }
 }
