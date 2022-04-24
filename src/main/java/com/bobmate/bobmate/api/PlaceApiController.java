@@ -114,4 +114,19 @@ public class PlaceApiController {
         private Double avg_star;
         private PlaceStatus placeStatus;
     }
+
+    /**
+     * 장소 삭제
+     */
+    @DeleteMapping("/api/v1/place/{place_id}")
+    @ApiOperation("장소 삭제 (논리삭제)")
+    public DeletePlaceResponse deletePlace(@PathVariable Long place_id) {
+        return new DeletePlaceResponse(placeService.deletePlace(place_id));
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class DeletePlaceResponse {
+        private Long place_id;
+    }
 }
