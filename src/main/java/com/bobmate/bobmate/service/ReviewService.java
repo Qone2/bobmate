@@ -48,9 +48,10 @@ public class ReviewService {
      * 리뷰 삭제
      */
     @Transactional
-    public void deleteReview(Long reviewId) {
+    public Long deleteReview(Long reviewId) {
         Review review = reviewRepository.findOne(reviewId);
         review.delete();
+        return review.getId();
     }
 
     public Review findOne(Long reviewId) {

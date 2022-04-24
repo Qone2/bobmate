@@ -128,4 +128,18 @@ public class ReviewApiController {
         private int like_count;
         private ReviewStatus review_status;
     }
+
+    /**
+     * 리뷰삭제 (논리 삭제)
+     */
+    @DeleteMapping("/api/v1/review/{review_id}")
+    public DeleteReviewResponse deleteReviewV1(@PathVariable Long review_id) {
+        return new DeleteReviewResponse(reviewService.deleteReview(review_id));
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class DeleteReviewResponse {
+        private Long review_id;
+    }
 }
