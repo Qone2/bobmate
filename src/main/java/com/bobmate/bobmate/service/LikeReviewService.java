@@ -3,6 +3,8 @@ package com.bobmate.bobmate.service;
 import com.bobmate.bobmate.domain.LikeReview;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.Review;
+import com.bobmate.bobmate.domain.ReviewStatus;
+import com.bobmate.bobmate.exception.DeletedReviewException;
 import com.bobmate.bobmate.exception.LikeDuplicateException;
 import com.bobmate.bobmate.repository.LikeReviewRepository;
 import com.bobmate.bobmate.repository.MemberRepository;
@@ -30,6 +32,9 @@ public class LikeReviewService {
     public Long likeReview(Long memberId, Long reviewId) {
         Member member = memberRepository.findOne(memberId);
         Review review = reviewRepository.findOne(reviewId);
+        if (review.getReviewStatus() == ReviewStatus.DELETED) {
+            throw new DeletedReviewException("삭제된 리뷰 입니다.");
+        }
 
         validDuplicateLike(member, review);
         LikeReview likeReview = LikeReview.createLikeReview(member, review);
