@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.EmailDuplicateException;
 import com.bobmate.bobmate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,9 @@ public class MemberService {
      * 회원가입
      */
     @Transactional
-    public Long join(Member member) {
-        validDuplicateMember(member);
+    public Long join(CreateMemberDto memberDto) {
+        validDuplicateMember(memberDto);
+        Member member = Member.createMember(memberDto);
         memberRepository.save(member);
         return member.getId();
     }
@@ -32,8 +34,8 @@ public class MemberService {
      * 병렬작업으로 인해 제대로 동작하지 않을 가능성이 있어
      * entity에 unique constraint 필요
      */
-    private void validDuplicateMember(Member member) {
-        Optional<Member> findMember = memberRepository.findByEmail(member.getEmail());
+    private void validDuplicateMember(CreateMemberDto memberDto) {
+        Optional<Member> findMember = memberRepository.findByEmail(memberDto.getEmail());
         if (findMember.isPresent()) {
             throw new EmailDuplicateException("이미 존재하는 이메일 입니다.");
         }

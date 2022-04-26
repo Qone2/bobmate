@@ -1,5 +1,6 @@
 package com.bobmate.bobmate.domain;
 
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -78,5 +79,15 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    //==생성 메서드==//
+    public static Member createMember(CreateMemberDto memberDto) {
+        Member member = new Member();
+        member.setEmail(memberDto.getEmail());
+        member.setPassword(memberDto.getPassword());
+        member.setRoles(memberDto.getRoles());
+
+        return member;
     }
 }
