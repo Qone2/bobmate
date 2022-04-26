@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.TagBookmarkDuplicateException;
 import com.bobmate.bobmate.exception.TagBookmarkMemberException;
 import org.junit.jupiter.api.Test;
@@ -37,11 +38,10 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그하기() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -63,11 +63,10 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그교집합() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place1 = placeService.findOne(placeId1);
@@ -106,11 +105,10 @@ class TagBookmarkServiceTest {
 
     @Test
     public void 태그삭제() throws Exception {
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place1 = placeService.findOne(placeId1);
@@ -154,11 +152,10 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그중복() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -179,16 +176,14 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그북마크멤버불일치() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
-        Member member2 = new Member();
-        member2.setEmail("member2@member1.com");
-        member2.setPassword(passwordEncoder.encode("password1"));
-        member2.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member2);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
+                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        Long memberId2 = memberService.join(memberDto2);
+        Member member2 = memberService.findOne(memberId2);
 
         Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);

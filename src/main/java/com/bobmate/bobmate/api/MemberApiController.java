@@ -2,6 +2,7 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.config.security.JwtTokenProvider;
 import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -30,12 +31,12 @@ public class MemberApiController {
     private final JwtTokenProvider jwtTokenProvider;
 
 //    @PostMapping("/api/v1/member")
-    public CreateMemberResponse saveMemberV1(@RequestBody @Valid CreateMemberRequest request) {
-        Member member = new Member();
-        member.setEmail(request.getEmail());
-        Long id = memberService.join(member);
-        return new CreateMemberResponse(id);
-    }
+//    public CreateMemberResponse saveMemberV1(@RequestBody @Valid CreateMemberRequest request) {
+//        CreateMemberDto member = new Member();
+//        member.setEmail(request.getEmail());
+//        Long id = memberService.join(member);
+//        return new CreateMemberResponse(id);
+//    }
 
     @Data
     static class CreateMemberRequest {
@@ -126,11 +127,9 @@ public class MemberApiController {
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "회원가입")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
-        Member member = new Member();
-        member.setEmail(request.getEmail());
-        member.setPassword(passwordEncoder.encode(request.getPassword()));
-        member.setRoles(Collections.singletonList("ROLE_USER"));
-        return new CreateMemberResponse(memberService.join(member));
+        CreateMemberDto memberDto = new CreateMemberDto(request.getEmail(), passwordEncoder.encode(request.getPassword()),
+                Collections.singletonList("ROLE_USER"));
+        return new CreateMemberResponse(memberService.join(memberDto));
     }
 
     @Data

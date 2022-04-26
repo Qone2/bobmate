@@ -1,6 +1,7 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.HeadMemberException;
 import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import org.junit.jupiter.api.Test;
@@ -26,26 +27,27 @@ class MeetServiceTest {
     @Test
     public void 모임생성() throws Exception {
         //given
-        Member member = new Member();
-        member.setEmail("member0@member.com");
-        memberService.join(member);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
 
         //when
-        Long meetId = meetService.saveMeet(member.getId(), place.getId(), "모임1", "http://dfsf.c");
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임1", "http://dfsf.c");
         Meet meet = meetService.findOne(meetId);
 
         //then
-        assertEquals(member, meet.getHeadMember());
+        assertEquals(member1, meet.getHeadMember());
         assertEquals(place, meet.getPlace());
         assertEquals(1, meet.getMemberMeets().size());
         assertEquals(meet.getMemberMeets().size(), meet.getMemberCount());
 
-        assertEquals(1, member.getMemberMeets().size());
+        assertEquals(1, member1.getMemberMeets().size());
 
-        assertEquals(meet.getMemberMeets().get(0), member.getMemberMeets().get(0));
+        assertEquals(meet.getMemberMeets().get(0), member1.getMemberMeets().get(0));
 
         assertEquals(1, place.getMeets().size());
         assertEquals(meet, place.getMeets().get(0));
@@ -54,21 +56,18 @@ class MeetServiceTest {
     @Test
     public void 멤버추가() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
-        Member member2 = new Member();
-        member2.setEmail("member2@member1.com");
-        member2.setPassword(passwordEncoder.encode("password1"));
-        member2.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member2);
-        Member member3 = new Member();
-        member3.setEmail("member3@member1.com");
-        member3.setPassword(passwordEncoder.encode("password1"));
-        member3.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member3);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
+                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        Long memberId2 = memberService.join(memberDto2);
+        Member member2 = memberService.findOne(memberId2);
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
+                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        Long memberId3 = memberService.join(memberDto3);
+        Member member3 = memberService.findOne(memberId3);
 
         Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -92,21 +91,18 @@ class MeetServiceTest {
     @Test
     public void 멤버삭제() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
-        Member member2 = new Member();
-        member2.setEmail("member2@member1.com");
-        member2.setPassword(passwordEncoder.encode("password1"));
-        member2.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member2);
-        Member member3 = new Member();
-        member3.setEmail("member3@member1.com");
-        member3.setPassword(passwordEncoder.encode("password1"));
-        member3.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member3);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
+                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        Long memberId2 = memberService.join(memberDto2);
+        Member member2 = memberService.findOne(memberId2);
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
+                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        Long memberId3 = memberService.join(memberDto3);
+        Member member3 = memberService.findOne(memberId3);
 
         Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -126,21 +122,18 @@ class MeetServiceTest {
     @Test
     public void 모임중복가입() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
-        Member member2 = new Member();
-        member2.setEmail("member2@member1.com");
-        member2.setPassword(passwordEncoder.encode("password1"));
-        member2.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member2);
-        Member member3 = new Member();
-        member3.setEmail("member3@member1.com");
-        member3.setPassword(passwordEncoder.encode("password1"));
-        member3.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member3);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
+                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        Long memberId2 = memberService.join(memberDto2);
+        Member member2 = memberService.findOne(memberId2);
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
+                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        Long memberId3 = memberService.join(memberDto3);
+        Member member3 = memberService.findOne(memberId3);
 
         Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -157,21 +150,18 @@ class MeetServiceTest {
     @Test
     public void 멤버삭제시_방장일경우() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
-        Member member2 = new Member();
-        member2.setEmail("member2@member1.com");
-        member2.setPassword(passwordEncoder.encode("password1"));
-        member2.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member2);
-        Member member3 = new Member();
-        member3.setEmail("member3@member1.com");
-        member3.setPassword(passwordEncoder.encode("password1"));
-        member3.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member3);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
+                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        Long memberId2 = memberService.join(memberDto2);
+        Member member2 = memberService.findOne(memberId2);
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
+                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        Long memberId3 = memberService.join(memberDto3);
+        Member member3 = memberService.findOne(memberId3);
 
         Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);

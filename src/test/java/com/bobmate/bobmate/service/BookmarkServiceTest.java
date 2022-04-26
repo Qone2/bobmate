@@ -3,6 +3,7 @@ package com.bobmate.bobmate.service;
 import com.bobmate.bobmate.domain.Coordinate;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.Place;
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.BookmarkDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,10 @@ class BookmarkServiceTest {
     @Test
     public void 북마크생성() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -47,11 +47,10 @@ class BookmarkServiceTest {
     @Test
     public void 북마크삭제() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);
@@ -70,11 +69,10 @@ class BookmarkServiceTest {
     @Test
     public void 북마크중복() throws Exception {
         //given
-        Member member1 = new Member();
-        member1.setEmail("member1@member1.com");
-        member1.setPassword(passwordEncoder.encode("password1"));
-        member1.setRoles(Collections.singletonList("ROLE_USER"));
-        memberService.join(member1);
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
+                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
 
         Long placeId = placeService.savePlace("식당0", new Coordinate(123.123, 321.321));
         Place place = placeService.findOne(placeId);

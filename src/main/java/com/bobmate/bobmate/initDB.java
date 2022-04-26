@@ -1,6 +1,7 @@
 package com.bobmate.bobmate;
 
 import com.bobmate.bobmate.domain.*;
+import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,45 +38,35 @@ public class initDB {
         private final TagBookmarkService tagBookmarkService;
 
         public void dbInit1() {
-            Member member1 = new Member();
-            member1.setEmail("member1@member.com");
-            member1.setPassword(passwordEncoder.encode("password1"));
-            member1.setRoles(Collections.singletonList("ROLE_USER"));
-            memberService.join(member1);
-            Member member2 = new Member();
-            member2.setEmail("member2@member.com");
-            member2.setPassword(passwordEncoder.encode("password1"));
-            member2.setRoles(Collections.singletonList("ROLE_USER"));
-            memberService.join(member2);
-            Member member3 = new Member();
-            member3.setEmail("member3@member.com");
-            member3.setPassword(passwordEncoder.encode("password1"));
-            member3.setRoles(Collections.singletonList("ROLE_USER"));
-            memberService.join(member3);
-            Member member4 = new Member();
-            member4.setEmail("member4@member.com");
-            member4.setPassword(passwordEncoder.encode("password1"));
-            member4.setRoles(Collections.singletonList("ROLE_USER"));
-            memberService.join(member4);
-            Member member5 = new Member();
-            member5.setEmail("member5@member.com");
-            member5.setPassword(passwordEncoder.encode("password1"));
-            member5.setRoles(Collections.singletonList("ROLE_USER"));
-            memberService.join(member5);
+            CreateMemberDto memberDto1 = new CreateMemberDto("member1@member.com",
+                    passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+            Long memberId1 = memberService.join(memberDto1);
+            CreateMemberDto memberDto2 = new CreateMemberDto("member2@member.com",
+                    passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+            Long memberId2 = memberService.join(memberDto2);
+            CreateMemberDto memberDto3 = new CreateMemberDto("member3@member.com",
+                    passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+            Long memberId3 = memberService.join(memberDto3);
+            CreateMemberDto memberDto4 = new CreateMemberDto("member4@member.com",
+                    passwordEncoder.encode("password4"), Collections.singletonList("ROLE_USER"));
+            Long memberId4 = memberService.join(memberDto4);
+            CreateMemberDto memberDto5 = new CreateMemberDto("member5@member.com",
+                    passwordEncoder.encode("password5"), Collections.singletonList("ROLE_USER"));
+            Long memberId5 = memberService.join(memberDto5);
 
             Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
             Long placeId2 = placeService.savePlace("식당2", new Coordinate(13.123, 31.321));
             Long placeId3 = placeService.savePlace("식당3", new Coordinate(12.123, 32.321));
 
-            reviewService.saveReview(member1.getId(), placeId1, "리뷰내용1", 1.5, new ArrayList<>());
-            reviewService.saveReview(member1.getId(), placeId1, "리뷰내용2", 2.5, new ArrayList<>());
-            reviewService.saveReview(member1.getId(), placeId2, "리뷰내용3", 3.5, new ArrayList<>());
-            reviewService.saveReview(member2.getId(), placeId2, "리뷰내용4", 4.5, new ArrayList<>());
-            reviewService.saveReview(member3.getId(), placeId3, "리뷰내용5", 3.5, new ArrayList<>());
+            reviewService.saveReview(memberId1, placeId1, "리뷰내용1", 1.5, new ArrayList<>());
+            reviewService.saveReview(memberId1, placeId1, "리뷰내용2", 2.5, new ArrayList<>());
+            reviewService.saveReview(memberId1, placeId2, "리뷰내용3", 3.5, new ArrayList<>());
+            reviewService.saveReview(memberId2, placeId2, "리뷰내용4", 4.5, new ArrayList<>());
+            reviewService.saveReview(memberId3, placeId3, "리뷰내용5", 3.5, new ArrayList<>());
 
-            Long meetId1 = meetService.saveMeet(member1.getId(), placeId3, "모임1", "링크1");
-            meetService.addMember(member4.getId(), meetId1);
-            meetService.addMember(member5.getId(), meetId1);
+            Long meetId1 = meetService.saveMeet(memberId1, placeId3, "모임1", "링크1");
+            meetService.addMember(memberId4, meetId1);
+            meetService.addMember(memberId5, meetId1);
 
 
             Long tag0Id = tagService.saveTag("가성비");
@@ -87,10 +78,10 @@ public class initDB {
             Long tag6Id = tagService.saveTag("데이트");
             Long tag7Id = tagService.saveTag("친절한");
 
-            Long bookmark0Id = bookmarkService.saveBookmark(member1.getId(), placeId1);
+            Long bookmark0Id = bookmarkService.saveBookmark(memberId1, placeId1);
 
-            Long tagBookmark0Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark0Id, member1.getId());
-            Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark0Id, member1.getId());
+            Long tagBookmark0Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark0Id, memberId1);
+            Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark0Id, memberId1);
 
         }
     }
