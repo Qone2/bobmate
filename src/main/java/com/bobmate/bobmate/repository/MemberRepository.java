@@ -33,10 +33,12 @@ public class MemberRepository {
                 .getResultList().stream().findFirst();
     }
 
+    /**
+     * 멤버 삭제
+     */
     public void delete(Member member) {
         em.remove(member);
         em.flush();
         em.clear();
     }
-
 }

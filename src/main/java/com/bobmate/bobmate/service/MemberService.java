@@ -65,8 +65,12 @@ public class MemberService {
         return memberRepository.findByEmail(email);
     }
 
-    public void deleteMember(Long memberId) {
+    /**
+     * 멤버 삭제(논리 삭제)
+     */
+    public Long deleteMember(Long memberId) {
         Member member = memberRepository.findOne(memberId);
-        memberRepository.delete(member);
+        member.delete();
+        return member.getId();
     }
 }
