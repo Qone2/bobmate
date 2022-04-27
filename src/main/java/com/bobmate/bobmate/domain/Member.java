@@ -47,6 +47,8 @@ public class Member implements UserDetails {
     @OneToMany(mappedBy = "member")
     private List<Bookmark> bookmarks = new ArrayList<>();
 
+    private MemberStatus memberStatus;
+
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private List<String> roles = new ArrayList<>();
@@ -87,7 +89,13 @@ public class Member implements UserDetails {
         member.setEmail(memberDto.getEmail());
         member.setPassword(memberDto.getPassword());
         member.setRoles(memberDto.getRoles());
+        member.setMemberStatus(MemberStatus.VALID);
 
         return member;
+    }
+
+    //==비즈니스 로직==//
+    public void delete() {
+        this.memberStatus = MemberStatus.DELETED;
     }
 }
