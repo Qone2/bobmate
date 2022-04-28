@@ -27,7 +27,10 @@ public class MemberRepository {
                 .getResultList();
     }
 
-    public Optional<Member> findByEmail(String email) {
+    /**
+     * 이메일로 멤버 조회
+     */
+    public Optional<Member> findOneByEmail(String email) {
         return em.createQuery("select m from Member m where m.email = :email", Member.class)
                 .setParameter("email", email)
                 .getResultList().stream().findFirst();

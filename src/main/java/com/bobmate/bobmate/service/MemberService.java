@@ -35,7 +35,7 @@ public class MemberService {
      * entity에 unique constraint 필요
      */
     private void validDuplicateMember(CreateMemberDto memberDto) {
-        Optional<Member> findMember = memberRepository.findByEmail(memberDto.getEmail());
+        Optional<Member> findMember = memberRepository.findOneByEmail(memberDto.getEmail());
         if (findMember.isPresent()) {
             throw new EmailDuplicateException("이미 존재하는 이메일 입니다.");
         }
@@ -62,7 +62,7 @@ public class MemberService {
     }
 
     public Optional<Member> findByEmail(String email) {
-        return memberRepository.findByEmail(email);
+        return memberRepository.findOneByEmail(email);
     }
 
     /**
