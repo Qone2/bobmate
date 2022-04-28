@@ -14,19 +14,31 @@ public class FollowRepository {
 
     private final EntityManager em;
 
+    /**
+     * 팔로우 저장(팔로우)
+     */
     public void save(Follow follow) {
         em.persist(follow);
     }
 
+    /**
+     * 팔로우 단일 조회
+     */
     public Follow findOne(Long id) {
         return em.find(Follow.class, id);
     }
 
+    /**
+     * 팔로우 전체 조회
+     */
     public List<Follow> findAll() {
         return em.createQuery("select f from Follow f", Follow.class)
                 .getResultList();
     }
 
+    /**
+     * 팔로우 팔로워id와 팔로이id로 조회
+     */
     public Follow findOneByFromMemberIdAndToMemberId(Member fromMember, Member toMember) {
         return em.createQuery("select f from Follow f " +
                 "where f.fromMember = :fromMember and f.toMember = :toMember", Follow.class)
@@ -35,6 +47,9 @@ public class FollowRepository {
                 .getResultList().stream().findFirst().orElse(null);
     }
 
+    /**
+     * 팔로우 삭제(팔로우 취소)
+     */
     public void delete(Follow follow) {
         em.remove(follow);
         em.flush();

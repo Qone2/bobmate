@@ -13,14 +13,23 @@ public class PhotoRepository {
 
     private final EntityManager em;
 
+    /**
+     * 사진 저장
+     */
     public void save(Photo photo) {
         em.persist(photo);
     }
 
+    /**
+     * 사진 단일 조회
+     */
     public Photo findOne(Long photoId) {
         return em.find(Photo.class, photoId);
     }
 
+    /**
+     * 사진 전체 조회
+     */
     public List<Photo> findAll() {
         return em.createQuery("select p from Photo p", Photo.class)
                 .getResultList();
