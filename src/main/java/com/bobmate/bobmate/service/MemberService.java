@@ -1,7 +1,9 @@
 package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.domain.MemberStatus;
 import com.bobmate.bobmate.dto.CreateMemberDto;
+import com.bobmate.bobmate.exception.DeletedMemberException;
 import com.bobmate.bobmate.exception.EmailDuplicateException;
 import com.bobmate.bobmate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +72,9 @@ public class MemberService {
      */
     public Long deleteMember(Long memberId) {
         Member member = memberRepository.findOne(memberId);
+        if (member.getMemberStatus() == MemberStatus.DELETED) {
+            throw new DeletedMemberException("이미 삭제된 멤버 입니다.");
+        }
         member.delete();
         return member.getId();
     }
