@@ -21,3 +21,4 @@ logging:
     org.hibernate.type: trace
 server:
   port: 5050
+  shutdown: graceful
