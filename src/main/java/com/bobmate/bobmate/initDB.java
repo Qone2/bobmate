@@ -83,6 +83,8 @@ public class initDB {
             Long tagBookmark0Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark0Id, memberId1);
             Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark0Id, memberId1);
 
+            // 배포 테스트용
+
         }
     }
 }
