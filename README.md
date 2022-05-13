@@ -11,14 +11,14 @@
 
 또한, 공강시간에 같이 밥 먹을 사람이나 학교 주변 맛집에 같이 갈 사람 등을 구할 수 있는, 즉 밥메이트를 구할 수 있는 소모임 기능을 추가할 예정입니다.
 
-https://www.notion.so/qone2/9d1f9bd5748a4feaa8ebd501af82ef04
+https://qone2.notion.site/9d1f9bd5748a4feaa8ebd501af82ef04
 
 ## ERD
-[도메인 모델 설계](https://www.notion.so/qone2/5de1965c7c094f2cac1f0d12c2864885)
+[도메인 모델 설계](https://qone2.notion.site/5de1965c7c094f2cac1f0d12c2864885)
 
-[엔티티 분석](https://www.notion.so/qone2/a67fd68480364d96a133169d986e4810)
+[엔티티 분석](https://qone2.notion.site/a67fd68480364d96a133169d986e4810)
 
-[테이블 분석](https://www.notion.so/qone2/8aa60d7186624c93887e869274001518)
+[테이블 분석](https://qone2.notion.site/8aa60d7186624c93887e869274001518)
 
 ## API Specification
 https://www.bobmate.qone2.com/swagger-ui/index.html <br>
