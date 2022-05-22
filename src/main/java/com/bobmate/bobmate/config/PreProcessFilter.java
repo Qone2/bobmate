@@ -13,7 +13,7 @@ import java.io.IOException;
 /**
  * GET POST 이외의 불필요한 요청을 받지않기 위핸 필터
  */
-@Component
+//@Component
 public class PreProcessFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
