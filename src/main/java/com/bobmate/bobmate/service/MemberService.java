@@ -70,6 +70,7 @@ public class MemberService {
     /**
      * 멤버 삭제(논리 삭제)
      */
+    @Transactional
     public Long deleteMember(Long memberId) {
         Member member = memberRepository.findOne(memberId);
         if (member.getMemberStatus() == MemberStatus.DELETED) {
