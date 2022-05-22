@@ -196,7 +196,6 @@ public class MemberApiController {
      * 맴버 삭제 v2
      */
     @DeleteMapping("/api/v2/member/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "맴버 삭제")
     public DeleteMemberResponseV2 deleteMemberV2(@PathVariable("id") Long member_id) {
         return new DeleteMemberResponseV2(memberService.deleteMember(member_id));
