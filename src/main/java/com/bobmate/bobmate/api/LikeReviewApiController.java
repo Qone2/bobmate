@@ -58,7 +58,6 @@ public class LikeReviewApiController {
      * 리뷰 좋아요 취소
      */
     @DeleteMapping("/api/v1/like-review")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "리뷰 좋아요 취소")
     public UnlikeReviewResponse unlikeReviewV1(@RequestBody @Valid UnlikeReviewRequest request) {
         likeReviewService.unlikeReview(request.getMember_id(), request.getReview_id());

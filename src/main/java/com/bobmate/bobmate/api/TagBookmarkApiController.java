@@ -84,7 +84,6 @@ public class TagBookmarkApiController {
      * 북마크 태그 설정 취소
      */
     @DeleteMapping("/api/v1/tagbookmark")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation("북마크 태그 설정 취소")
     public DeleteTagBookmarkResponse deleteTagBookmarkV1(@RequestBody @Valid DeleteTagBookmarkRequest request) {
         tagBookmarkService.deleteTagBookmark(request.getTag_id(), request.getBookmark_id(), request.getMember_id());

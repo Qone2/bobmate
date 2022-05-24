@@ -54,7 +54,6 @@ public class BookmarkApiController {
      * 북마크 삭제
      */
     @DeleteMapping("/api/v1/bookmark")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "북마크 삭제")
     public DeleteBookmarkResponse deleteBookmarkV1(@RequestBody @Valid DeleteBookmarkRequest request) {
         bookmarkService.deleteBookmark(request.getMember_id(), request.getPlace_id());
