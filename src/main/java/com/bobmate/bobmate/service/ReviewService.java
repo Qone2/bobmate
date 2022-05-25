@@ -2,7 +2,6 @@ package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
 import com.bobmate.bobmate.exception.DeletedPlaceException;
-import com.bobmate.bobmate.handler.PhotoHandler;
 import com.bobmate.bobmate.repository.MemberRepository;
 import com.bobmate.bobmate.repository.PhotoRepository;
 import com.bobmate.bobmate.repository.PlaceRepository;
@@ -10,7 +9,6 @@ import com.bobmate.bobmate.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class ReviewService {
         Review review = Review.createReview(member, place, contents, star);
         reviewRepository.save(review);
         for (Photo p : photoList) {
-            Photo photo = Photo.createPhoto(review, p.getFileName(), p.getFilePath(), p.getFileSize());
+            Photo photo = Photo.createPhoto(review, p.getOriginalFileName(), p.getFilePath(), p.getFileSize());
             photoRepository.save(photo);
         }
         return review.getId();

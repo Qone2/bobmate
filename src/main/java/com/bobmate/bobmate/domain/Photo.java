@@ -21,7 +21,7 @@ public class Photo {
     private Review review;
 
     @NotNull
-    private String fileName;
+    private String originalFileName;
 
     @NotNull
     private String filePath;
@@ -42,7 +42,7 @@ public class Photo {
     public static Photo createPhoto(Review review, String fileName, String filePath, Long fileSize) {
         Photo photo = new Photo();
         photo.setReview(review);
-        photo.setFileName(fileName);
+        photo.setOriginalFileName(fileName);
         photo.setFilePath(filePath);
         photo.setFileSize(fileSize);
         photo.setSavedDate(LocalDateTime.now());
@@ -52,7 +52,7 @@ public class Photo {
 
     public static Photo photoHandle(String fileName, String filePath, Long fileSize) {
         Photo photo = new Photo();
-        photo.setFileName(fileName);
+        photo.setOriginalFileName(fileName);
         photo.setFilePath(filePath);
         photo.setFileSize(fileSize);
         photo.setSavedDate(LocalDateTime.now());
