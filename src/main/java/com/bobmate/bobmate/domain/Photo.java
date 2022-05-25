@@ -49,4 +49,14 @@ public class Photo {
 
         return photo;
     }
+
+    public static Photo photoHandle(String fileName, String filePath, Long fileSize) {
+        Photo photo = new Photo();
+        photo.setFileName(fileName);
+        photo.setFilePath(filePath);
+        photo.setFileSize(fileSize);
+        photo.setSavedDate(LocalDateTime.now());
+
+        return photo;
+    }
 }

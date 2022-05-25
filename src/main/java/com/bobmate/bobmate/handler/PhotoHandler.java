@@ -55,11 +55,10 @@ public class PhotoHandler {
 
                 UUID uuid = UUID.randomUUID();
 
-                Photo photo = new Photo();
-                photo.setFileName(multipartFile.getOriginalFilename());
-                photo.setFilePath(path + File.separator + newFileName);
-                photo.setFileSize(multipartFile.getSize());
                 String newFileName = uuid.toString() + '_' + System.nanoTime() + fileExtension;
+
+                Photo photo = Photo.photoHandle(multipartFile.getOriginalFilename(),
+                        path + File.separator + newFileName, multipartFile.getSize());
 
                 photoList.add(photo);
 
