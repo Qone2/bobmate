@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class PhotoHandler {
@@ -52,12 +53,13 @@ public class PhotoHandler {
                     continue;
                 }
 
-                String newFileName = System.nanoTime() + fileExtension;
+                UUID uuid = UUID.randomUUID();
 
                 Photo photo = new Photo();
                 photo.setFileName(multipartFile.getOriginalFilename());
                 photo.setFilePath(path + File.separator + newFileName);
                 photo.setFileSize(multipartFile.getSize());
+                String newFileName = uuid.toString() + '_' + System.nanoTime() + fileExtension;
 
                 photoList.add(photo);
 
