@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -27,6 +28,8 @@ public class Photo {
 
     private Long fileSize;
 
+    private LocalDateTime savedDate;
+
 
     //==연관관계 메서드==//
     public void setReview(Review review) {
@@ -42,6 +45,7 @@ public class Photo {
         photo.setFileName(fileName);
         photo.setFilePath(filePath);
         photo.setFileSize(fileSize);
+        photo.setSavedDate(LocalDateTime.now());
 
         return photo;
     }
