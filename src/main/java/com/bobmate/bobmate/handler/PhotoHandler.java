@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -40,6 +41,11 @@ public class PhotoHandler {
             }
 
             for (MultipartFile multipartFile : multipartFiles) {
+                String originalFileName = multipartFile.getOriginalFilename();
+                if (validateFileName(Objects.requireNonNull(originalFileName))) {
+                    continue;
+                }
+
                 String fileExtension;
                 String contentType = multipartFile.getContentType();
 
@@ -49,6 +55,10 @@ public class PhotoHandler {
                     fileExtension = ".jpg";
                 } else if (contentType.contains("image/png")) {
                     fileExtension = ".png";
+                } else if (contentType.contains("image/heic")) {
+                    fileExtension = ".heic";
+                } else if (contentType.contains("image/heif")) {
+                    fileExtension = ".heif";
                 } else {
                     continue;
                 }
@@ -57,7 +67,7 @@ public class PhotoHandler {
 
                 String newFileName = uuid.toString() + '_' + System.nanoTime() + fileExtension;
 
-                Photo photo = Photo.photoHandle(multipartFile.getOriginalFilename(),
+                Photo photo = Photo.photoHandle(originalFileName,
                         path + File.separator + newFileName, multipartFile.getSize());
 
                 photoList.add(photo);
@@ -75,5 +85,21 @@ public class PhotoHandler {
         }
 
         return photoList;
+    }
+
+
+    private boolean validateFileName(String originalFileName) {
+        if (originalFileName.contains("%")) {
+            return false;
+        }
+
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf('.') + 1);
+
+        if (fileExtension.equals("jpg") || fileExtension.equals("jpeg") || fileExtension.equals("png") ||
+                fileExtension.equals("heic") || fileExtension.equals("heif")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
