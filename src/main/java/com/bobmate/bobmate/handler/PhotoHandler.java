@@ -42,7 +42,7 @@ public class PhotoHandler {
 
             for (MultipartFile multipartFile : multipartFiles) {
                 String originalFileName = multipartFile.getOriginalFilename();
-                if (validateFileName(Objects.requireNonNull(originalFileName))) {
+                if (! validateFileName(Objects.requireNonNull(originalFileName))) {
                     continue;
                 }
 
