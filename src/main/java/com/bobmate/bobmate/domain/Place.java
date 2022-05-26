@@ -9,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
+@Table(indexes = @Index(name = "p_name", columnList = "name"))
 public class Place {
 
     @Id @GeneratedValue
