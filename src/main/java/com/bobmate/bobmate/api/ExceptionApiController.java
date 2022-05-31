@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -34,11 +35,13 @@ public class ExceptionApiController {
             StarValueException.class,
             TagBookmarkDuplicateException.class,
             TagBookmarkMemberException.class,
-            TagNameDuplicateException.class
+            TagNameDuplicateException.class,
+            MethodArgumentNotValidException.class,
+            IllegalArgumentException.class
     })
-    public ResponseEntity badRequest(RuntimeException ex) {
+    public ResponseEntity badRequest(Exception ex) {
         // 400
-        log.warn("error", ex);
+        log.warn("error : ", ex);
         return ResponseEntity.badRequest().body(
                 new GeneralExceptionDto("400", "Bad request, " +
                         ex.getMessage())
@@ -47,9 +50,9 @@ public class ExceptionApiController {
 
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity accessDenied(RuntimeException ex) {
+    public ResponseEntity accessDenied(Exception ex) {
         // 401
-        log.warn("error", ex);
+        log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new GeneralExceptionDto("401", "Could not validate credentials")
         );
@@ -59,7 +62,7 @@ public class ExceptionApiController {
 //    @ExceptionHandler
     public ResponseEntity forbidden(Exception ex) {
         // 403
-        log.warn("error", ex);
+        log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
                 new GeneralExceptionDto("403", "Unauthorized speaker")
         );
@@ -71,7 +74,7 @@ public class ExceptionApiController {
     })
     public ResponseEntity notFound(Exception ex) {
         // 404
-        log.warn("error", ex);
+        log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new GeneralExceptionDto("404", "Data does not exist")
         );
@@ -81,7 +84,7 @@ public class ExceptionApiController {
 //    @ExceptionHandler
     public ResponseEntity unprocessable(Exception ex) {
         // 422
-        log.warn("error", ex);
+        log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(
                 new GeneralExceptionDto("422", "Unprocessable Entity\t\n" +
                         "Unable to process request (in normal cases, validation failed)")
@@ -92,9 +95,10 @@ public class ExceptionApiController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity serverError(Exception ex) {
         // 500
-        log.warn("error", ex);
+        log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                new GeneralExceptionDto("500", "Internal server error")
+                new GeneralExceptionDto("500", "Internal server error" +
+                        ", " + ex.toString())
         );
     }
 }
