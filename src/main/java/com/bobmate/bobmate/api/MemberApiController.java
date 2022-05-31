@@ -2,9 +2,11 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.config.security.JwtTokenProvider;
 import com.bobmate.bobmate.domain.Member;
+import com.bobmate.bobmate.domain.MemberStatus;
 import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.service.MemberService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -52,10 +54,13 @@ public class MemberApiController {
 
 
     /**
-     * 전체회원 조회
+     * 전체멤버 조회
      */
     @GetMapping("/api/v1/member")
-    @ApiOperation(value = "전체회원 조회")
+    @Operation(summary = "전체멤버 조회", description = "전체 멤버정보를 조회<br><br>발생가능한 예외:<br>" +
+            "400 : 내부적으로 정의된 처리 불가능의 경우 ex) 회원명 중복<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public Result membersV1() {
         List<Member> memberList = memberService.findAll();
         List<MemberDto> collect = memberList.stream()
@@ -65,7 +70,8 @@ public class MemberApiController {
                         m.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()),
                         m.getFollowers().stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList()),
                         m.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList()),
-                        m.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList())))
+                        m.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList()),
+                        m.getMemberStatus()))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -81,6 +87,7 @@ public class MemberApiController {
         private List<Long> follower_ids;
         private List<Long> following_ids;
         private List<Long> bookmark_ids;
+        private MemberStatus member_status;
     }
 
     @Data
@@ -94,17 +101,20 @@ public class MemberApiController {
     /**
      * 멤버상세 조회
      */
-    @GetMapping("/api/v1/member/{id}")
-    @ApiOperation(value = "멤버상세 조회")
-    public MemberDetailResponse memberDetailV1(@PathVariable("id") Long id) {
-        Member member = memberService.findOne(id);
+    @GetMapping("/api/v1/member/{member_id}")
+    @Operation(summary = "멤버상세 조회", description = "멤버정보 상세 조회<br><br>" + "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
+    public MemberDetailResponse memberDetailV1(@PathVariable("member_id") Long member_id) {
+        Member member = memberService.findOne(member_id);
         return new MemberDetailResponse(member.getId(), member.getEmail(),
                 member.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
                 member.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()),
                 member.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()),
                 member.getFollowers().stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList()),
                 member.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList()),
-                member.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList()));
+                member.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList()),
+                member.getMemberStatus());
     }
 
     @Data
@@ -118,6 +128,7 @@ public class MemberApiController {
         private List<Long> follower_ids;
         private List<Long> following_ids;
         private List<Long> bookmark_ids;
+        private MemberStatus member_status;
     }
 
     /**
@@ -125,7 +136,11 @@ public class MemberApiController {
      */
     @PostMapping("/api/v2/join")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "회원가입")
+    @Operation(summary = "회원가입", description = "**지금은 회원명이 이메일을 기준으로 되어있습니다. 추후 변경예정<br><br>" +
+            "회원명 이메일 형식을 지켜줘야 허가가 나고, 비밀번호는 아직 따로 제한사항이 없습니다.<br><br>" + "발생가능한 예외:<br>" +
+            "400 : 회원명이 중복되는 경우, 이메일 형식을 지키지 않은 경우<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
         CreateMemberDto memberDto = new CreateMemberDto(request.getEmail(), passwordEncoder.encode(request.getPassword()),
                 Collections.singletonList("ROLE_USER"));
@@ -146,8 +161,13 @@ public class MemberApiController {
      * 로그인
      */
     @GetMapping("/api/v2/login")
-    @ApiOperation(value = "로그인")
-    public LoginResponse loginV2(@RequestBody @Valid LoginRequest request) {
+    @Operation(summary = "로그인", description = "**지금은 회원명, 비밀번호가 일치할 시 토큰을 반환하지만, 그 토큰으로 따로 인증작업을 하고" +
+            "있지는 않습니다.<br><br>" +
+            "swagger hub내에서 GET메소드로 Request body에 담아보내는 것이 불가능하여 파라미터형식으로 바꿉니다.<br><br>" + "발생가능한 예외:<br>" +
+            "400 : 아이디나 비밀번호가 틀린 경우<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
+    public LoginResponse loginV2(@ModelAttribute @Valid LoginRequest request) {
         Member member = memberService.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
@@ -196,7 +216,10 @@ public class MemberApiController {
      * 맴버 삭제 v2
      */
     @DeleteMapping("/api/v2/member/{id}")
-    @ApiOperation(value = "맴버 삭제")
+    @Operation(summary = "맴버 삭제", description = "멤버삭제는 물리적 삭제가 아닌 논리적 삭제로 진행되며, " +
+            "member status 항목이 VALID에서 DELETED로 바뀝니다.<br><br>" + "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public DeleteMemberResponseV2 deleteMemberV2(@PathVariable("id") Long member_id) {
         return new DeleteMemberResponseV2(memberService.deleteMember(member_id));
     }
