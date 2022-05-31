@@ -228,12 +228,12 @@ public class MemberApiController {
     /**
      * 맴버 삭제 v2
      */
-    @DeleteMapping("/api/v2/member/{id}")
+    @DeleteMapping("/api/v2/member/{member_id}")
     @Operation(summary = "맴버 삭제", description = "멤버삭제는 물리적 삭제가 아닌 논리적 삭제로 진행되며, " +
             "member status 항목이 VALID에서 DELETED로 바뀝니다.<br><br>" + "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public DeleteMemberResponseV2 deleteMemberV2(@PathVariable("id") Long member_id) {
+    public DeleteMemberResponseV2 deleteMemberV2(@PathVariable("member_id") Long member_id) {
         return new DeleteMemberResponseV2(memberService.deleteMember(member_id));
     }
 
