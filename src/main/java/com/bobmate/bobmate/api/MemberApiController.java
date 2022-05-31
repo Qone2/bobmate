@@ -5,8 +5,11 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberStatus;
 import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.service.MemberService;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -104,7 +107,10 @@ public class MemberApiController {
     @GetMapping("/api/v1/member/{member_id}")
     @Operation(summary = "멤버상세 조회", description = "멤버정보 상세 조회<br><br>" + "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
-            "500 : 내부 서버 에러")
+            "500 : 내부 서버 에러",
+            responses = {
+                @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MemberDetailResponse.class)))
+            })
     public MemberDetailResponse memberDetailV1(@PathVariable("member_id") Long member_id) {
         Member member = memberService.findOne(member_id);
         return new MemberDetailResponse(member.getId(), member.getEmail(),
@@ -122,12 +128,19 @@ public class MemberApiController {
     static class MemberDetailResponse {
         private Long member_id;
         private String email;
+        @Schema(description = "작성한 리뷰 id리스트")
         private List<Long> review_ids;
+        @Schema(description = "참가한 소모임 id리스트")
         private List<Long> meet_ids;
+        @Schema(description = "좋아요한 리뷰 id리스트")
         private List<Long> liked_review_ids;
+        @Schema(description = "자신을 팔로우하는 멤버 id리스트")
         private List<Long> follower_ids;
+        @Schema(description = "자신이 팔로우하는 멤버 id리스트")
         private List<Long> following_ids;
+        @Schema(description = "북마크(장소를 북마크)한 북마크 id리스트")
         private List<Long> bookmark_ids;
+        @Schema(description = "멤버 상태 (VALID, DELETED)")
         private MemberStatus member_status;
     }
 
@@ -137,7 +150,7 @@ public class MemberApiController {
     @PostMapping("/api/v2/join")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "회원가입", description = "**지금은 회원명이 이메일을 기준으로 되어있습니다. 추후 변경예정<br><br>" +
-            "회원명 이메일 형식을 지켜줘야 허가가 나고, 비밀번호는 아직 따로 제한사항이 없습니다.<br><br>" + "발생가능한 예외:<br>" +
+            "회원명 이메일 형식을 지켜줘야 허가가 나고 중복검사를 합니다. 비밀번호는 아직 따로 제한사항이 없습니다.<br><br>" + "발생가능한 예외:<br>" +
             "400 : 회원명이 중복되는 경우, 이메일 형식을 지키지 않은 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
