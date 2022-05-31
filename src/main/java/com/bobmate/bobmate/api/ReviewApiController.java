@@ -6,10 +6,12 @@ import com.bobmate.bobmate.domain.ReviewStatus;
 import com.bobmate.bobmate.handler.PhotoHandler;
 import com.bobmate.bobmate.service.ReviewService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,10 +37,10 @@ public class ReviewApiController {
     /**
      * 리뷰 등록
      */
-    @PostMapping("/api/v1/review")
+    @PostMapping(value = "/api/v1/review", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation("리뷰 등록")
-    public CreateReviewResponse saveReviewV1(@Valid CreateReviewRequest request) {
+    public CreateReviewResponse saveReviewV1(@ModelAttribute @Valid CreateReviewRequest request) {
         List<Photo> photoList = photoHandler.parseFileInfo(request.getPhotos());
         Long id = reviewService.saveReview(request.getMember_id(), request.getPlace_id(),
                 request.getContent(), request.getStar(), photoList);
@@ -52,6 +54,7 @@ public class ReviewApiController {
         @NotNull
         private Long place_id;
         @NotEmpty
+        @ApiParam(value = "후기 내용", required = true)
         private String content;
         @NotNull
         @Max(value = 5) @Min(value = 1)
