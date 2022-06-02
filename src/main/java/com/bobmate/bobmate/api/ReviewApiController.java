@@ -5,7 +5,6 @@ import com.bobmate.bobmate.domain.Review;
 import com.bobmate.bobmate.domain.ReviewStatus;
 import com.bobmate.bobmate.handler.PhotoHandler;
 import com.bobmate.bobmate.service.ReviewService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;

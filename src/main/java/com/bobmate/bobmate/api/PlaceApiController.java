@@ -4,7 +4,6 @@ import com.bobmate.bobmate.domain.Coordinate;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.domain.PlaceStatus;
 import com.bobmate.bobmate.service.PlaceService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -101,7 +100,7 @@ public class PlaceApiController {
      * 장소 상세 조회
      */
     @GetMapping("/api/v1/place/{place_id}")
-    @Operation(summary = "장소 상세 조회", description = "장소의 상세정보를 조회합니다.<br><br>" +
+    @Operation(summary = "장소 상세 조회", description = "장소의 상세정보를 조회합니다. schema를 누르면 추가설명.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
