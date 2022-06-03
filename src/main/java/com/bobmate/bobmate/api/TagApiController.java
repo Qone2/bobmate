@@ -2,7 +2,6 @@ package com.bobmate.bobmate.api;
 
 import com.bobmate.bobmate.domain.Tag;
 import com.bobmate.bobmate.service.TagService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
