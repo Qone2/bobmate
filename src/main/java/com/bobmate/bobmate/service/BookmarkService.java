@@ -52,13 +52,14 @@ public class BookmarkService {
      * 북마크 삭제
      */
     @Transactional
-    public void deleteBookmark(Long memberId, Long placeId) {
+    public Long deleteBookmark(Long memberId, Long placeId) {
         Member member = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
         Bookmark bookmark = bookmarkRepository.findOneByMemberIdAndPlaceId(member, place);
 
         bookmarkRepository.delete(bookmark);
+        return bookmark.getId();
     }
 
     /**
