@@ -3,6 +3,8 @@ package com.bobmate.bobmate.api;
 import com.bobmate.bobmate.domain.Meet;
 import com.bobmate.bobmate.service.MeetService;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +34,11 @@ public class MeetApiController {
      */
     @PostMapping("/api/v1/meet")
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "모임 생성")
+    @Operation(summary = "소모임 생성", description = "소모임을 생성합니다. 소모임을 생성하는 방장멤버, 장소, 카카오톡 오픈체팅 링크가 " +
+            "필요합니다. schema버튼을 누르면 상세정보 제공.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public CreateMeetResponse createMeetV1(@RequestBody @Valid CreateMeetRequest request) {
         return new CreateMeetResponse(meetService.saveMeet(request.getMember_id(), request.getPlace_id(),
                 request.getName(), request.getLink()));
@@ -41,19 +47,24 @@ public class MeetApiController {
     @Data
     @AllArgsConstructor
     static class CreateMeetResponse {
+        @Schema(description = "생성된 소모임의 id")
         private Long meet_id;
     }
 
     @Data
     static class CreateMeetRequest {
         @NotNull
+        @Schema(description = "생성하는 소모임의 방장이 될 멤버id", required = true)
         private Long member_id;
         @NotNull
+        @Schema(description = "생성하는 소모임의 장소", required = true)
         private Long place_id;
         @NotEmpty
+        @Schema(description = "생성하는 소모임의 이름", required = true)
         private String name;
         @NotEmpty
         @URL
+        @Schema(description = "소모임의 카카오톡 오픈채팅 링크", required = true)
         private String link;
     }
 
@@ -62,20 +73,28 @@ public class MeetApiController {
      * 모임에 맴버 추가
      */
     @PostMapping("/api/v1/meet/member/{meet_id}")
-    @ApiOperation(value = "모임에 맴버 추가", notes = "pathvariable의 meet id에 해당하는 모임에 requestbody의 member id에 해당하는 멤버 추가")
-    public CreateMemberMeetResponse addMemberMeetV1(@PathVariable("meet_id") Long meet_id, @RequestBody @Valid CreateMemberMeetRequest request) {
-        return new CreateMemberMeetResponse(meetService.addMember(request.getMember_id(), meet_id));
+    @Operation(summary = "소모임에 맴버 추가", description = "소모임에 멤버를 추가합니다. path variable에 소모임id가 명시되어야 하고," +
+            "json형식으로 추가될 멤버의 id가 명시되어야 합니다.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "400 : 멤버가 이미 소모임에 참여되어있는 경우<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
+    public CreateMemberMeetResponse addMemberMeetV1(@PathVariable("meet_id") Long meet_id,
+                                                    @RequestBody @Valid CreateMemberMeetRequest request) {
+        meetService.addMember(request.getMember_id(), meet_id);
+        return new CreateMemberMeetResponse("success");
     }
 
     @Data
     @AllArgsConstructor
     static class CreateMemberMeetResponse {
-        private Long member_meet_id;
+        private String message;
     }
 
     @Data
     static class CreateMemberMeetRequest {
         @NotNull
+        @Schema(description = "추가할 멤버id")
         private Long member_id;
     }
 
@@ -84,7 +103,10 @@ public class MeetApiController {
      * 전체 모임 조회
      */
     @GetMapping("/api/v1/meet")
-    @ApiOperation(value = "전체 모임 조회")
+    @Operation(summary = "전체 소모임 조회", description = "전체 소모임정보를 조회합니다.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public Result meetsV1() {
         List<MeetDto> collect = meetService.findAll()
                 .stream().map(m -> new MeetDto(m.getId(), m.getHeadMember().getId(),
@@ -115,7 +137,10 @@ public class MeetApiController {
      * 모임 상세 조회
      */
     @GetMapping("/api/v1/meet/{id}")
-    @ApiOperation(value = "모임 상세 조회")
+    @Operation(summary = "소모임 상세 조회", description = "소모임을 상세조회 합니다. schema버튼을 누르면 상세정보제공.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public MeetDetailResponse meetDetailV1(@PathVariable("id") Long id) {
         Meet meet = meetService.findOne(id);
         return new MeetDetailResponse(meet.getId(), meet.getHeadMember().getId(), meet.getPlace().getId(),
@@ -126,13 +151,21 @@ public class MeetApiController {
     @Data
     @AllArgsConstructor
     static class MeetDetailResponse {
+        @Schema(description = "소모임 id")
         private Long meet_id;
+        @Schema(description = "소모임의 방장멤버 id")
         private Long head_member_id;
+        @Schema(description = "소모임대상 장소")
         private Long place_id;
+        @Schema(description = "소모임에 속한 멤버id 리스트")
         private List<Long> member_ids;
+        @Schema(description = "소모임 이름")
         private String name;
+        @Schema(description = "소모임 카카오톡 오픈채팅 링크")
         private String link;
+        @Schema(description = "소모임 멤버수")
         private int member_count;
+        @Schema(description = "소모임이 생성된 날짜")
         private LocalDateTime created_date;
     }
 
@@ -141,20 +174,29 @@ public class MeetApiController {
      * 모임에 맴버 삭제
      */
     @DeleteMapping("/api/v1/meet/member/{meet_id}")
-    @ApiOperation(value = "모임에 맴버 삭제", notes = "pathvariable의 meet id에 해당하는 모임에 requestbody의 member id에 해당하는 멤버 삭제")
-    public DeleteMemberMeetResponse deleteMemberMeetV1(@PathVariable Long meet_id, @RequestBody @Valid DeleteMemberMeetRequest request) {
-        return new DeleteMemberMeetResponse(meetService.deleteMember(request.member_id, meet_id));
+    @Operation(summary = "소모임에 맴버 삭제", description = "소모임의 멤버를 탈퇴시킵니다. path variable에 소모임 id가 명시되어있어야 " +
+            "하고, json에 탈퇴할 멤버 id가 명시되어있어야 합니다.<br>" +
+            "방장멤버는 탈퇴가 불가능 합니다.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "400 : 탈퇴될 멤버가 방장멤버인 경우<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
+    public DeleteMemberMeetResponse deleteMemberMeetV1(@PathVariable Long meet_id,
+                                                       @RequestBody @Valid DeleteMemberMeetRequest request) {
+        meetService.deleteMember(request.member_id, meet_id);
+        return new DeleteMemberMeetResponse("success");
     }
 
     @Data
     @AllArgsConstructor
     static class DeleteMemberMeetResponse {
-        private Long member_meet_id;
+        private String message;
     }
 
     @Data
     static class DeleteMemberMeetRequest {
         @NotNull
+        @Schema(description = "탈퇴시킬 멤버id", required = true)
         private Long member_id;
     }
 
@@ -162,7 +204,11 @@ public class MeetApiController {
      * 모임 삭제
      */
     @DeleteMapping("/api/v1/meet/{meet_id}")
-    @ApiOperation("모임 삭제")
+    @Operation(summary = "소모임 삭제", description = "소모임을 삭제합니다. 지금은 물리삭제로 진행되지만 논리삭제로 변경될 여지가 있습니다." +
+            "<br><br>" +
+            "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public DeleteMeetResponse deleteMeetV1(@PathVariable Long meet_id) {
         return new DeleteMeetResponse(meetService.deleteMeet(meet_id));
     }
@@ -170,6 +216,7 @@ public class MeetApiController {
     @Data
     @AllArgsConstructor
     static class DeleteMeetResponse {
+        @Schema(description = "삭제된 소모임 id")
         private Long meet_id;
     }
 }
