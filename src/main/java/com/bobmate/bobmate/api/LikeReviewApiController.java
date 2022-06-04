@@ -130,14 +130,14 @@ public class LikeReviewApiController {
     /**
      * 리뷰좋아요 상세 조회
      */
-    @GetMapping("/api/v1/like-review/{id}")
+    @GetMapping("/api/v1/like-review/{like_review_id}")
     @Operation(summary = "리뷰좋아요 상세 조회", description = "리뷰에 좋아요한 정보를 상세조회합니다. schema버튼을 누르면 " +
             "상세정보 제공.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public LikeReviewDetailResponse likeReviewDetailV1(@PathVariable Long id) {
-        LikeReview findLikeReview = likeReviewService.findOne(id);
+    public LikeReviewDetailResponse likeReviewDetailV1(@PathVariable Long like_review_id) {
+        LikeReview findLikeReview = likeReviewService.findOne(like_review_id);
         return new LikeReviewDetailResponse(findLikeReview.getId(), findLikeReview.getMember().getId(),
                 findLikeReview.getReview().getId(), findLikeReview.getLikeDate());
     }

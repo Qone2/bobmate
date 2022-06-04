@@ -120,13 +120,13 @@ public class ReviewApiController {
     /**
      * 리뷰 상세 조회
      */
-    @GetMapping("/api/v1/review/{id}")
+    @GetMapping("/api/v1/review/{review_id}")
     @Operation(summary = "리뷰 상세 조회", description = "리뷰의 상세정보를 조회합니다. schema를 누르면 추가설명<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public ReviewDetailResponse reviewDetailV1(@PathVariable("id") Long id) {
-        Review review = reviewService.findOne(id);
+    public ReviewDetailResponse reviewDetailV1(@PathVariable("review_id") Long review_id) {
+        Review review = reviewService.findOne(review_id);
         return new ReviewDetailResponse(review.getId(), review.getMember().getId(), review.getPlace().getId(),
                 review.getPhotos().stream().map(p -> p.getId()).collect(Collectors.toList()), review.getContent(),
                 review.getStar(), review.getCreatedDate(), review.getUpdatedDate(), review.getLikeCount(),

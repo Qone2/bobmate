@@ -123,13 +123,13 @@ public class FollowApiController {
     /**
      * 팔로우 상세 조회
      */
-    @GetMapping("/api/v1/follow/{id}")
+    @GetMapping("/api/v1/follow/{follow_id}")
     @Operation(summary = "팔로우 상세 조회", description = "팔로우정보를 상세조회 합니다. schema버튼을 누르면 상세정보제공.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public FollowDetailResponse followDetailV1(@PathVariable Long id) {
-        Follow findFollow = followService.findOne(id);
+    public FollowDetailResponse followDetailV1(@PathVariable Long follow_id) {
+        Follow findFollow = followService.findOne(follow_id);
         return new FollowDetailResponse(findFollow.getId(), findFollow.getFromMember().getId(),
                 findFollow.getToMember().getId());
     }

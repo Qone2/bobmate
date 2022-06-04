@@ -111,14 +111,14 @@ public class TagApiController {
     /**
      * 태그 상세 조회
      */
-    @GetMapping("/api/v1/tag/{id}")
+    @GetMapping("/api/v1/tag/{tag_id}")
     @Operation(summary = "태그 상세 조회", description = "태그의 상세정보를 조회합니다. schema버튼은 누르면 상세정보제공.<br>" +
             "아직 상세정보라고 해봐야 특별한 내용은 없습니다.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public TagDetailResponse tagDetailV1(@PathVariable Long id) {
-        Tag findTag = tagService.findOne(id);
+    public TagDetailResponse tagDetailV1(@PathVariable Long tag_id) {
+        Tag findTag = tagService.findOne(tag_id);
         return new TagDetailResponse(findTag.getId(), findTag.getName());
     }
 
@@ -161,7 +161,7 @@ public class TagApiController {
     /**
      * 특정 맴버의 모든 태그 태그된 횟수순으로 내림차순 조회
      */
-    @GetMapping("/api/v1/tag/descending{member_id}")
+    @GetMapping("/api/v1/tag/descending/{member_id}")
     @Operation(summary = "특정 맴버의 모든 태그 태그된 횟수순으로 내림차순 조회", description = "특정 맴버가 사용한 모든 태그를 조회하는데," +
             "그 맴버가 가장 많이 사용한 태그 순으로 정렬되어 보여집니다.<br><br>" +
             "발생가능한 예외:<br>" +

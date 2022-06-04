@@ -135,13 +135,13 @@ public class MeetApiController {
     /**
      * 모임 상세 조회
      */
-    @GetMapping("/api/v1/meet/{id}")
+    @GetMapping("/api/v1/meet/{meet_id}")
     @Operation(summary = "소모임 상세 조회", description = "소모임을 상세조회 합니다. schema버튼을 누르면 상세정보제공.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public MeetDetailResponse meetDetailV1(@PathVariable("id") Long id) {
-        Meet meet = meetService.findOne(id);
+    public MeetDetailResponse meetDetailV1(@PathVariable("meet_id") Long meet_id) {
+        Meet meet = meetService.findOne(meet_id);
         return new MeetDetailResponse(meet.getId(), meet.getHeadMember().getId(), meet.getPlace().getId(),
                 meet.getMemberMeets().stream().map(mm -> mm.getMember().getId()).collect(Collectors.toList()),
                 meet.getName(), meet.getLink(), meet.getMemberCount(), meet.getCreatedDate());

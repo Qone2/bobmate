@@ -126,13 +126,13 @@ public class BookmarkApiController {
     /**
      * 북마크 상세 조회
      */
-    @GetMapping("/api/v1/bookmark/{id}")
+    @GetMapping("/api/v1/bookmark/{bookmark_id}")
     @Operation(summary = "북마크 상세 조회", description = "북마크정보를 상세조회합니다. schema버튼을 누르면 상세 정보.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public BookmarkDetailResponse bookmarkDetailV1(@PathVariable Long id) {
-        Bookmark findBookmark = bookmarkService.findOne(id);
+    public BookmarkDetailResponse bookmarkDetailV1(@PathVariable Long bookmark_id) {
+        Bookmark findBookmark = bookmarkService.findOne(bookmark_id);
         return new BookmarkDetailResponse(findBookmark.getId(), findBookmark.getMember().getId(),
                 findBookmark.getPlace().getId(), findBookmark.getBookmarkedDate());
     }
