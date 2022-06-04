@@ -29,7 +29,7 @@ public class Bookmark {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @OneToMany(mappedBy = "bookmark", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bookmark", cascade = CascadeType.REMOVE)
     private List<TagBookmark> tagBookmarks;
 
     private LocalDateTime bookmarkedDate;
