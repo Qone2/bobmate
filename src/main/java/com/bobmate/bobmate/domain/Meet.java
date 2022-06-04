@@ -25,7 +25,7 @@ public class Meet {
     @JoinColumn(name = "place_id")
     private Place place;
 
-    @OneToMany(mappedBy = "meet")
+    @OneToMany(mappedBy = "meet", cascade = CascadeType.ALL)
     private List<MemberMeet> memberMeets = new ArrayList<>();
 
     private String name;
