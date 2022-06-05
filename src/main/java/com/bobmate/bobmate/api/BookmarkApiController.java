@@ -38,14 +38,14 @@ public class BookmarkApiController {
         return new CreateBookmarkResponse(bookmarkId);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateBookmarkResponse {
         @Schema(description = "등록된 북마크 id")
         private Long bookmark_id;
     }
 
-    @Data
+    @Getter
     static class CreateBookmarkRequest {
         @NotNull
         @Schema(description = "북마크를 등록하는 멤버", required = true)
@@ -70,14 +70,14 @@ public class BookmarkApiController {
                 bookmarkService.deleteBookmark(request.getMember_id(), request.getPlace_id()));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteBookmarkResponse {
         @Schema(description = "삭제된 북마크 id")
         private Long bookmark_id;
     }
 
-    @Data
+    @Getter
     static class DeleteBookmarkRequest {
         @NotNull
         @Schema(description = "북마크를 소유한 멤버 id", required = true)
@@ -106,14 +106,14 @@ public class BookmarkApiController {
         return new Result(bookmarkDtoList.size(), bookmarkDtoList);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
         private T data;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class BookmarkDto {
         private Long bookmark_id;
@@ -137,7 +137,7 @@ public class BookmarkApiController {
                 findBookmark.getPlace().getId(), findBookmark.getBookmarkedDate());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class BookmarkDetailResponse {
         @Schema(description = "북마크 id")

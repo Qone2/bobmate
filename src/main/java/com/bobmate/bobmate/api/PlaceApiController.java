@@ -7,7 +7,7 @@ import com.bobmate.bobmate.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +43,7 @@ public class PlaceApiController {
         return new CreatePlaceResponse(id);
     }
 
-    @Data
+    @Getter
     static class CreatePlaceRequest {
         @NotEmpty
         private String name;
@@ -52,7 +52,7 @@ public class PlaceApiController {
         private Double y;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreatePlaceResponse {
         private Long place_id;
@@ -77,14 +77,14 @@ public class PlaceApiController {
         return new Result(collect.size(), collect);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
         private T data;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class PlaceDto {
         private Long place_id;
@@ -112,7 +112,7 @@ public class PlaceApiController {
                 place.getReviewCount(), place.getAvgStar(), place.getPlaceStatus());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class PlaceDetailResponse {
         private Long place_id;
@@ -144,7 +144,7 @@ public class PlaceApiController {
         return new DeletePlaceResponse(placeService.deletePlace(place_id));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeletePlaceResponse {
         private Long place_id;

@@ -5,7 +5,7 @@ import com.bobmate.bobmate.service.MeetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.http.HttpStatus;
@@ -43,14 +43,14 @@ public class MeetApiController {
                 request.getName(), request.getLink()));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateMeetResponse {
         @Schema(description = "생성된 소모임의 id")
         private Long meet_id;
     }
 
-    @Data
+    @Getter
     static class CreateMeetRequest {
         @NotNull
         @Schema(description = "생성하는 소모임의 방장이 될 멤버id", required = true)
@@ -84,13 +84,13 @@ public class MeetApiController {
         return new CreateMemberMeetResponse("success");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateMemberMeetResponse {
         private String message;
     }
 
-    @Data
+    @Getter
     static class CreateMemberMeetRequest {
         @NotNull
         @Schema(description = "추가할 멤버id")
@@ -114,14 +114,14 @@ public class MeetApiController {
         return new Result(collect.size(), collect);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
         private T data;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class MeetDto {
         private Long meet_id;
@@ -147,7 +147,7 @@ public class MeetApiController {
                 meet.getName(), meet.getLink(), meet.getMemberCount(), meet.getCreatedDate());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class MeetDetailResponse {
         @Schema(description = "소모임 id")
@@ -186,13 +186,13 @@ public class MeetApiController {
         return new DeleteMemberMeetResponse("success");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteMemberMeetResponse {
         private String message;
     }
 
-    @Data
+    @Getter
     static class DeleteMemberMeetRequest {
         @NotNull
         @Schema(description = "탈퇴시킬 멤버id", required = true)
@@ -212,7 +212,7 @@ public class MeetApiController {
         return new DeleteMeetResponse(meetService.deleteMeet(meet_id));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteMeetResponse {
         @Schema(description = "삭제된 소모임 id")

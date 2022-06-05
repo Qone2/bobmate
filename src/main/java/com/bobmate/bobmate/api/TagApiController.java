@@ -5,7 +5,7 @@ import com.bobmate.bobmate.service.TagService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,14 +41,14 @@ public class TagApiController {
         return new CreateTagResponse(tagId);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateTagResponse {
         @Schema(description = "생성된 태그id")
         private Long tag_id;
     }
 
-    @Data
+    @Getter
     static class CreateTagRequest {
         @NotEmpty
         @Schema(description = "태그 명칭", required = true)
@@ -71,14 +71,14 @@ public class TagApiController {
         return new Result(tagDtoList.size(), tagDtoList);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
         private T data;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class TagDto {
         private Long tag_id;
@@ -99,7 +99,7 @@ public class TagApiController {
         return new DeleteTagResponse(tag_id, "성공적으로 삭제되었습니다.");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteTagResponse {
         @Schema(description = "삭제된 태그id")
@@ -122,7 +122,7 @@ public class TagApiController {
         return new TagDetailResponse(findTag.getId(), findTag.getName());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class TagDetailResponse {
         @Schema(description = "태그 id")
@@ -149,7 +149,7 @@ public class TagApiController {
         return new Result(tagDescendingDtoList.size(), tagDescendingDtoList);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class TagDescendingDto {
         private Long tag_id;

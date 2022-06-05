@@ -7,7 +7,7 @@ import com.bobmate.bobmate.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -44,14 +44,14 @@ public class LikeReviewApiController {
         return new LikeReviewResponse(likeReviewId);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class LikeReviewResponse {
         @Schema(description = "생선된 좋아요id")
         private Long like_review_id;
     }
 
-    @Data
+    @Getter
     static class LikeReviewRequest {
         @NotNull
         @Schema(description = "좋아요를 신청하는 멤버id", required = true)
@@ -76,14 +76,14 @@ public class LikeReviewApiController {
         return new UnlikeReviewResponse("done!");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class UnlikeReviewResponse {
         @Schema(description = "수행결과 메시지")
         private String massage;
     }
 
-    @Data
+    @Getter
     static class UnlikeReviewRequest {
         @NotNull
         @Schema(description = "좋아요한 멤버id")
@@ -110,14 +110,14 @@ public class LikeReviewApiController {
         return new Result(likeReviewDtoList.size(), likeReviewDtoList);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
         private T data;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class LikeReviewDto {
         private Long like_review_id;
@@ -142,7 +142,7 @@ public class LikeReviewApiController {
                 findLikeReview.getReview().getId(), findLikeReview.getLikeDate());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class LikeReviewDetailResponse {
         @Schema(description = "리뷰좋아요id")

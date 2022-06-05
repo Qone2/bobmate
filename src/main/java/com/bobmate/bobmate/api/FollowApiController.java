@@ -5,7 +5,7 @@ import com.bobmate.bobmate.service.FollowService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -39,14 +39,14 @@ public class FollowApiController {
         return new FollowResponse(followId);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class FollowResponse {
         @Schema(description = "생성된 팔로우id")
         private Long followId;
     }
 
-    @Data
+    @Getter
     static class FollowRequest {
         @NotNull
         @Schema(description = "팔로우 하는 멤버id", required = true)
@@ -71,13 +71,13 @@ public class FollowApiController {
         return new UnfollowResponse("unfollowed");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class UnfollowResponse {
         private String massage;
     }
 
-    @Data
+    @Getter
     static class UnfollowRequest {
         @NotNull
         @Schema(description = "팔로우 하는 멤버id", required = true)
@@ -104,14 +104,14 @@ public class FollowApiController {
         return new Result(followDtoList.size(), followDtoList);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
         private T data;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class FollowDto {
         private Long follow_id;
@@ -134,7 +134,7 @@ public class FollowApiController {
                 findFollow.getToMember().getId());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class FollowDetailResponse {
         @Schema(description = "팔로우 id")

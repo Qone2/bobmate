@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,13 +43,13 @@ public class MemberApiController {
 //        return new CreateMemberResponse(id);
 //    }
 
-    @Data
+    @Getter
     static class CreateMemberRequest {
         @NotEmpty
         private String email;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateMemberResponse {
         private Long member_id;
@@ -79,7 +79,7 @@ public class MemberApiController {
         return new Result(collect.size(), collect);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class MemberDto {
         private Long member_id;
@@ -93,7 +93,7 @@ public class MemberApiController {
         private MemberStatus member_status;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
@@ -123,7 +123,7 @@ public class MemberApiController {
                 member.getMemberStatus());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class MemberDetailResponse {
         private Long member_id;
@@ -160,7 +160,7 @@ public class MemberApiController {
         return new CreateMemberResponse(memberService.join(memberDto));
     }
 
-    @Data
+    @Getter
     static class CreateMemberRequestV2 {
         @NotEmpty
         @Email
@@ -190,14 +190,14 @@ public class MemberApiController {
         return new LoginResponse(member.getId(), token);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class LoginResponse {
         private Long member_id;
         private String token;
     }
 
-    @Data
+    @Getter
     static class LoginRequest {
         @NotEmpty
         @Email
@@ -218,7 +218,7 @@ public class MemberApiController {
         return new DeleteMemberResponse("삭제성공");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteMemberResponse {
         private String message;
@@ -237,7 +237,7 @@ public class MemberApiController {
         return new DeleteMemberResponseV2(memberService.deleteMember(member_id));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteMemberResponseV2 {
         private Long member_id;

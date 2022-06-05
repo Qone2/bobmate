@@ -5,7 +5,7 @@ import com.bobmate.bobmate.service.TagBookmarkService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +40,13 @@ public class TagBookmarkApiController {
         return new CreateTagBookmarkResponse("success");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateTagBookmarkResponse {
         private String message;
     }
 
-    @Data
+    @Getter
     static class CreateTagBookmarkRequest {
         @NotNull
         @Schema(description = "검증용 멤버id(북마크의 소유자)", required = true)
@@ -77,7 +77,7 @@ public class TagBookmarkApiController {
                 taggedBookmark.stream().map(tb -> tb.getId()).collect(Collectors.toList()));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class GetTagBookmarkResponse {
         @Schema(description = "요청할때 명시한 멤버id")
@@ -88,7 +88,7 @@ public class TagBookmarkApiController {
         private List<Long> tagged_bookmark_id_list;
     }
 
-    @Data
+    @Getter
     static class GetTagBookmarkRequest {
         @NotNull
         @Schema(description = "불러올 북마크의 소유주 멤버 id", required = true)
@@ -114,13 +114,13 @@ public class TagBookmarkApiController {
         return new DeleteTagBookmarkResponse("success");
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteTagBookmarkResponse {
         private String massage;
     }
 
-    @Data
+    @Getter
     static class DeleteTagBookmarkRequest {
         @NotNull
         @Schema(description = "북마크 검증용 멤버id", required = true)

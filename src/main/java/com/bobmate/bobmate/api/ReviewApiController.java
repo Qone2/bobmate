@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,7 +53,7 @@ public class ReviewApiController {
         return new CreateReviewResponse(id);
     }
 
-    @Data
+    @Getter
     static class CreateReviewRequest {
         @NotNull
         @ApiParam(value = "리뷰를 작성한 멤버", required = true)
@@ -72,7 +72,7 @@ public class ReviewApiController {
         private List<MultipartFile> photos;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class CreateReviewResponse {
         private Long review_id;
@@ -96,7 +96,7 @@ public class ReviewApiController {
         return new Result(collect.size(), collect);
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class ReviewDto {
         private Long review_id;
@@ -110,7 +110,7 @@ public class ReviewApiController {
         private ReviewStatus review_status;
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class Result<T> {
         private int count;
@@ -133,7 +133,7 @@ public class ReviewApiController {
                 review.getReviewStatus());
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class ReviewDetailResponse {
         @Schema(description = "리뷰 id")
@@ -171,7 +171,7 @@ public class ReviewApiController {
         return new DeleteReviewResponse(reviewService.deleteReview(review_id));
     }
 
-    @Data
+    @Getter
     @AllArgsConstructor
     static class DeleteReviewResponse {
         private Long review_id;
