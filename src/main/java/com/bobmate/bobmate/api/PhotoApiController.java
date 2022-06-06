@@ -47,7 +47,8 @@ public class PhotoApiController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        ContentDisposition contentDisposition = ContentDisposition.builder("inline").filename(photo.getOriginalFileName())
+        ContentDisposition contentDisposition = ContentDisposition.builder("inline")
+                .filename(photo.getOriginalFileName())
                 .build();
 
         HttpHeaders header = new HttpHeaders();

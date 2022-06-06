@@ -105,11 +105,13 @@ public class MemberApiController {
      * 멤버상세 조회
      */
     @GetMapping("/api/v1/member/{member_id}")
-    @Operation(summary = "멤버상세 조회", description = "멤버정보 상세 조회. schema를 누르면 추가설명.<br><br>" + "발생가능한 예외:<br>" +
+    @Operation(summary = "멤버상세 조회", description = "멤버정보 상세 조회. schema를 누르면 추가설명.<br><br>" +
+            "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러",
             responses = {
-                @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = MemberDetailResponse.class)))
+                    @ApiResponse(responseCode = "200", content = @Content(
+                            schema = @Schema(implementation = MemberDetailResponse.class)))
             })
     public MemberDetailResponse memberDetailV1(@PathVariable("member_id") Long member_id) {
         Member member = memberService.findOne(member_id);
@@ -150,12 +152,14 @@ public class MemberApiController {
     @PostMapping("/api/v2/join")
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "회원가입", description = "**지금은 회원명이 이메일을 기준으로 되어있습니다. 추후 변경예정<br><br>" +
-            "회원명 이메일 형식을 지켜줘야 허가가 나고 중복검사를 합니다. 비밀번호는 아직 따로 제한사항이 없습니다.<br><br>" + "발생가능한 예외:<br>" +
+            "회원명 이메일 형식을 지켜줘야 허가가 나고 중복검사를 합니다. 비밀번호는 아직 따로 제한사항이 없습니다.<br><br>" +
+            "발생가능한 예외:<br>" +
             "400 : 회원명이 중복되는 경우, 이메일 형식을 지키지 않은 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
-        CreateMemberDto memberDto = new CreateMemberDto(request.getEmail(), passwordEncoder.encode(request.getPassword()),
+        CreateMemberDto memberDto = new CreateMemberDto(request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
                 Collections.singletonList("ROLE_USER"));
         return new CreateMemberResponse(memberService.join(memberDto));
     }
@@ -176,7 +180,8 @@ public class MemberApiController {
     @GetMapping("/api/v2/login")
     @Operation(summary = "로그인", description = "**지금은 회원명, 비밀번호가 일치할 시 토큰을 반환하지만, 그 토큰으로 따로 인증작업을 하고" +
             "있지는 않습니다.<br><br>" +
-            "swagger hub내에서 GET메소드로 Request body에 담아보내는 것이 불가능하여 파라미터형식으로 바꿉니다.<br><br>" + "발생가능한 예외:<br>" +
+            "swagger hub내에서 GET메소드로 Request body에 담아보내는 것이 불가능하여 파라미터형식으로 바꿉니다.<br><br>" +
+            "발생가능한 예외:<br>" +
             "400 : 아이디나 비밀번호가 틀린 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
