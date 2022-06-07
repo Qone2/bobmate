@@ -53,4 +53,22 @@ public class MemberRepository {
         em.flush();
         em.clear();
     }
+
+    /**
+     * fetch join을 사용한 전체 조회
+     */
+    public List<Member> findAllFetch() {
+        return em.createQuery("select m from Member m " +
+                "join fetch m.reviews " +
+                "join fetch m.memberMeets mm " +
+                "join fetch mm.meet " +
+                "join fetch m.likeReviews lr " +
+                "join fetch lr.review " +
+                "join fetch m.followers fer " +
+                "join fetch fer.fromMember " +
+                "join fetch m.following fing " +
+                "join fetch fing.toMember " +
+                "join fetch m.bookmarks", Member.class)
+                .getResultList();
+    }
 }

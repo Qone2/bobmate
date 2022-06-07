@@ -79,4 +79,11 @@ public class MemberService {
         member.delete();
         return member.getId();
     }
+
+    /**
+     * fetch join을 적용한 전체조회
+     */
+    public List<Member> findAllFetch() {
+        return memberRepository.findAllFetch();
+    }
 }
