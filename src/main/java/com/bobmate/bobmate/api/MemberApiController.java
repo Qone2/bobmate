@@ -67,14 +67,7 @@ public class MemberApiController {
     public Result membersV1() {
         List<Member> memberList = memberService.findAll();
         List<MemberDto> collect = memberList.stream()
-                .map(m -> new MemberDto(m.getId(), m.getEmail(),
-                        m.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
-                        m.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()),
-                        m.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()),
-                        m.getFollowers().stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList()),
-                        m.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList()),
-                        m.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList()),
-                        m.getMemberStatus()))
+                .map(m -> new MemberDto(m))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -91,6 +84,24 @@ public class MemberApiController {
         private List<Long> following_ids;
         private List<Long> bookmark_ids;
         private MemberStatus member_status;
+
+        public MemberDto(Member member) {
+            this.member_id = member.getId();
+            this.email = member.getEmail();
+            this.review_ids = member.getReviews()
+                    .stream().map(r -> r.getId()).collect(Collectors.toList());
+            this.meet_ids = member.getMemberMeets()
+                    .stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList());
+            this.liked_review_ids = member.getLikeReviews()
+                    .stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList());
+            this.follower_ids = member.getFollowers()
+                    .stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList());
+            this.following_ids = member.getFollowing()
+                    .stream().map(f -> f.getToMember().getId()).collect(Collectors.toList());
+            this.bookmark_ids = member.getBookmarks()
+                    .stream().map(b -> b.getId()).collect(Collectors.toList());
+            this.member_status = member.getMemberStatus();
+        }
     }
 
     @Getter
@@ -115,14 +126,7 @@ public class MemberApiController {
             })
     public MemberDetailResponse memberDetailV1(@PathVariable("member_id") Long member_id) {
         Member member = memberService.findOne(member_id);
-        return new MemberDetailResponse(member.getId(), member.getEmail(),
-                member.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
-                member.getMemberMeets().stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList()),
-                member.getLikeReviews().stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList()),
-                member.getFollowers().stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList()),
-                member.getFollowing().stream().map(f -> f.getToMember().getId()).collect(Collectors.toList()),
-                member.getBookmarks().stream().map(bm -> bm.getId()).collect(Collectors.toList()),
-                member.getMemberStatus());
+        return new MemberDetailResponse(member);
     }
 
     @Getter
@@ -144,6 +148,24 @@ public class MemberApiController {
         private List<Long> bookmark_ids;
         @Schema(description = "멤버 상태 (VALID, DELETED)")
         private MemberStatus member_status;
+
+        public MemberDetailResponse(Member member) {
+            this.member_id = member.getId();
+            this.email = member.getEmail();
+            this.review_ids = member.getReviews()
+                    .stream().map(r -> r.getId()).collect(Collectors.toList());
+            this.meet_ids = member.getMemberMeets()
+                    .stream().map(mm -> mm.getMeet().getId()).collect(Collectors.toList());
+            this.liked_review_ids = member.getLikeReviews()
+                    .stream().map(lr -> lr.getReview().getId()).collect(Collectors.toList());
+            this.follower_ids = member.getFollowers()
+                    .stream().map(f -> f.getFromMember().getId()).collect(Collectors.toList());
+            this.following_ids = member.getFollowing()
+                    .stream().map(f -> f.getToMember().getId()).collect(Collectors.toList());
+            this.bookmark_ids = member.getBookmarks()
+                    .stream().map(b -> b.getId()).collect(Collectors.toList());
+            this.member_status = member.getMemberStatus();
+        }
     }
 
     /**
