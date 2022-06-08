@@ -86,4 +86,11 @@ public class MemberService {
     public List<Member> findAllFetch() {
         return memberRepository.findAllFetch();
     }
+
+    /**
+     * fetch join을 적용한 단일 조회
+     */
+    public Member findOneFetch(Long memberId) {
+        return memberRepository.findOneFetch(memberId);
+    }
 }

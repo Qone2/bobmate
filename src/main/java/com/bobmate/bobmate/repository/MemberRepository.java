@@ -71,4 +71,24 @@ public class MemberRepository {
                 "join fetch m.bookmarks", Member.class)
                 .getResultList();
     }
+
+    /**
+     * fetch join을 사용한 단일 조회
+     */
+    public Member findOneFetch(Long id) {
+        return em.createQuery("select m from Member m " +
+                        "join fetch m.reviews " +
+                        "join fetch m.memberMeets mm " +
+                        "join fetch mm.meet " +
+                        "join fetch m.likeReviews lr " +
+                        "join fetch lr.review " +
+                        "join fetch m.followers fer " +
+                        "join fetch fer.fromMember " +
+                        "join fetch m.following fing " +
+                        "join fetch fing.toMember " +
+                        "join fetch m.bookmarks " +
+                        "where m.id = :id", Member.class)
+                .setParameter("id", id)
+                .getResultList().stream().findFirst().orElse(null);
+    }
 }
