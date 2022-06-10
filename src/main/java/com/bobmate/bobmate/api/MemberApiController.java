@@ -65,7 +65,7 @@ public class MemberApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public Result membersV1() {
-        List<Member> memberList = memberService.findAllFetch();
+        List<Member> memberList = memberService.findAll();
         List<MemberDto> collect = memberList.stream()
                 .map(m -> new MemberDto(m))
                 .collect(Collectors.toList());
