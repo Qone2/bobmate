@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
@@ -190,10 +191,12 @@ public class MemberApiController {
     static class CreateMemberRequestV2 {
         @NotEmpty
         @Size(min = 5, max = 20)
+        @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$")
         private String user_name;
 
         @NotEmpty
         @Size(min = 8, max = 16)
+        @Pattern(regexp = "^[A-Za-z\\d_\\-!@#$%^+]{8,16}$")
         private String password;
     }
 
