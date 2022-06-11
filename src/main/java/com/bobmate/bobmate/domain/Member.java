@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,7 +24,6 @@ public class Member implements UserDetails {
     private Long id;
 
     @Column(length = 100, nullable = false, unique = true)
-    @Email
     private String userName;
 
     @Column(length = 300, nullable = false)
@@ -90,7 +90,7 @@ public class Member implements UserDetails {
     //==생성 메서드==//
     public static Member createMember(CreateMemberDto memberDto) {
         Member member = new Member();
-        member.setUserName(memberDto.getEmail());
+        member.setUserName(memberDto.getUserName());
         member.setPassword(memberDto.getPassword());
         member.setRoles(memberDto.getRoles());
         member.setMemberStatus(MemberStatus.VALID);
