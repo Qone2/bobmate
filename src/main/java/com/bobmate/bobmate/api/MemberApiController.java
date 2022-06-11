@@ -18,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,7 +76,7 @@ public class MemberApiController {
     @AllArgsConstructor
     static class MemberDto {
         private Long member_id;
-        private String email;
+        private String user_name;
         private List<Long> review_ids;
         private List<Long> meet_ids;
         private List<Long> liked_review_ids;
@@ -87,7 +87,7 @@ public class MemberApiController {
 
         public MemberDto(Member member) {
             this.member_id = member.getId();
-            this.email = member.getEmail();
+            this.user_name = member.getUserName();
             this.review_ids = member.getReviews()
                     .stream().map(r -> r.getId()).collect(Collectors.toList());
             this.meet_ids = member.getMemberMeets()
@@ -133,7 +133,7 @@ public class MemberApiController {
     @AllArgsConstructor
     static class MemberDetailResponse {
         private Long member_id;
-        private String email;
+        private String user_name;
         @Schema(description = "작성한 리뷰 id리스트")
         private List<Long> review_ids;
         @Schema(description = "참가한 소모임 id리스트")
@@ -151,7 +151,7 @@ public class MemberApiController {
 
         public MemberDetailResponse(Member member) {
             this.member_id = member.getId();
-            this.email = member.getEmail();
+            this.user_name = member.getUsername();
             this.review_ids = member.getReviews()
                     .stream().map(r -> r.getId()).collect(Collectors.toList());
             this.meet_ids = member.getMemberMeets()
@@ -180,7 +180,7 @@ public class MemberApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
-        CreateMemberDto memberDto = new CreateMemberDto(request.getEmail(),
+        CreateMemberDto memberDto = new CreateMemberDto(request.getUser_name(),
                 passwordEncoder.encode(request.getPassword()),
                 Collections.singletonList("ROLE_USER"));
         return new CreateMemberResponse(memberService.join(memberDto));
@@ -189,10 +189,11 @@ public class MemberApiController {
     @Getter
     static class CreateMemberRequestV2 {
         @NotEmpty
-        @Email
-        private String email;
+        @Size(min = 5, max = 20)
+        private String user_name;
 
         @NotEmpty
+        @Size(min = 8, max = 16)
         private String password;
     }
 
@@ -208,7 +209,7 @@ public class MemberApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public LoginResponse loginV2(@ModelAttribute @Valid LoginRequest request) {
-        Member member = memberService.findByEmail(request.getEmail())
+        Member member = memberService.findByUserName(request.getUser_name())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("회원정보가 불일치합니다.");
@@ -227,8 +228,7 @@ public class MemberApiController {
     @Getter
     static class LoginRequest {
         @NotEmpty
-        @Email
-        private String email;
+        private String user_name;
 
         @NotEmpty
         private String password;

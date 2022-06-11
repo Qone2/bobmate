@@ -24,7 +24,7 @@ public class Member implements UserDetails {
 
     @Column(length = 100, nullable = false, unique = true)
     @Email
-    private String email;
+    private String userName;
 
     @Column(length = 300, nullable = false)
     private String password;
@@ -60,7 +60,11 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.userName;
+    }
+
+    public String getUserName() {
+        return this.userName;
     }
 
     @Override
@@ -86,7 +90,7 @@ public class Member implements UserDetails {
     //==생성 메서드==//
     public static Member createMember(CreateMemberDto memberDto) {
         Member member = new Member();
-        member.setEmail(memberDto.getEmail());
+        member.setUserName(memberDto.getEmail());
         member.setPassword(memberDto.getPassword());
         member.setRoles(memberDto.getRoles());
         member.setMemberStatus(MemberStatus.VALID);

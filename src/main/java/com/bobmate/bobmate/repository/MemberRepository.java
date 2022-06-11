@@ -39,9 +39,9 @@ public class MemberRepository {
     /**
      * 이메일로 멤버 조회
      */
-    public Optional<Member> findOneByEmail(String email) {
-        return em.createQuery("select m from Member m where m.email = :email", Member.class)
-                .setParameter("email", email)
+    public Optional<Member> findOneByUserName(String userName) {
+        return em.createQuery("select m from Member m where m.userName = :userName", Member.class)
+                .setParameter("userName", userName)
                 .getResultList().stream().findFirst();
     }
 
