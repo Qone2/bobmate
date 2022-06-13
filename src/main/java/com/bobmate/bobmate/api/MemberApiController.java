@@ -43,12 +43,12 @@ public class MemberApiController {
 //        Long id = memberService.join(member);
 //        return new CreateMemberResponse(id);
 //    }
-
-    @Getter
-    static class CreateMemberRequest {
-        @NotEmpty
-        private String email;
-    }
+//
+//    @Getter
+//    static class CreateMemberRequest {
+//        @NotEmpty
+//        private String email;
+//    }
 
     @Getter
     @AllArgsConstructor
@@ -78,6 +78,7 @@ public class MemberApiController {
     static class MemberDto {
         private Long member_id;
         private String user_name;
+        private String nickname;
         private List<Long> review_ids;
         private List<Long> meet_ids;
         private List<Long> liked_review_ids;
@@ -89,6 +90,7 @@ public class MemberApiController {
         public MemberDto(Member member) {
             this.member_id = member.getId();
             this.user_name = member.getUserName();
+            this.nickname = member.getNickname();
             this.review_ids = member.getReviews()
                     .stream().map(r -> r.getId()).collect(Collectors.toList());
             this.meet_ids = member.getMemberMeets()
@@ -134,7 +136,10 @@ public class MemberApiController {
     @AllArgsConstructor
     static class MemberDetailResponse {
         private Long member_id;
+        @Schema(description = "멤버가 설정한 아이디")
         private String user_name;
+        @Schema(description = "멤버가 설정한 닉네임")
+        private String nickname;
         @Schema(description = "작성한 리뷰 id리스트")
         private List<Long> review_ids;
         @Schema(description = "참가한 소모임 id리스트")
@@ -152,7 +157,8 @@ public class MemberApiController {
 
         public MemberDetailResponse(Member member) {
             this.member_id = member.getId();
-            this.user_name = member.getUsername();
+            this.user_name = member.getUserName();
+            this.nickname = member.getNickname();
             this.review_ids = member.getReviews()
                     .stream().map(r -> r.getId()).collect(Collectors.toList());
             this.meet_ids = member.getMemberMeets()
@@ -183,6 +189,7 @@ public class MemberApiController {
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
         CreateMemberDto memberDto = new CreateMemberDto(request.getUser_name(),
                 passwordEncoder.encode(request.getPassword()),
+                request.getNickname(),
                 Collections.singletonList("ROLE_USER"));
         return new CreateMemberResponse(memberService.join(memberDto));
     }
@@ -198,6 +205,11 @@ public class MemberApiController {
         @Size(min = 8, max = 16)
         @Pattern(regexp = "^[A-Za-z\\d_\\-!@#$%^+]{8,16}$")
         private String password;
+
+        @NotEmpty
+        @Size(min = 2, max = 12)
+        @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$")
+        private String nickname;
     }
 
     /**

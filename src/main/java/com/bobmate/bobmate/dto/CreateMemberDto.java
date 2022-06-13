@@ -10,5 +10,6 @@ import java.util.List;
 public class CreateMemberDto {
     private String userName;
     private String password;
+    private String nickname;
     private List<String> roles;
 }

@@ -36,8 +36,9 @@ class LikeReviewServiceTest {
     @Test
     public void 중복좋아요() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -56,8 +57,9 @@ class LikeReviewServiceTest {
     @Test
     public void 삭제된리뷰좋아요() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 

@@ -38,8 +38,9 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그하기() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -63,8 +64,9 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그교집합() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -91,9 +93,12 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId2, member1.getId());
         tagBookmarkService.saveTagBookmark(tagId3, bookmarkId3, member1.getId());
 
-        List<Bookmark> taggedBookmark1 = tagBookmarkService.findTaggedBookmark(member1.getId(), new ArrayList<>(Arrays.asList(tagId1, tagId2)));
-        List<Bookmark> taggedBookmark2 = tagBookmarkService.findTaggedBookmark(member1.getId(), new ArrayList<>(Arrays.asList(tagId1)));
-        List<Bookmark> taggedBookmark3 = tagBookmarkService.findTaggedBookmark(member1.getId(), new ArrayList<>(Arrays.asList(tagId1, tagId2, tagId3)));
+        List<Bookmark> taggedBookmark1 = tagBookmarkService.findTaggedBookmark(member1.getId(),
+                new ArrayList<>(Arrays.asList(tagId1, tagId2)));
+        List<Bookmark> taggedBookmark2 = tagBookmarkService.findTaggedBookmark(member1.getId(),
+                new ArrayList<>(Arrays.asList(tagId1)));
+        List<Bookmark> taggedBookmark3 = tagBookmarkService.findTaggedBookmark(member1.getId(),
+                new ArrayList<>(Arrays.asList(tagId1, tagId2, tagId3)));
 
         //then
         assertEquals(1, taggedBookmark1.size());
@@ -105,8 +110,9 @@ class TagBookmarkServiceTest {
 
     @Test
     public void 태그삭제() throws Exception {
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -135,9 +141,12 @@ class TagBookmarkServiceTest {
 
         tagBookmarkService.deleteTagBookmark(tagId1, bookmarkId1, member1.getId());
 
-        List<Bookmark> taggedBookmark1 = tagBookmarkService.findTaggedBookmark(member1.getId(), new ArrayList<>(Arrays.asList(tagId1, tagId2)));
-        List<Bookmark> taggedBookmark2 = tagBookmarkService.findTaggedBookmark(member1.getId(), new ArrayList<>(Arrays.asList(tagId1)));
-        List<Bookmark> taggedBookmark3 = tagBookmarkService.findTaggedBookmark(member1.getId(), new ArrayList<>(Arrays.asList(tagId1, tagId2, tagId3)));
+        List<Bookmark> taggedBookmark1 = tagBookmarkService.findTaggedBookmark(member1.getId(),
+                new ArrayList<>(Arrays.asList(tagId1, tagId2)));
+        List<Bookmark> taggedBookmark2 = tagBookmarkService.findTaggedBookmark(member1.getId(),
+                new ArrayList<>(Arrays.asList(tagId1)));
+        List<Bookmark> taggedBookmark3 = tagBookmarkService.findTaggedBookmark(member1.getId(),
+                new ArrayList<>(Arrays.asList(tagId1, tagId2, tagId3)));
 
         Member findMember = memberService.findOne(member1.getId());
 
@@ -152,8 +161,9 @@ class TagBookmarkServiceTest {
     @Test
     public void 태그중복() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -169,19 +179,22 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
 
         //then
-        assertThrows(TagBookmarkDuplicateException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
+        assertThrows(TagBookmarkDuplicateException.class,
+                () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId()));
 
     }
 
     @Test
     public void 태그북마크멤버불일치() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
 
@@ -196,7 +209,8 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member1.getId());
 
         //then
-        assertThrows(TagBookmarkMemberException.class, () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member2.getId()));
+        assertThrows(TagBookmarkMemberException.class,
+                () -> tagBookmarkService.saveTagBookmark(tagId1, bookmarkId1, member2.getId()));
 
     }
 }

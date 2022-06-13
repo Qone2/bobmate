@@ -29,8 +29,9 @@ class MemberServiceTest {
     @Test
     public void 맴버삭제() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -44,8 +45,9 @@ class MemberServiceTest {
     @Test
     public void 관계를_맺은상태에서_맴버삭제() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 

@@ -38,20 +38,25 @@ public class initDB {
         private final TagBookmarkService tagBookmarkService;
 
         public void dbInit1() {
-            CreateMemberDto memberDto1 = new CreateMemberDto("member1",
-                    passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+            CreateMemberDto memberDto1 = new CreateMemberDto("mmember1",
+                    passwordEncoder.encode("password1"),
+                    "nnickname1", Collections.singletonList("ROLE_USER"));
             Long memberId1 = memberService.join(memberDto1);
-            CreateMemberDto memberDto2 = new CreateMemberDto("member2",
-                    passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+            CreateMemberDto memberDto2 = new CreateMemberDto("mmember2",
+                    passwordEncoder.encode("password2"),
+                    "nnickname2", Collections.singletonList("ROLE_USER"));
             Long memberId2 = memberService.join(memberDto2);
-            CreateMemberDto memberDto3 = new CreateMemberDto("member3",
-                    passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+            CreateMemberDto memberDto3 = new CreateMemberDto("mmember3",
+                    passwordEncoder.encode("password3"),
+                    "nnickname3", Collections.singletonList("ROLE_USER"));
             Long memberId3 = memberService.join(memberDto3);
-            CreateMemberDto memberDto4 = new CreateMemberDto("member4",
-                    passwordEncoder.encode("password4"), Collections.singletonList("ROLE_USER"));
+            CreateMemberDto memberDto4 = new CreateMemberDto("mmember4",
+                    passwordEncoder.encode("password4"),
+                    "nnickname4", Collections.singletonList("ROLE_USER"));
             Long memberId4 = memberService.join(memberDto4);
-            CreateMemberDto memberDto5 = new CreateMemberDto("member5",
-                    passwordEncoder.encode("password5"), Collections.singletonList("ROLE_USER"));
+            CreateMemberDto memberDto5 = new CreateMemberDto("mmember5",
+                    passwordEncoder.encode("password5"),
+                    "nnickname5", Collections.singletonList("ROLE_USER"));
             Long memberId5 = memberService.join(memberDto5);
 
             Long placeId1 = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));

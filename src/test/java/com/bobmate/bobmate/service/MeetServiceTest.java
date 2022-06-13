@@ -27,8 +27,9 @@ class MeetServiceTest {
     @Test
     public void 모임생성() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
 
@@ -56,16 +57,19 @@ class MeetServiceTest {
     @Test
     public void 멤버추가() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
 
@@ -91,16 +95,19 @@ class MeetServiceTest {
     @Test
     public void 멤버삭제() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
 
@@ -122,16 +129,19 @@ class MeetServiceTest {
     @Test
     public void 모임중복가입() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
 
@@ -150,16 +160,19 @@ class MeetServiceTest {
     @Test
     public void 멤버삭제시_방장일경우() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
 

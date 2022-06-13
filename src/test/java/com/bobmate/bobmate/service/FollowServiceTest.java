@@ -25,20 +25,24 @@ class FollowServiceTest {
     @Test
     public void 팔로우() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
-        CreateMemberDto memberDto4 = new CreateMemberDto("member4@member4.com",
-                passwordEncoder.encode("password4"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto4 = new CreateMemberDto("member4",
+                passwordEncoder.encode("password4"),
+                "nickname4", Collections.singletonList("ROLE_USER"));
         Long memberId4 = memberService.join(memberDto4);
         Member member4 = memberService.findOne(memberId4);
 
@@ -56,20 +60,24 @@ class FollowServiceTest {
     @Test
     public void 언팔() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
-        CreateMemberDto memberDto4 = new CreateMemberDto("member4@member4.com",
-                passwordEncoder.encode("password4"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto4 = new CreateMemberDto("member4",
+                passwordEncoder.encode("password4"),
+                "nickname4", Collections.singletonList("ROLE_USER"));
         Long memberId4 = memberService.join(memberDto4);
         Member member4 = memberService.findOne(memberId4);
 
@@ -89,20 +97,24 @@ class FollowServiceTest {
     @Test
     public void 팔로우_목록() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
-        CreateMemberDto memberDto4 = new CreateMemberDto("member4@member4.com",
-                passwordEncoder.encode("password4"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto4 = new CreateMemberDto("member4",
+                passwordEncoder.encode("password4"),
+                "nickname4", Collections.singletonList("ROLE_USER"));
         Long memberId4 = memberService.join(memberDto4);
         Member member4 = memberService.findOne(memberId4);
 
@@ -126,20 +138,24 @@ class FollowServiceTest {
     @Test
     public void 팔로우중복() throws Exception {
         //given
-        CreateMemberDto memberDto1 = new CreateMemberDto("member1@member1.com",
-                passwordEncoder.encode("password1"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
         Long memberId1 = memberService.join(memberDto1);
         Member member1 = memberService.findOne(memberId1);
-        CreateMemberDto memberDto2 = new CreateMemberDto("member2@member2.com",
-                passwordEncoder.encode("password2"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
         Long memberId2 = memberService.join(memberDto2);
         Member member2 = memberService.findOne(memberId2);
-        CreateMemberDto memberDto3 = new CreateMemberDto("member3@member3.com",
-                passwordEncoder.encode("password3"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
         Long memberId3 = memberService.join(memberDto3);
         Member member3 = memberService.findOne(memberId3);
-        CreateMemberDto memberDto4 = new CreateMemberDto("member4@member4.com",
-                passwordEncoder.encode("password4"), Collections.singletonList("ROLE_USER"));
+        CreateMemberDto memberDto4 = new CreateMemberDto("member4",
+                passwordEncoder.encode("password4"),
+                "nickname4", Collections.singletonList("ROLE_USER"));
         Long memberId4 = memberService.join(memberDto4);
         Member member4 = memberService.findOne(memberId4);
 

@@ -27,6 +27,9 @@ public class Member implements UserDetails {
     @Column(length = 300, nullable = false)
     private String password;
 
+    @Column(length = 100, nullable = false)
+    private String nickname;
+
     @OneToMany(mappedBy = "member")
     private List<Review> reviews = new ArrayList<>();
 
@@ -90,6 +93,7 @@ public class Member implements UserDetails {
         Member member = new Member();
         member.setUserName(memberDto.getUserName());
         member.setPassword(memberDto.getPassword());
+        member.setNickname(memberDto.getNickname());
         member.setRoles(memberDto.getRoles());
         member.setMemberStatus(MemberStatus.VALID);
 
