@@ -8,9 +8,7 @@ import com.bobmate.bobmate.service.ReviewService;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +52,7 @@ public class ReviewApiController {
     }
 
     @Getter
+    @Setter
     static class CreateReviewRequest {
         @NotNull
         @ApiParam(value = "리뷰를 작성한 멤버", required = true)
