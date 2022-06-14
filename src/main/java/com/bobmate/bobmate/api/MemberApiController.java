@@ -197,18 +197,15 @@ public class MemberApiController {
     @Getter
     static class CreateMemberRequestV2 {
         @NotEmpty
-        @Size(min = 5, max = 20)
-        @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$")
+        @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
         private String user_name;
 
         @NotEmpty
-        @Size(min = 8, max = 16)
-        @Pattern(regexp = "^[A-Za-z\\d_\\-!@#$%^+]{8,16}$")
+        @Pattern(regexp = "^[A-Za-z\\d_\\-!@#$%^+]{8,16}$", message = "비밀번호 생성 규칙을 만족하지 않습니다.")
         private String password;
 
         @NotEmpty
-        @Size(min = 2, max = 12)
-        @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$")
+        @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
         private String nickname;
     }
 
