@@ -2,6 +2,7 @@ package com.bobmate.bobmate.service;
 
 import com.bobmate.bobmate.domain.*;
 import com.bobmate.bobmate.dto.CreateMemberDto;
+import com.bobmate.bobmate.exception.NicknameDuplicateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -64,6 +65,25 @@ class MemberServiceTest {
 
         //then
         assertEquals(MemberStatus.DELETED, member1.getMemberStatus());
+
+    }
+
+    @Test
+    public void 닉네임중복() throws Exception {
+        //given
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+
+        //when
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
+
+        //then
+        assertThrows(NicknameDuplicateException.class, () -> memberService.join(memberDto2));
 
     }
 

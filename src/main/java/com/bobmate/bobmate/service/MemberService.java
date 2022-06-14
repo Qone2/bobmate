@@ -4,6 +4,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberStatus;
 import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.DeletedMemberException;
+import com.bobmate.bobmate.exception.NicknameDuplicateException;
 import com.bobmate.bobmate.exception.UserNameDuplicateException;
 import com.bobmate.bobmate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ public class MemberService {
     @Transactional
     public Long join(CreateMemberDto memberDto) {
         validDuplicateMember(memberDto);
+        validateDuplicateNickname(memberDto);
         Member member = Member.createMember(memberDto);
         memberRepository.save(member);
         return member.getId();
@@ -40,6 +42,16 @@ public class MemberService {
         Optional<Member> findMember = memberRepository.findOneByUserName(memberDto.getUserName());
         if (findMember.isPresent()) {
             throw new UserNameDuplicateException("이미 존재하는 아이디 입니다.");
+        }
+    }
+
+    /**
+     * 닉네임 중복조회
+     */
+    private void validateDuplicateNickname(CreateMemberDto memberDto) {
+        Optional<Member> findMember = memberRepository.findOneByNickname(memberDto.getNickname());
+        if (findMember.isPresent()) {
+            throw new NicknameDuplicateException("이미 존재하는 닉네임 입니다.");
         }
     }
 

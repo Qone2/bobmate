@@ -27,7 +27,7 @@ public class Member implements UserDetails {
     @Column(length = 300, nullable = false)
     private String password;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false, unique = true)
     private String nickname;
 
     @OneToMany(mappedBy = "member")

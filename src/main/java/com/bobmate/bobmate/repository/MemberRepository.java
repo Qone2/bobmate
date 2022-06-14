@@ -37,11 +37,20 @@ public class MemberRepository {
     }
 
     /**
-     * 이메일로 멤버 조회
+     * 아이디로 멤버 조회
      */
     public Optional<Member> findOneByUserName(String userName) {
         return em.createQuery("select m from Member m where m.userName = :userName", Member.class)
                 .setParameter("userName", userName)
+                .getResultList().stream().findFirst();
+    }
+
+    /**
+     * 닉네임으로 멤버 조회
+     */
+    public Optional<Member> findOneByNickname(String nickname) {
+        return em.createQuery("select m from Member m where m.nickname = :nickname", Member.class)
+                .setParameter("nickname", nickname)
                 .getResultList().stream().findFirst();
     }
 
