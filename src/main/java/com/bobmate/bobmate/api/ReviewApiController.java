@@ -52,7 +52,7 @@ public class ReviewApiController {
     }
 
     @Getter
-    @Setter
+    @AllArgsConstructor
     static class CreateReviewRequest {
         @NotNull
         @ApiParam(value = "리뷰를 작성한 멤버", required = true)
