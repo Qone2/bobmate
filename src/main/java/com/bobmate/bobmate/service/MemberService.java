@@ -4,7 +4,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberStatus;
 import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.DeletedMemberException;
-import com.bobmate.bobmate.exception.EmailDuplicateException;
+import com.bobmate.bobmate.exception.UserNameDuplicateException;
 import com.bobmate.bobmate.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class MemberService {
     private void validDuplicateMember(CreateMemberDto memberDto) {
         Optional<Member> findMember = memberRepository.findOneByUserName(memberDto.getUserName());
         if (findMember.isPresent()) {
-            throw new EmailDuplicateException("이미 존재하는 아이디 입니다.");
+            throw new UserNameDuplicateException("이미 존재하는 아이디 입니다.");
         }
     }
 

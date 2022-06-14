@@ -28,7 +28,7 @@ public class ExceptionApiController {
             DeletedMemberException.class,
             DeletedPlaceException.class,
             DeletedReviewException.class,
-            EmailDuplicateException.class,
+            UserNameDuplicateException.class,
             FollowDuplicateException.class,
             HeadMemberException.class,
             LikeDuplicateException.class,
