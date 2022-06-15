@@ -61,8 +61,10 @@ class ReviewServiceTest {
 
         //when
         String contents = "맛있다!";
-        Exception e1 = assertThrows(StarValueException.class, () -> reviewService.saveReview(memberId1, placeId, contents, 6.0, new ArrayList<>()));
-        Exception e2 = assertThrows(StarValueException.class, () -> reviewService.saveReview(memberId1, placeId, contents, -1.0, new ArrayList<>()));
+        Exception e1 = assertThrows(StarValueException.class,
+                () -> reviewService.saveReview(memberId1, placeId, contents, 6.0, new ArrayList<>()));
+        Exception e2 = assertThrows(StarValueException.class,
+                () -> reviewService.saveReview(memberId1, placeId, contents, -1.0, new ArrayList<>()));
 
         //then
         System.out.println(e1.getMessage());
@@ -137,6 +139,7 @@ class ReviewServiceTest {
         place.delete();
 
         //then
-        assertThrows(DeletedPlaceException.class, () -> reviewService.saveReview(memberId1, placeId, contents, 5.0, new ArrayList<>()));
+        assertThrows(DeletedPlaceException.class,
+                () -> reviewService.saveReview(memberId1, placeId, contents, 5.0, new ArrayList<>()));
     }
 }
