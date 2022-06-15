@@ -94,11 +94,11 @@ class TagBookmarkServiceTest {
         tagBookmarkService.saveTagBookmark(tagId3, bookmarkId3, member1.getId());
 
         List<Bookmark> taggedBookmark1 = tagBookmarkService.findTaggedBookmark(member1.getId(),
-                new ArrayList<>(Arrays.asList(tagId1, tagId2)));
+                Arrays.asList(tagId1, tagId2));
         List<Bookmark> taggedBookmark2 = tagBookmarkService.findTaggedBookmark(member1.getId(),
-                new ArrayList<>(Arrays.asList(tagId1)));
+                Arrays.asList(tagId1));
         List<Bookmark> taggedBookmark3 = tagBookmarkService.findTaggedBookmark(member1.getId(),
-                new ArrayList<>(Arrays.asList(tagId1, tagId2, tagId3)));
+                Arrays.asList(tagId1, tagId2, tagId3));
 
         //then
         assertEquals(1, taggedBookmark1.size());
@@ -142,11 +142,11 @@ class TagBookmarkServiceTest {
         tagBookmarkService.deleteTagBookmark(tagId1, bookmarkId1, member1.getId());
 
         List<Bookmark> taggedBookmark1 = tagBookmarkService.findTaggedBookmark(member1.getId(),
-                new ArrayList<>(Arrays.asList(tagId1, tagId2)));
+                Arrays.asList(tagId1, tagId2));
         List<Bookmark> taggedBookmark2 = tagBookmarkService.findTaggedBookmark(member1.getId(),
-                new ArrayList<>(Arrays.asList(tagId1)));
+                Arrays.asList(tagId1));
         List<Bookmark> taggedBookmark3 = tagBookmarkService.findTaggedBookmark(member1.getId(),
-                new ArrayList<>(Arrays.asList(tagId1, tagId2, tagId3)));
+                Arrays.asList(tagId1, tagId2, tagId3));
 
         Member findMember = memberService.findOne(member1.getId());
 
