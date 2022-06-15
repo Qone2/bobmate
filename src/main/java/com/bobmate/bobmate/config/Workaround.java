@@ -10,7 +10,10 @@ import springfox.documentation.spi.DocumentationType;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 
-@Component
+/**
+ * https://velog.io/@yulhee741/Swagger-servers-url-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0-https-%EC%B6%94%EA%B0%80
+ */
+//@Component
 public class Workaround implements WebMvcOpenApiTransformationFilter {
     @Override
     public OpenAPI transform(OpenApiTransformationContext<HttpServletRequest> context) {
