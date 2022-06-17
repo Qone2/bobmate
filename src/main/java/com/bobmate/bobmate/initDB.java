@@ -70,9 +70,16 @@ public class initDB {
             reviewService.saveReview(memberId1, placeId1, "리뷰내용2", 4.0, Arrays.asList(
                     Photo.photoHandle("review2-1.jpg", "init_photo/review2-1.jpg", 90000L)
             ));
-            reviewService.saveReview(memberId1, placeId2, "리뷰내용3", 3.5, new ArrayList<>());
-            reviewService.saveReview(memberId2, placeId2, "리뷰내용4", 4.5, new ArrayList<>());
-            reviewService.saveReview(memberId3, placeId3, "리뷰내용5", 3.5, new ArrayList<>());
+            reviewService.saveReview(memberId1, placeId2, "리뷰내용3", 3.5, Arrays.asList(
+                    Photo.photoHandle("review3-1.jpg", "init_photo/review3-1.jpg", 90000L),
+                    Photo.photoHandle("review3-2.jpg", "init_photo/review3-2.jpg", 90000L)
+            ));
+            reviewService.saveReview(memberId2, placeId2, "리뷰내용4", 4.5, Arrays.asList(
+                    Photo.photoHandle("review4-1.jpg", "init_photo/review4-1.jpg", 90000L)
+            ));
+            reviewService.saveReview(memberId3, placeId3, "리뷰내용5", 3.5, Arrays.asList(
+                    Photo.photoHandle("review5-1.jpg", "init_photo/review5-1.jpg", 90000L)
+            ));
 
             Long meetId1 = meetService.saveMeet(memberId1, placeId3, "모임1", "링크1");
             meetService.addMember(memberId4, meetId1);
