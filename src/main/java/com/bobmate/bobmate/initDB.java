@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 @Component
@@ -63,8 +64,12 @@ public class initDB {
             Long placeId2 = placeService.savePlace("식당2", new Coordinate(13.123, 31.321));
             Long placeId3 = placeService.savePlace("식당3", new Coordinate(12.123, 32.321));
 
-            reviewService.saveReview(memberId1, placeId1, "리뷰내용1", 1.5, new ArrayList<>());
-            reviewService.saveReview(memberId1, placeId1, "리뷰내용2", 2.5, new ArrayList<>());
+            reviewService.saveReview(memberId1, placeId1, "리뷰내용1", 4.5, Arrays.asList(
+                    Photo.photoHandle("review1-1.jpg", "init_photo/review1-1.jpg", 90000L)
+            ));
+            reviewService.saveReview(memberId1, placeId1, "리뷰내용2", 4.0, Arrays.asList(
+                    Photo.photoHandle("review2-1.jpg", "init_photo/review2-1.jpg", 90000L)
+            ));
             reviewService.saveReview(memberId1, placeId2, "리뷰내용3", 3.5, new ArrayList<>());
             reviewService.saveReview(memberId2, placeId2, "리뷰내용4", 4.5, new ArrayList<>());
             reviewService.saveReview(memberId3, placeId3, "리뷰내용5", 3.5, new ArrayList<>());
