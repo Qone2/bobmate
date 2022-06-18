@@ -22,5 +22,6 @@ https://qone2.notion.site/9d1f9bd5748a4feaa8ebd501af82ef04
 
 ## API Specification
 ~~https://www.bobmate.qone2.com/swagger-ui/index.html~~ <br>
+~~(http://54.180.66.179/swagger-ui/index.html)~~ <br>
 http://www.bobmate.qone2.com:5050/swagger-ui/index.html <br>
-(http://54.180.66.179/swagger-ui/index.html)
+(http://54.180.66.179:5050/swagger-ui/index.html) <br>
