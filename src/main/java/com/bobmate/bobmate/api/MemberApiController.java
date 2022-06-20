@@ -14,15 +14,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -207,6 +210,26 @@ public class MemberApiController {
         @NotNull
         @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
         private String nickname;
+    }
+
+    /**
+     * 아이디 중복확인
+     */
+    @GetMapping("/api/v1/member/validate-id")
+    public ResponseEntity<ValidateResponse> validateUserid(@RequestParam @NotBlank String user_id) {
+        Optional<Member> optionalMember = memberService.findByUserName(user_id);
+        if (optionalMember.isPresent()) {
+            return ResponseEntity.ok().body(new ValidateResponse(200, "해당 아이디가 이미 존재합니다."));
+        } else {
+            return ResponseEntity.ok().body(new ValidateResponse(404, "해당 아이디가 아직 없습니다."));
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class ValidateResponse {
+        private int code;
+        private String message;
     }
 
     /**
