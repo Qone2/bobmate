@@ -4,6 +4,7 @@ import com.bobmate.bobmate.exception.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -39,7 +40,8 @@ public class ExceptionApiController {
             TagNameDuplicateException.class,
             MethodArgumentNotValidException.class,
             IllegalArgumentException.class,
-            HttpMediaTypeNotSupportedException.class
+            HttpMediaTypeNotSupportedException.class,
+            DataIntegrityViolationException.class
     })
     public ResponseEntity badRequest(Exception ex) {
         // 400
