@@ -25,23 +25,9 @@ public class ExceptionApiController {
     }
 
     @ExceptionHandler({
-            BookmarkDuplicateException.class,
-            DeletedMemberException.class,
-            DeletedPlaceException.class,
-            DeletedReviewException.class,
-            UserNameDuplicateException.class,
-            FollowDuplicateException.class,
-            HeadMemberException.class,
-            LikeDuplicateException.class,
-            MemberMeetDuplicateException.class,
-            StarValueException.class,
-            TagBookmarkDuplicateException.class,
-            TagBookmarkMemberException.class,
-            TagNameDuplicateException.class,
             MethodArgumentNotValidException.class,
             IllegalArgumentException.class,
-            HttpMediaTypeNotSupportedException.class,
-            DataIntegrityViolationException.class
+            HttpMediaTypeNotSupportedException.class // 요구되는 미디어타입이 아닐경우
     })
     public ResponseEntity badRequest(Exception ex) {
         // 400
@@ -85,13 +71,41 @@ public class ExceptionApiController {
     }
 
 
-//    @ExceptionHandler
+    @ExceptionHandler({
+            BookmarkDuplicateException.class,
+            UserNameDuplicateException.class,
+            FollowDuplicateException.class,
+            LikeDuplicateException.class,
+            MemberMeetDuplicateException.class,
+            TagBookmarkDuplicateException.class,
+            TagNameDuplicateException.class,
+            DataIntegrityViolationException.class // DB에서 유니크제한조건 불만족시
+    })
+    public ResponseEntity conflict(Exception ex) {
+        // 409
+        log.warn("error : ", ex);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                new GeneralExceptionDto("409", "자원이 중복됩니다, " +
+                        ex.getMessage())
+        );
+    }
+
+
+    @ExceptionHandler({
+            DeletedMemberException.class,
+            DeletedPlaceException.class,
+            DeletedReviewException.class,
+            HeadMemberException.class,
+            StarValueException.class,
+            TagBookmarkMemberException.class,
+    })
     public ResponseEntity unprocessable(Exception ex) {
         // 422
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(
                 new GeneralExceptionDto("422", "Unprocessable Entity\t\n" +
-                        "Unable to process request (in normal cases, validation failed)")
+                        "Unable to process request (in normal cases, validation failed), " +
+                        ex.getMessage())
         );
     }
 
