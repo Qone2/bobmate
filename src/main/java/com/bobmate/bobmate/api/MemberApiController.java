@@ -216,19 +216,20 @@ public class MemberApiController {
      * 아이디 중복확인
      */
     @GetMapping("/api/v1/member/validate-id")
+    @Operation(summary = "아이디 중복 조회")
     public ResponseEntity<ValidateResponse> validateUserid(@RequestParam @NotBlank String user_id) {
         Optional<Member> optionalMember = memberService.findByUserName(user_id);
         if (optionalMember.isPresent()) {
-            return ResponseEntity.ok().body(new ValidateResponse(200, "해당 아이디가 이미 존재합니다."));
+            return ResponseEntity.ok().body(new ValidateResponse("200", "해당 아이디가 이미 존재합니다."));
         } else {
-            return ResponseEntity.ok().body(new ValidateResponse(404, "해당 아이디가 아직 없습니다."));
+            return ResponseEntity.ok().body(new ValidateResponse("404", "해당 아이디가 아직 없습니다."));
         }
     }
 
     @Getter
     @AllArgsConstructor
     static class ValidateResponse {
-        private int code;
+        private String code;
         private String message;
     }
 
