@@ -16,13 +16,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +31,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class MemberApiController {
 
     private final MemberService memberService;
@@ -217,8 +216,10 @@ public class MemberApiController {
      */
     @GetMapping("/api/v1/member/validate-id")
     @Operation(summary = "아이디 중복 조회")
-    public ResponseEntity<ValidateResponse> validateUserid(@RequestParam @NotBlank String user_id) {
         Optional<Member> optionalMember = memberService.findByUserName(user_id);
+    public ResponseEntity<ValidateResponse> validateUserid(
+            @RequestParam @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
+                    String user_id) {
         if (optionalMember.isPresent()) {
             return ResponseEntity.ok().body(new ValidateResponse("200", "해당 아이디가 이미 존재합니다."));
         } else {
