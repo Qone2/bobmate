@@ -75,8 +75,18 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-    public Optional<Member> findByUserName(String userName) {
+    /**
+     * 아이디로 멤버 조회
+     */
+    public Optional<Member> findOneByUserName(String userName) {
         return memberRepository.findOneByUserName(userName);
+    }
+
+    /**
+     * 닉네임으로 멤버 조회
+     */
+    public Optional<Member> findOneByNickname(String nickname) {
+        return memberRepository.findOneByNickname(nickname);
     }
 
     /**

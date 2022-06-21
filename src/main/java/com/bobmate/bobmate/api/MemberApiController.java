@@ -216,10 +216,10 @@ public class MemberApiController {
      */
     @GetMapping("/api/v1/member/validate-id")
     @Operation(summary = "아이디 중복 조회")
-        Optional<Member> optionalMember = memberService.findByUserName(user_id);
     public ResponseEntity<ValidateResponse> validateUserid(
             @RequestParam @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
                     String user_id) {
+        Optional<Member> optionalMember = memberService.findOneByUserName(user_id);
         if (optionalMember.isPresent()) {
             return ResponseEntity.ok().body(new ValidateResponse("200", "해당 아이디가 이미 존재합니다."));
         } else {
@@ -235,6 +235,22 @@ public class MemberApiController {
     }
 
     /**
+     * 닉네임 중복확인
+     */
+    @GetMapping("/api/v1/member/validate-nickname")
+    @Operation(summary = "닉네임 중복 조회")
+    public ResponseEntity<ValidateResponse> validateNickname(
+            @RequestParam @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
+                    String nickname) {
+        Optional<Member> optionalMember = memberService.findOneByNickname(nickname);
+        if (optionalMember.isPresent()) {
+            return ResponseEntity.ok().body(new ValidateResponse("409", "해당 닉네임이 이미 존해합니다."));
+        } else {
+            return ResponseEntity.ok().body(new ValidateResponse("404", "해당 닉네임이 아직 없습니다."));
+        }
+    }
+
+    /**
      * 로그인
      */
     @GetMapping("/api/v2/login")
@@ -246,7 +262,7 @@ public class MemberApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public LoginResponse loginV2(@ModelAttribute @Valid LoginRequest request) {
-        Member member = memberService.findByUserName(request.getUser_name())
+        Member member = memberService.findOneByUserName(request.getUser_name())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("회원정보가 불일치합니다.");
