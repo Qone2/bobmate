@@ -11,6 +11,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -32,7 +33,8 @@ public class ExceptionApiController {
             WrongIdPasswordException.class,
             HttpMediaTypeNotSupportedException.class, // 요구되는 미디어타입이 아닐경우
             ConstraintViolationException.class, // @Validated에서 validation을 만족하지 않을 때
-            BindException.class // @ModelAttribute에서 validation을 만족하지 않을 때
+            BindException.class, // @ModelAttribute에서 validation을 만족하지 않을 때
+            MissingServletRequestParameterException.class // 요구되는 파라미터가 전달되지 않았을 때
     })
     public ResponseEntity<GeneralExceptionDto> badRequest(Exception ex) {
         // 400
