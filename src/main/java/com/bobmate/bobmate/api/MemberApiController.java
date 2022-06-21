@@ -201,15 +201,15 @@ public class MemberApiController {
     @Getter
     static class CreateMemberRequestV2 {
         @NotNull
-        @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
+        @Pattern(regexp = "^[a-z0-9_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
         private String user_id;
 
         @NotNull
-        @Pattern(regexp = "^[A-Za-z\\d_\\-!@#$%^+]{8,16}$", message = "비밀번호 생성 규칙을 만족하지 않습니다.")
+        @Pattern(regexp = "^[A-Za-z0-9_\\-!@#$%^+]{8,16}$", message = "비밀번호 생성 규칙을 만족하지 않습니다.")
         private String password;
 
         @NotNull
-        @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
+        @Pattern(regexp = "^[가-힣A-Za-z0-9]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
         private String nickname;
     }
 
@@ -219,7 +219,7 @@ public class MemberApiController {
     @GetMapping("/api/v1/member/validate-id")
     @Operation(summary = "아이디 중복 조회")
     public ResponseEntity<ValidateResponse> validateUserid(
-            @RequestParam @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
+            @RequestParam @Pattern(regexp = "^[a-z0-9_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
                     String user_id) {
         Optional<Member> optionalMember = memberService.findOneByUserId(user_id);
         if (optionalMember.isPresent()) {
@@ -242,7 +242,7 @@ public class MemberApiController {
     @GetMapping("/api/v1/member/validate-nickname")
     @Operation(summary = "닉네임 중복 조회")
     public ResponseEntity<ValidateResponse> validateNickname(
-            @RequestParam @Pattern(regexp = "^[가-힣A-Za-z\\d]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
+            @RequestParam @Pattern(regexp = "^[가-힣A-Za-z0-9]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
                     String nickname) {
         Optional<Member> optionalMember = memberService.findOneByNickname(nickname);
         if (optionalMember.isPresent()) {
