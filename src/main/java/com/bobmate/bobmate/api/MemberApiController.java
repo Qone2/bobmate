@@ -8,6 +8,7 @@ import com.bobmate.bobmate.exception.WrongIdPasswordException;
 import com.bobmate.bobmate.service.MemberService;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -184,11 +185,12 @@ public class MemberApiController {
      */
     @PostMapping("/api/v2/join")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "회원가입", description = "**지금은 회원명이 이메일을 기준으로 되어있습니다. 추후 변경예정<br><br>" +
-            "회원명 이메일 형식을 지켜줘야 허가가 나고 중복검사를 합니다. 비밀번호는 아직 따로 제한사항이 없습니다.<br><br>" +
+    @Operation(summary = "회원가입", description = "아이디, 닉네임에 대해서 중복검사가 있습니다.<br>" +
+            "schema의 아이디, 비밀번호, 닉네임 규칙을 만족해야 합니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 회원명이 중복되는 경우, 이메일 형식을 지키지 않은 경우<br>" +
+            "400 : 아이디, 비밀번호, 닉네임 형식이 지켜지지 않은 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "409 : 아이디나 닉네임이 중복되는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
         CreateMemberDto memberDto = new CreateMemberDto(request.getUser_id(),
@@ -217,9 +219,14 @@ public class MemberApiController {
      * 아이디 중복확인
      */
     @GetMapping("/api/v1/member/validate-id")
-    @Operation(summary = "아이디 중복 조회")
+    @Operation(summary = "아이디 중복 조회", description = "아이디가 중복되는지 검사합니다. 중복여부 관계없이 status code는 200이고, " +
+            "중복인 경우 리턴json의 code값이 \"409\", 중복이 아닌경우 \"404\"입니다.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "400 : query parameter 변수가 전달되지 않은 경우, 형식이 지켜지지 않은 경우<br>" +
+            "500 : 내부 서버 에러")
     public ResponseEntity<ValidateResponse> validateUserid(
             @RequestParam @Pattern(regexp = "^[a-z0-9_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
+            @Parameter(description = "규칙 : ^[a-z0-9_\\-]{5,20}$")
                     String user_id) {
         Optional<Member> optionalMember = memberService.findOneByUserId(user_id);
         if (optionalMember.isPresent()) {
@@ -232,6 +239,7 @@ public class MemberApiController {
     @Getter
     @AllArgsConstructor
     static class ValidateResponse {
+        @Schema(description = "중복될 경우 \"409\", 중복되지 않으면 \"404\"")
         private String code;
         private String message;
     }
@@ -240,9 +248,14 @@ public class MemberApiController {
      * 닉네임 중복확인
      */
     @GetMapping("/api/v1/member/validate-nickname")
-    @Operation(summary = "닉네임 중복 조회")
+    @Operation(summary = "닉네임 중복 조회", description = "닉네임이 중복되는지 검사합니다. 중복여부 관계없이 status code는 200이고, " +
+            "중복인 경우 리턴json의 code값이 \"409\", 중복이 아닌경우 \"404\"입니다.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "400 : query parameter 변수가 전달되지 않은 경우, 형식이 지켜지지 않은 경우<br>" +
+            "500 : 내부 서버 에러")
     public ResponseEntity<ValidateResponse> validateNickname(
             @RequestParam @Pattern(regexp = "^[가-힣A-Za-z0-9]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
+            @Parameter(description = "규칙 : ^[가-힣A-Za-z0-9]{2,12}$")
                     String nickname) {
         Optional<Member> optionalMember = memberService.findOneByNickname(nickname);
         if (optionalMember.isPresent()) {
@@ -276,7 +289,9 @@ public class MemberApiController {
     @Getter
     @AllArgsConstructor
     static class LoginResponse {
+        @Schema(description = "해당 멤버 id")
         private Long member_id;
+        @Schema(description = "JWT 토큰")
         private String token;
     }
 
