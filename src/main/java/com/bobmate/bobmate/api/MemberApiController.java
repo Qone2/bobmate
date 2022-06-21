@@ -4,6 +4,7 @@ import com.bobmate.bobmate.config.security.JwtTokenProvider;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberStatus;
 import com.bobmate.bobmate.dto.CreateMemberDto;
+import com.bobmate.bobmate.exception.WrongIdPasswordException;
 import com.bobmate.bobmate.service.MemberService;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -264,9 +265,9 @@ public class MemberApiController {
             "500 : 내부 서버 에러")
     public LoginResponse loginV2(@ModelAttribute @Valid LoginRequest request) {
         Member member = memberService.findOneByUserId(request.getUser_id())
-                .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
+                .orElseThrow(() -> new WrongIdPasswordException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
-            throw new IllegalArgumentException("회원정보가 불일치합니다.");
+            throw new WrongIdPasswordException("회원정보가 불일치합니다.");
         }
         String token = jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
         return new LoginResponse(member.getId(), token);

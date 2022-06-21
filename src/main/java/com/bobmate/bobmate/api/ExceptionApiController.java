@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,9 +29,10 @@ public class ExceptionApiController {
 
     @ExceptionHandler({
             MethodArgumentNotValidException.class, // 일반 @Valid에서 validation을 만족하지 않을 때
-            IllegalArgumentException.class,
+            WrongIdPasswordException.class,
             HttpMediaTypeNotSupportedException.class, // 요구되는 미디어타입이 아닐경우
-            ConstraintViolationException.class // @Validated에서 validation을 만족하지 않을 때
+            ConstraintViolationException.class, // @Validated에서 validation을 만족하지 않을 때
+            BindException.class // @ModelAttribute에서 validation을 만족하지 않을 때
     })
     public ResponseEntity<GeneralExceptionDto> badRequest(Exception ex) {
         // 400
