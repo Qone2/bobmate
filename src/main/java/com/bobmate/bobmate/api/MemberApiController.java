@@ -223,7 +223,7 @@ public class MemberApiController {
                     String user_id) {
         Optional<Member> optionalMember = memberService.findOneByUserId(user_id);
         if (optionalMember.isPresent()) {
-            return ResponseEntity.ok().body(new ValidateResponse("200", "해당 아이디가 이미 존재합니다."));
+            return ResponseEntity.ok().body(new ValidateResponse("409", "해당 아이디가 이미 존재합니다."));
         } else {
             return ResponseEntity.ok().body(new ValidateResponse("404", "해당 아이디가 아직 없습니다."));
         }
