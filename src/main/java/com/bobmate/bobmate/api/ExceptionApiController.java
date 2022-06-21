@@ -13,6 +13,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
+
 @RestControllerAdvice
 @Slf4j
 public class ExceptionApiController {
@@ -25,11 +27,12 @@ public class ExceptionApiController {
     }
 
     @ExceptionHandler({
-            MethodArgumentNotValidException.class,
+            MethodArgumentNotValidException.class, // 일반 @Valid에서 validation을 만족하지 않을 때
             IllegalArgumentException.class,
-            HttpMediaTypeNotSupportedException.class // 요구되는 미디어타입이 아닐경우
+            HttpMediaTypeNotSupportedException.class, // 요구되는 미디어타입이 아닐경우
+            ConstraintViolationException.class // @Validated에서 validation을 만족하지 않을 때
     })
-    public ResponseEntity badRequest(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> badRequest(Exception ex) {
         // 400
         log.warn("error : ", ex);
         return ResponseEntity.badRequest().body(
@@ -40,7 +43,7 @@ public class ExceptionApiController {
 
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity accessDenied(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> accessDenied(Exception ex) {
         // 401
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
@@ -50,7 +53,7 @@ public class ExceptionApiController {
 
 
 //    @ExceptionHandler
-    public ResponseEntity forbidden(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> forbidden(Exception ex) {
         // 403
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
@@ -62,7 +65,7 @@ public class ExceptionApiController {
     @ExceptionHandler({
             NullPointerException.class
     })
-    public ResponseEntity notFound(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> notFound(Exception ex) {
         // 404
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -81,7 +84,7 @@ public class ExceptionApiController {
             TagNameDuplicateException.class,
             DataIntegrityViolationException.class // DB에서 유니크제한조건 불만족시
     })
-    public ResponseEntity conflict(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> conflict(Exception ex) {
         // 409
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(
@@ -99,7 +102,7 @@ public class ExceptionApiController {
             StarValueException.class,
             TagBookmarkMemberException.class,
     })
-    public ResponseEntity unprocessable(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> unprocessable(Exception ex) {
         // 422
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(
@@ -111,7 +114,7 @@ public class ExceptionApiController {
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity serverError(Exception ex) {
+    public ResponseEntity<GeneralExceptionDto> serverError(Exception ex) {
         // 500
         log.warn("error : ", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
