@@ -22,7 +22,7 @@ public class Member implements UserDetails {
     private Long id;
 
     @Column(length = 100, nullable = false, unique = true)
-    private String userName;
+    private String userId;
 
     @Column(length = 300, nullable = false)
     private String password;
@@ -61,11 +61,7 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userName;
-    }
-
-    public String getUserName() {
-        return this.userName;
+        return this.userId;
     }
 
     @Override
@@ -91,7 +87,7 @@ public class Member implements UserDetails {
     //==생성 메서드==//
     public static Member createMember(CreateMemberDto memberDto) {
         Member member = new Member();
-        member.setUserName(memberDto.getUserName());
+        member.setUserId(memberDto.getUserId());
         member.setPassword(memberDto.getPassword());
         member.setNickname(memberDto.getNickname());
         member.setRoles(memberDto.getRoles());

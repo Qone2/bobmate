@@ -39,7 +39,7 @@ public class MemberService {
      * entity에 unique constraint 필요
      */
     private void validDuplicateMember(CreateMemberDto memberDto) {
-        Optional<Member> findMember = memberRepository.findOneByUserName(memberDto.getUserName());
+        Optional<Member> findMember = memberRepository.findOneByUserId(memberDto.getUserId());
         if (findMember.isPresent()) {
             throw new UserNameDuplicateException("이미 존재하는 아이디 입니다.");
         }
@@ -68,7 +68,7 @@ public class MemberService {
     @Transactional
     public void update(Long memberId, String userName) {
         Member findMember = memberRepository.findOne(memberId);
-        findMember.setUserName(userName);
+        findMember.setUserId(userName);
     }
 
     public List<Member> findAll() {
@@ -78,8 +78,8 @@ public class MemberService {
     /**
      * 아이디로 멤버 조회
      */
-    public Optional<Member> findOneByUserName(String userName) {
-        return memberRepository.findOneByUserName(userName);
+    public Optional<Member> findOneByUserId(String userName) {
+        return memberRepository.findOneByUserId(userName);
     }
 
     /**

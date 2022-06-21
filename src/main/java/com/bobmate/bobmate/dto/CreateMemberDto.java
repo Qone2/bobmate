@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class CreateMemberDto {
-    private String userName;
+    private String userId;
     private String password;
     private String nickname;
     private List<String> roles;

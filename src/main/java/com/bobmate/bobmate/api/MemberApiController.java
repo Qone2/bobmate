@@ -79,7 +79,7 @@ public class MemberApiController {
     @AllArgsConstructor
     static class MemberDto {
         private Long member_id;
-        private String user_name;
+        private String user_id;
         private String nickname;
         private List<Long> review_ids;
         private List<Long> meet_ids;
@@ -91,7 +91,7 @@ public class MemberApiController {
 
         public MemberDto(Member member) {
             this.member_id = member.getId();
-            this.user_name = member.getUserName();
+            this.user_id = member.getUserId();
             this.nickname = member.getNickname();
             this.review_ids = member.getReviews()
                     .stream().map(r -> r.getId()).collect(Collectors.toList());
@@ -139,7 +139,7 @@ public class MemberApiController {
     static class MemberDetailResponse {
         private Long member_id;
         @Schema(description = "멤버가 설정한 아이디")
-        private String user_name;
+        private String user_id;
         @Schema(description = "멤버가 설정한 닉네임")
         private String nickname;
         @Schema(description = "작성한 리뷰 id리스트")
@@ -159,7 +159,7 @@ public class MemberApiController {
 
         public MemberDetailResponse(Member member) {
             this.member_id = member.getId();
-            this.user_name = member.getUserName();
+            this.user_id = member.getUserId();
             this.nickname = member.getNickname();
             this.review_ids = member.getReviews()
                     .stream().map(r -> r.getId()).collect(Collectors.toList());
@@ -189,7 +189,7 @@ public class MemberApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequestV2 request) {
-        CreateMemberDto memberDto = new CreateMemberDto(request.getUser_name(),
+        CreateMemberDto memberDto = new CreateMemberDto(request.getUser_id(),
                 passwordEncoder.encode(request.getPassword()),
                 request.getNickname(),
                 Collections.singletonList("ROLE_USER"));
@@ -200,7 +200,7 @@ public class MemberApiController {
     static class CreateMemberRequestV2 {
         @NotNull
         @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
-        private String user_name;
+        private String user_id;
 
         @NotNull
         @Pattern(regexp = "^[A-Za-z\\d_\\-!@#$%^+]{8,16}$", message = "비밀번호 생성 규칙을 만족하지 않습니다.")
@@ -219,7 +219,7 @@ public class MemberApiController {
     public ResponseEntity<ValidateResponse> validateUserid(
             @RequestParam @Pattern(regexp = "^[a-z\\d_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
                     String user_id) {
-        Optional<Member> optionalMember = memberService.findOneByUserName(user_id);
+        Optional<Member> optionalMember = memberService.findOneByUserId(user_id);
         if (optionalMember.isPresent()) {
             return ResponseEntity.ok().body(new ValidateResponse("200", "해당 아이디가 이미 존재합니다."));
         } else {
@@ -262,7 +262,7 @@ public class MemberApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public LoginResponse loginV2(@ModelAttribute @Valid LoginRequest request) {
-        Member member = memberService.findOneByUserName(request.getUser_name())
+        Member member = memberService.findOneByUserId(request.getUser_id())
                 .orElseThrow(() -> new IllegalArgumentException("회원정보가 불일치합니다."));
         if (!passwordEncoder.matches(request.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("회원정보가 불일치합니다.");
@@ -281,7 +281,7 @@ public class MemberApiController {
     @Getter
     static class LoginRequest {
         @NotEmpty
-        private String user_name;
+        private String user_id;
 
         @NotEmpty
         private String password;
