@@ -15,6 +15,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * 사진파일의 보안 조치 참고 : https://www.opswat.com/blog/file-upload-protection-best-practices
+ * https://owin2828.github.io/devlog/2020/01/09/etc-2.html
+ */
 @Component
 public class PhotoHandler {
 
@@ -51,13 +55,13 @@ public class PhotoHandler {
 
                 if (ObjectUtils.isEmpty(contentType)) {
                     continue;
-                } else if (contentType.contains("image/jpeg")) {
+                } else if (contentType.equals("image/jpeg")) {
                     fileExtension = ".jpg";
-                } else if (contentType.contains("image/png")) {
+                } else if (contentType.equals("image/png")) {
                     fileExtension = ".png";
-                } else if (contentType.contains("image/heic")) {
+                } else if (contentType.equals("image/heic")) {
                     fileExtension = ".heic";
-                } else if (contentType.contains("image/heif")) {
+                } else if (contentType.equals("image/heif")) {
                     fileExtension = ".heif";
                 } else {
                     continue;
