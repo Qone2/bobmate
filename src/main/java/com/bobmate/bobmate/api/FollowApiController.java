@@ -31,7 +31,7 @@ public class FollowApiController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "팔로우 하기", description = "from멤버와 to멤버를 명시해야 합니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 이미 팔로우 되어있는 경우<br>" +
+            "409 : 이미 팔로우 되어있는 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public FollowResponse followV1(@RequestBody @Valid FollowRequest request) {

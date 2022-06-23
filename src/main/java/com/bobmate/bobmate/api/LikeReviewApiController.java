@@ -36,8 +36,9 @@ public class LikeReviewApiController {
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "리뷰좋아요", description = "리뷰에 좋아요를 합니다. 좋아요를 수행하는 멤버와 장소가 명시되어야합니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 이미 좋아요 되어있는 경우, 삭제된 리뷰인 경우<br>" +
+            "409 : 이미 좋아요 되어있는 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "422 : 삭제된 리뷰인 경우<br>" +
             "500 : 내부 서버 에러")
     public LikeReviewResponse likeReviewV1(@RequestBody @Valid LikeReviewRequest request) {
         Long likeReviewId =  likeReviewService.likeReview(request.getMember_id(), request.getReview_id());
