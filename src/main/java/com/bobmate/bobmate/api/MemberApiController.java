@@ -67,7 +67,6 @@ public class MemberApiController {
      */
     @GetMapping("/api/v1/member")
     @Operation(summary = "전체멤버 조회", description = "전체 멤버정보를 조회<br><br>발생가능한 예외:<br>" +
-            "400 : 내부적으로 정의된 처리 불가능의 경우 ex) 회원명 중복<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public Result membersV1() {
@@ -330,6 +329,7 @@ public class MemberApiController {
     @Operation(summary = "맴버 삭제", description = "멤버삭제는 물리적 삭제가 아닌 논리적 삭제로 진행되며, " +
             "member status 항목이 VALID에서 DELETED로 바뀝니다.<br><br>" + "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "422 : 이미 삭제된 멤버인 경우<br>" +
             "500 : 내부 서버 에러")
     public DeleteMemberResponseV2 deleteMemberV2(@PathVariable("member_id") Long member_id) {
         return new DeleteMemberResponseV2(memberService.deleteMember(member_id));

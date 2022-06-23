@@ -75,8 +75,8 @@ public class MeetApiController {
     @Operation(summary = "소모임에 맴버 추가", description = "소모임에 멤버를 추가합니다. path variable에 소모임id가 명시되어야 하고," +
             "json형식으로 추가될 멤버의 id가 명시되어야 합니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 멤버가 이미 소모임에 참여되어있는 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "409 : 멤버가 이미 소모임에 참여되어있는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateMemberMeetResponse addMemberMeetV1(@PathVariable("meet_id") Long meet_id,
                                                     @RequestBody @Valid CreateMemberMeetRequest request) {
@@ -177,8 +177,8 @@ public class MeetApiController {
             "하고, json에 탈퇴할 멤버 id가 명시되어있어야 합니다.<br>" +
             "방장멤버는 탈퇴가 불가능 합니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 탈퇴될 멤버가 방장멤버인 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "422 : 탈퇴될 멤버가 방장멤버인 경우<br>" +
             "500 : 내부 서버 에러")
     public DeleteMemberMeetResponse deleteMemberMeetV1(@PathVariable Long meet_id,
                                                        @RequestBody @Valid DeleteMemberMeetRequest request) {
