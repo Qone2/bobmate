@@ -32,8 +32,9 @@ public class TagBookmarkApiController {
     @Operation(summary = "북마크 태그 설정", description = "북마크에 태그를 등록합니다.<br>" +
             "멤버id는 검증용으로 북마크의 소유가 일치하는지 확인합니다. 필요없는 부분이라고 판단되면 알려주시기 바랍니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 멤버가 북마크의 소유자가 아닌경우, 북마크에 태그가 이미 등록되어있는 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "409 : 북마크에 태그가 이미 등록되어있는 경우<br>" +
+            "422 : 멤버가 북마크의 소유자가 아닌경우<br>" +
             "500 : 내부 서버 에러")
     public CreateTagBookmarkResponse createTagBookmarkV1(@RequestBody @Valid CreateTagBookmarkRequest request) {
         tagBookmarkService.saveTagBookmark(request.getTag_id(), request.getBookmark_id(), request.getMember_id());
@@ -106,8 +107,8 @@ public class TagBookmarkApiController {
     @Operation(summary = "북마크 태그 설정 취소", description = "북마크에 적용된 태그를 취소 합니다.<br>" +
             "요청하는데 필요한 멤버id는 북마크의 소유주가 맞는지 검증하는 용도 입니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 요청한 멤버가 북마크의 소유주가 아닌경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "422 : 요청한 멤버가 북마크의 소유주가 아닌경우<br>" +
             "500 : 내부 서버 에러")
     public DeleteTagBookmarkResponse deleteTagBookmarkV1(@RequestBody @Valid DeleteTagBookmarkRequest request) {
         tagBookmarkService.deleteTagBookmark(request.getTag_id(), request.getBookmark_id(), request.getMember_id());

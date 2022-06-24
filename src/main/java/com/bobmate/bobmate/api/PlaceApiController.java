@@ -137,8 +137,8 @@ public class PlaceApiController {
     @Operation(summary = "장소 삭제 (논리삭제)", description = "장소를 삭제합니다.<br>" +
             "물리적 삭제가 아니라 논리삭제로 진행되어 장소엔티티의 place status 값이 VALID에서 DELETED로 변경됩니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 장소가 이미 삭제된 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "422 : 장소가 이미 삭제된 경우<br>" +
             "500 : 내부 서버 에러")
     public DeletePlaceResponse deletePlace(@PathVariable Long place_id) {
         return new DeletePlaceResponse(placeService.deletePlace(place_id));

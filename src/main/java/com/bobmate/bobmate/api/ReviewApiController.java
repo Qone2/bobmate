@@ -41,8 +41,8 @@ public class ReviewApiController {
     @Operation(summary = "리뷰 등록", description = "리뷰를 등록합니다.<br>" +
             "사진은 필수가 아니며, request body(json)가 아닌 form-data형식으로 보내야 합니다.<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 이미 삭제된 장소일 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "422 : 이미 삭제된 장소일 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateReviewResponse saveReviewV1(@ModelAttribute @Valid CreateReviewRequest request) {
         List<Photo> photoList = photoHandler.parseFileInfo(request.getPhotos());

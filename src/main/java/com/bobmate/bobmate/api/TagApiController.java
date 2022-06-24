@@ -33,8 +33,8 @@ public class TagApiController {
             "**주의 : 이 요청은 북마크에 태그를 등록하는 것이 아닌 태그 자체를 새로 생성하는 요청입니다. " +
             "예) \"깔끔한\"이라는 태그카테고리를 새로 생성<br><br>" +
             "발생가능한 예외:<br>" +
-            "400 : 이미 같은 이름으로 생성된 태그가 존재하는 경우<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "409 : 이미 같은 이름으로 생성된 태그가 존재하는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateTagResponse createTagV1(@RequestBody @Valid CreateTagRequest request) {
         Long tagId = tagService.saveTag(request.getName());
