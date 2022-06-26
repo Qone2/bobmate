@@ -67,7 +67,7 @@ public class TagBookmarkApiController {
     @GetMapping("/api/v1/tagbookmark")
     @Operation(summary = "해당 태그(들)을 설정한 북마크 전체 조회", description = "태그id들을 리스트로 만들어 요청을 보내면" +
             "해당 태그에 해당하는 북마크id 리스트를 리턴합니다. and연산으로 처리됩니다. 북마크 소유주 멤버id가 명시되어야 합니다. <br><br>" +
-//            "swagger에서 GET method에 json body를 보내면 요청을 거절하기 때문에 일단 POST method를 사용합니다.<br><br>" +
+//            "swagger에서 GET method에 json body를 보내면 요청을 거절하기 때문에 일단 POST method를 사용합니다. <br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
