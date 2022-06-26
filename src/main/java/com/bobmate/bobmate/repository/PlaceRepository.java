@@ -34,4 +34,14 @@ public class PlaceRepository {
         return em.createQuery("select p from Place p", Place.class)
                 .getResultList();
     }
+
+    /**
+     * 장소 이름 조회
+     */
+    public List<Place> findAllByName(String regex) {
+        return em.createNativeQuery("select * from place " +
+                        "where name regexp :regex", Place.class)
+                .setParameter("regex", regex)
+                .getResultList();
+    }
 }
