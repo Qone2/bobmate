@@ -36,7 +36,9 @@ public class PlaceRepository {
     }
 
     /**
-     * 장소 이름 조회
+     * 장소 이름으로 조회
+     * JPQL에서 REGEXP를 지원하지 않아서
+     * native SQL 쿼리를 사용
      */
     public List<Place> findAllByName(String regex) {
         return em.createNativeQuery("select * from place " +
