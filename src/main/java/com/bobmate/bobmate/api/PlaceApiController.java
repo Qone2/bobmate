@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class PlaceApiController {
 
     private final PlaceService placeService;
@@ -166,5 +168,19 @@ public class PlaceApiController {
     @AllArgsConstructor
     static class DeletePlaceResponse {
         private Long place_id;
+    }
+
+    /**
+     * 장소 정규식으로 검색
+     */
+    @GetMapping("/api/v1/place-search")
+    @Operation(summary = "이름으로 장소 검색(정규식)", description = "이름으로 장소를 검색합니다.<br>" +
+            "정규표현식을 사용할 수 있어 그냥 \"식당\"이런 식으로 검색도 가능하고\"식[다-딯]\"이런 검색도 가능합니다.<br><br>" +
+            "발생가능한 예외:<br>" +
+            "500 : 내부 서버 에러")
+    public Result placeSearchRegex(@RequestParam String search) {
+        List<PlaceDto> placeDtoList = placeService.findAllByName(search)
+                .stream().map(p -> new PlaceDto(p)).collect(Collectors.toList());
+        return new Result(placeDtoList.size(), placeDtoList);
     }
 }
