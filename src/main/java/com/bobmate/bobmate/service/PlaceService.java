@@ -43,4 +43,12 @@ public class PlaceService {
         place.delete();
         return place.getId();
     }
+
+    /**
+     * 장소 이름으로 조회
+     * 정규표현식 사용
+     */
+    public List<Place> findAllByName(String regex) {
+        return placeRepository.findAllByName(regex);
+    }
 }
