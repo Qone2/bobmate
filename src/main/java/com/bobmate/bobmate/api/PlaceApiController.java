@@ -69,10 +69,7 @@ public class PlaceApiController {
             "500 : 내부 서버 에러")
     public Result placesV1() {
         List<PlaceDto> collect = placeService.findAll()
-                .stream().map(p -> new PlaceDto(p.getId(), p.getName(), p.getReviewCount(), p.getAvgStar(),
-                        p.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
-                        p.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList()),
-                        p.getPlaceStatus()))
+                .stream().map(p -> new PlaceDto(p))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -89,11 +86,23 @@ public class PlaceApiController {
     static class PlaceDto {
         private Long place_id;
         private String name;
+        private Coordinate coordinate;
         private int review_count;
         private Double avg_star;
         private List<Long> review_ids;
         private List<Long> meet_ids;
         private PlaceStatus placeStatus;
+
+        public PlaceDto(Place place) {
+            this.place_id = place.getId();
+            this.name = place.getName();
+            this.coordinate = place.getCoordinate();
+            this.review_count = place.getReviewCount();
+            this.avg_star = place.getAvgStar();
+            this.review_ids = place.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList());
+            this.meet_ids = place.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList());
+            this.placeStatus = place.getPlaceStatus();
+        }
     }
 
     /**
@@ -106,10 +115,7 @@ public class PlaceApiController {
             "500 : 내부 서버 에러")
     public PlaceDetailResponse placeDetailV1(@PathVariable("place_id") Long place_id) {
         Place place = placeService.findOne(place_id);
-        return new PlaceDetailResponse(place.getId(), place.getName(), place.getCoordinate(),
-                place.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList()),
-                place.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList()),
-                place.getReviewCount(), place.getAvgStar(), place.getPlaceStatus());
+        return new PlaceDetailResponse(place);
     }
 
     @Getter
@@ -117,6 +123,7 @@ public class PlaceApiController {
     static class PlaceDetailResponse {
         private Long place_id;
         private String name;
+        @Schema(description = "좌표")
         private Coordinate coordinate;
         @Schema(description = "이 장소에 연결된 리뷰 id리스트")
         private List<Long> review_ids;
@@ -128,6 +135,17 @@ public class PlaceApiController {
         private Double avg_star;
         @Schema(description = "장소의 상태 (VALID, DELETED")
         private PlaceStatus placeStatus;
+
+        public PlaceDetailResponse(Place place) {
+            this.place_id = place.getId();
+            this.name = place.getName();
+            this.coordinate = place.getCoordinate();
+            this.review_ids = place.getReviews().stream().map(r -> r.getId()).collect(Collectors.toList());
+            this.meet_ids = place.getMeets().stream().map(m -> m.getId()).collect(Collectors.toList());
+            this.review_count = place.getReviewCount();
+            this.avg_star = place.getAvgStar();
+            this.placeStatus = place.getPlaceStatus();
+        }
     }
 
     /**
