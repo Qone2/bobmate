@@ -22,7 +22,7 @@ class PlaceRepositoryTest {
     PlaceRepository placeRepository;
 
     @Test
-    public void 쿼리테스트() throws Exception {
+    public void 정규표현식검색() throws Exception {
         //given
         Place place = Place.createPlace("t미쓰 와이프", new Coordinate(123.1, 231.1));
         em.persist(place);
