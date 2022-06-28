@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,12 +67,14 @@ public class TagBookmarkApiController {
      */
     @GetMapping("/api/v1/tagbookmark")
     @Operation(summary = "해당 태그(들)을 설정한 북마크 전체 조회", description = "태그id들을 리스트로 만들어 요청을 보내면" +
-            "해당 태그에 해당하는 북마크id 리스트를 리턴합니다. and연산으로 처리됩니다. 북마크 소유주 멤버id가 명시되어야 합니다. <br><br>" +
-//            "swagger에서 GET method에 json body를 보내면 요청을 거절하기 때문에 일단 POST method를 사용합니다. <br><br>" +
+            "해당 태그에 해당하는 북마크id 리스트를 리턴합니다. and연산으로 처리됩니다. 북마크 소유주 멤버id가 명시되어야 합니다. <br>" +
+            "태그id 리스트는 파라미터에 \",\"로 구분하여 보내주세요. ex)tag_id_list=24,25 <br>" +
+            "비어있는 리스트를 보내면 해당 멤버가 북마크한 모든 북마크가 보여지고, 요청하는 태그에 해당하는 북마크가 없으면 빈 리스트를 " +
+            "리턴합니다.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
-    public GetTagBookmarkResponse taggedBookmarksV1(@RequestBody @Valid GetTagBookmarkRequest request) {
+    public GetTagBookmarkResponse taggedBookmarksV1(@ModelAttribute @Valid GetTagBookmarkRequest request) {
         List<Bookmark> taggedBookmark = tagBookmarkService.findTaggedBookmark(
                 request.getMember_id(), request.getTag_id_list());
 
@@ -91,6 +94,7 @@ public class TagBookmarkApiController {
     }
 
     @Getter
+    @Setter
     static class GetTagBookmarkRequest {
         @NotNull
         @Schema(description = "불러올 북마크의 소유주 멤버 id", required = true)
