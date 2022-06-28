@@ -96,9 +96,13 @@ public class initDB {
             Long tag7Id = tagService.saveTag("친절한");
 
             Long bookmark0Id = bookmarkService.saveBookmark(memberId1, placeId1);
+            Long bookmark1Id = bookmarkService.saveBookmark(memberId1, placeId2);
+            Long bookmark2Id = bookmarkService.saveBookmark(memberId1, placeId3);
 
             Long tagBookmark0Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark0Id, memberId1);
-            Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark0Id, memberId1);
+            Long tagBookmark1Id = tagBookmarkService.saveTagBookmark(tag1Id, bookmark0Id, memberId1);
+            Long tagBookmark2Id = tagBookmarkService.saveTagBookmark(tag0Id, bookmark1Id, memberId1);
+            Long tagBookmark3Id = tagBookmarkService.saveTagBookmark(tag2Id, bookmark2Id, memberId1);
 
             // 배포 테스트용
 
