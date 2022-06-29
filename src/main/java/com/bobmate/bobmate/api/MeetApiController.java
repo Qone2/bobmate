@@ -108,8 +108,7 @@ public class MeetApiController {
             "500 : 내부 서버 에러")
     public Result meetsV1() {
         List<MeetDto> collect = meetService.findAll()
-                .stream().map(m -> new MeetDto(m.getId(), m.getHeadMember().getId(),
-                        m.getPlace().getId(), m.getName(), m.getMemberCount()))
+                .stream().map(m -> new MeetDto(m))
                 .collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
@@ -127,8 +126,23 @@ public class MeetApiController {
         private Long meet_id;
         private Long head_member_id;
         private Long place_id;
+        private List<Long> member_ids;
         private String name;
+        private String link;
         private int member_count;
+        private LocalDateTime created_date;
+
+        public MeetDto(Meet meet) {
+            this.meet_id = meet.getId();
+            this.head_member_id = meet.getHeadMember().getId();
+            this.place_id = meet.getPlace().getId();
+            this.member_ids = meet.getMemberMeets().stream().map(mm -> mm.getMember().getId())
+                    .collect(Collectors.toList());
+            this.name = meet.getName();
+            this.link = meet.getLink();
+            this.member_count = meet.getMemberCount();
+            this.created_date = meet.getCreatedDate();
+        }
     }
 
 
@@ -142,9 +156,7 @@ public class MeetApiController {
             "500 : 내부 서버 에러")
     public MeetDetailResponse meetDetailV1(@PathVariable("meet_id") Long meet_id) {
         Meet meet = meetService.findOne(meet_id);
-        return new MeetDetailResponse(meet.getId(), meet.getHeadMember().getId(), meet.getPlace().getId(),
-                meet.getMemberMeets().stream().map(mm -> mm.getMember().getId()).collect(Collectors.toList()),
-                meet.getName(), meet.getLink(), meet.getMemberCount(), meet.getCreatedDate());
+        return new MeetDetailResponse(meet);
     }
 
     @Getter
@@ -166,6 +178,18 @@ public class MeetApiController {
         private int member_count;
         @Schema(description = "소모임이 생성된 날짜")
         private LocalDateTime created_date;
+
+        public MeetDetailResponse(Meet meet) {
+            this.meet_id = meet.getId();
+            this.head_member_id = meet.getHeadMember().getId();
+            this.place_id = meet.getPlace().getId();
+            this.member_ids = meet.getMemberMeets().stream().map(mm -> mm.getMember().getId())
+                    .collect(Collectors.toList());
+            this.name = meet.getName();
+            this.link = meet.getLink();
+            this.member_count = meet.getMemberCount();
+            this.created_date = meet.getCreatedDate();
+        }
     }
 
 
