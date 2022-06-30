@@ -88,10 +88,7 @@ public class ReviewApiController {
     public Result reviewsV1() {
         List<Review> reviews = reviewService.findAll();
         List<ReviewDto> collect = reviews.stream()
-                .map(r -> new ReviewDto(r.getId(), r.getMember().getId(), r.getPlace().getId(),
-                        r.getPhotos().stream().map(p -> p.getId()).collect(Collectors.toList()), r.getStar(),
-                        r.getCreatedDate(), r.getUpdatedDate(), r.getLikeCount(), r.getReviewStatus()))
-                .collect(Collectors.toList());
+                .map(r -> new ReviewDto(r)).collect(Collectors.toList());
         return new Result(collect.size(), collect);
     }
 
@@ -102,11 +99,26 @@ public class ReviewApiController {
         private Long member_id;
         private Long place_id;
         private List<Long> photo_ids;
+        private String content;
         private Double star;
         private LocalDateTime created_date;
         private LocalDateTime updated_date;
         private int like_count;
         private ReviewStatus review_status;
+
+        public ReviewDto(Review review) {
+            this.review_id = review.getId();
+            this.member_id = review.getMember().getId();
+            this.place_id = review.getPlace().getId();
+            this.photo_ids = review.getPhotos().stream().map(p -> p.getId())
+                    .collect(Collectors.toList());
+            this.content = review.getContent();
+            this.star = review.getStar();
+            this.created_date = review.getCreatedDate();
+            this.updated_date = review.getUpdatedDate();
+            this.like_count = review.getLikeCount();
+            this.review_status = review.getReviewStatus();
+        }
     }
 
     @Getter
@@ -126,10 +138,7 @@ public class ReviewApiController {
             "500 : 내부 서버 에러")
     public ReviewDetailResponse reviewDetailV1(@PathVariable("review_id") Long review_id) {
         Review review = reviewService.findOne(review_id);
-        return new ReviewDetailResponse(review.getId(), review.getMember().getId(), review.getPlace().getId(),
-                review.getPhotos().stream().map(p -> p.getId()).collect(Collectors.toList()), review.getContent(),
-                review.getStar(), review.getCreatedDate(), review.getUpdatedDate(), review.getLikeCount(),
-                review.getReviewStatus());
+        return new ReviewDetailResponse(review);
     }
 
     @Getter
@@ -155,6 +164,20 @@ public class ReviewApiController {
         private int like_count;
         @Schema(description = "리뷰 상태(VALID, DELETED")
         private ReviewStatus review_status;
+
+        public ReviewDetailResponse(Review review) {
+            this.review_id = review.getId();
+            this.member_id = review.getMember().getId();
+            this.place_id = review.getPlace().getId();
+            this.photo_ids = review.getPhotos().stream().map(p -> p.getId())
+                    .collect(Collectors.toList());
+            this.content = review.getContent();
+            this.star = review.getStar();
+            this.created_date = review.getCreatedDate();
+            this.updated_date = review.getUpdatedDate();
+            this.like_count = review.getLikeCount();
+            this.review_status = review.getReviewStatus();
+        }
     }
 
     /**
