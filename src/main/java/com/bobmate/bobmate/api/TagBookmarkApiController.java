@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequiredArgsConstructor
+@Validated
 public class TagBookmarkApiController {
 
     private final TagBookmarkService tagBookmarkService;
@@ -115,7 +117,7 @@ public class TagBookmarkApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "422 : 요청한 멤버가 북마크의 소유주가 아닌경우<br>" +
             "500 : 내부 서버 에러")
-    public DeleteTagBookmarkResponse deleteTagBookmarkV1(@RequestBody @Valid DeleteTagBookmarkRequest request) {
+    public DeleteTagBookmarkResponse deleteTagBookmarkV1(@ModelAttribute @Valid DeleteTagBookmarkRequest request) {
         tagBookmarkService.deleteTagBookmark(request.getTag_id(), request.getBookmark_id(), request.getMember_id());
         return new DeleteTagBookmarkResponse("success");
     }
@@ -127,6 +129,7 @@ public class TagBookmarkApiController {
     }
 
     @Getter
+    @Setter
     static class DeleteTagBookmarkRequest {
         @NotNull
         @Schema(description = "북마크 검증용 멤버id", required = true)
