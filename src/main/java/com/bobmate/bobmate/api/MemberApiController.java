@@ -48,7 +48,7 @@ public class MemberApiController {
 //        Long id = memberService.join(member);
 //        return new CreateMemberResponse(id);
 //    }
-//
+//    
 //    @Getter
 //    static class CreateMemberRequest {
 //        @NotEmpty
