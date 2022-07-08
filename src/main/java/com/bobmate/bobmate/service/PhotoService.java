@@ -29,4 +29,12 @@ public class PhotoService {
     public List<Photo> findAll() {
         return photoRepository.findAll();
     }
+
+    /**
+     * 사진 삭제
+     */
+    public void deletePhoto(Long photoId) {
+        Photo photo = photoRepository.findOne(photoId);
+        photoRepository.delete(photo);
+    }
 }
