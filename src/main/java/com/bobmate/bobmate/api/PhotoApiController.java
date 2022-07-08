@@ -3,6 +3,8 @@ package com.bobmate.bobmate.api;
 import com.bobmate.bobmate.domain.Photo;
 import com.bobmate.bobmate.service.PhotoService;
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -18,6 +20,9 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 사진관련
@@ -57,5 +62,42 @@ public class PhotoApiController {
         header.setContentDisposition(contentDisposition);
 
         return new ResponseEntity<>(resource, header, HttpStatus.OK);
+    }
+
+    /**
+     * 사진 전체조회
+     */
+    @GetMapping("/api/v1/photo")
+    public Result photosV1() {
+        List<Photo> photoList = photoService.findAll();
+        List<PhotoDto> photoDtoList = photoList.stream().map(p ->new PhotoDto(p)).collect(Collectors.toList());
+        return new Result(photoDtoList.size(), photoDtoList);
+    }
+
+
+    @Getter
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Getter
+    static class PhotoDto {
+        private Long photo_id;
+        private Long review_id;
+        private String originalFileName;
+        private String filePath;
+        private Long fileSize;
+        private LocalDateTime savedDate;
+
+        public PhotoDto(Photo photo) {
+            this.photo_id = photo.getId();
+            this.review_id = photo.getReview().getId();
+            this.originalFileName = photo.getOriginalFileName();
+            this.filePath = photo.getFilePath();
+            this.fileSize = photo.getFileSize();
+            this.savedDate = photo.getSavedDate();
+        }
     }
 }
