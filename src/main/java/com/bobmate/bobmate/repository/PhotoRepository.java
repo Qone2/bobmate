@@ -34,4 +34,13 @@ public class PhotoRepository {
         return em.createQuery("select p from Photo p", Photo.class)
                 .getResultList();
     }
+
+    /**
+     * 사진 삭제
+     */
+    public void delete(Photo photo) {
+        em.remove(photo);
+        em.flush();
+        em.clear();
+    }
 }
