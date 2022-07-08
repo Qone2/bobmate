@@ -12,6 +12,7 @@ import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,5 +100,21 @@ public class PhotoApiController {
             this.fileSize = photo.getFileSize();
             this.savedDate = photo.getSavedDate();
         }
+    }
+
+
+    /**
+     * 사진 삭제
+     */
+    @DeleteMapping("/api/v1/photo/{photo_id}")
+    public DeletePhotoResponse deletePhotoV1(@PathVariable Long photo_id) {
+        photoService.deletePhoto(photo_id);
+        return new DeletePhotoResponse("성공적으로 삭제되었습니다.");
+    }
+
+    @Getter
+    @AllArgsConstructor
+    static class DeletePhotoResponse {
+        private String message;
     }
 }
