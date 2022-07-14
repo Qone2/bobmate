@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +38,8 @@ class MeetServiceTest {
         Place place = placeService.findOne(placeId);
 
         //when
-        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임1", "http://dfsf.c");
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임1", "http://dfsf.c",
+                5, LocalDateTime.now().plusWeeks(2));
         Meet meet = meetService.findOne(meetId);
 
         //then
@@ -77,7 +79,8 @@ class MeetServiceTest {
         Place place = placeService.findOne(placeId);
 
         //when
-        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c",
+                5, LocalDateTime.now().plusWeeks(2));
         meetService.addMember(member2.getId(), meetId);
         meetService.addMember(member3.getId(), meetId);
         Meet meet = meetService.findOne(meetId);
@@ -115,7 +118,8 @@ class MeetServiceTest {
         Place place = placeService.findOne(placeId);
 
         //when
-        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c",
+                5, LocalDateTime.now().plusWeeks(2));
         meetService.addMember(member2.getId(), meetId);
         meetService.addMember(member3.getId(), meetId);
         meetService.deleteMember(member3.getId(), meetId);
@@ -149,7 +153,8 @@ class MeetServiceTest {
         Place place = placeService.findOne(placeId);
 
         //when
-        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c",
+                5, LocalDateTime.now().plusWeeks(2));
         meetService.addMember(member2.getId(), meetId);
         meetService.addMember(member3.getId(), meetId);
 
@@ -180,7 +185,8 @@ class MeetServiceTest {
         Place place = placeService.findOne(placeId);
 
         //when
-        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c");
+        Long meetId = meetService.saveMeet(member1.getId(), place.getId(), "모임0", "http://dfsf.c",
+                5, LocalDateTime.now().plusWeeks(2));
         meetService.addMember(member2.getId(), meetId);
         meetService.addMember(member3.getId(), meetId);
 

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,11 +31,12 @@ public class MeetService {
      * 모임 등록
      */
     @Transactional
-    public Long saveMeet(Long memberId, Long placeId, String name, String link) {
+    public Long saveMeet(Long memberId, Long placeId, String name, String link,
+                         int memberCountMax, LocalDateTime meetDate) {
         Member headMember = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
-        Meet meet = Meet.createMeet(headMember, place, name, link);
+        Meet meet = Meet.createMeet(headMember, place, name, link, memberCountMax, meetDate);
 
         MemberMeet memberMeet = MemberMeet.createMemberMeet(headMember, meet);
 

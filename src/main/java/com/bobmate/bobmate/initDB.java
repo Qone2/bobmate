@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -81,7 +82,8 @@ public class initDB {
                     Photo.photoHandle("review5-1.jpg", "init_photo/review5-1.jpg", 90000L)
             ));
 
-            Long meetId1 = meetService.saveMeet(memberId1, placeId3, "모임1", "링크1");
+            Long meetId1 = meetService.saveMeet(memberId1, placeId3, "모임1", "링크1",
+                    5, LocalDateTime.now().plusWeeks(2));
             meetService.addMember(memberId4, meetId1);
             meetService.addMember(memberId5, meetId1);
 

@@ -33,14 +33,14 @@ public class MeetApiController {
      */
     @PostMapping("/api/v1/meet")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "소모임 생성", description = "소모임을 생성합니다. 소모임을 생성하는 방장멤버, 장소, 카카오톡 오픈체팅 링크가 " +
+    @Operation(summary = "소모임 생성", description = "소모임을 생성합니다. 소모임을 생성하는 방장멤버, 장소, 카카오톡 오픈체팅 링크 등이 " +
             "필요합니다. schema버튼을 누르면 상세정보 제공.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
     public CreateMeetResponse createMeetV1(@RequestBody @Valid CreateMeetRequest request) {
         return new CreateMeetResponse(meetService.saveMeet(request.getMember_id(), request.getPlace_id(),
-                request.getName(), request.getLink()));
+                request.getName(), request.getLink(), request.getMember_count_max(), request.getMeet_date()));
     }
 
     @Getter
@@ -65,6 +65,12 @@ public class MeetApiController {
         @URL
         @Schema(description = "소모임의 카카오톡 오픈채팅 링크", required = true)
         private String link;
+        @NotNull
+        @Schema(description = "소모임 최대인원 수", required = true)
+        private int member_count_max;
+        @NotNull
+        @Schema(description = "모임 만나는 날짜", required = true)
+        private LocalDateTime meet_date;
     }
 
 
