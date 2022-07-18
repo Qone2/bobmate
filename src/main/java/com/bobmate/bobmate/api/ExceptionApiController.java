@@ -105,6 +105,7 @@ public class ExceptionApiController {
             HeadMemberException.class,
             StarValueException.class,
             TagBookmarkMemberException.class,
+            MeetMemberFullException.class
     })
     public ResponseEntity<GeneralExceptionDto> unprocessable(Exception ex) {
         // 422

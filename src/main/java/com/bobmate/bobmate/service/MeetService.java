@@ -5,6 +5,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberMeet;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.exception.HeadMemberException;
+import com.bobmate.bobmate.exception.MeetMemberFullException;
 import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import com.bobmate.bobmate.repository.MeetRepository;
 import com.bobmate.bobmate.repository.MemberMeetRepository;
@@ -55,6 +56,8 @@ public class MeetService {
 
         MemberMeet memberMeet = MemberMeet.createMemberMeet(member, meet);
         validateDuplicateMemberMeet(member, meet);
+        validateMemberCount(meet);
+
         memberMeetRepository.save(memberMeet);
         return memberMeet.getId();
     }
@@ -66,6 +69,15 @@ public class MeetService {
         MemberMeet findMemberMeet = memberMeetRepository.findOneByMemberIdAndMeetId(member, meet);
         if (findMemberMeet != null) {
             throw new MemberMeetDuplicateException("이미 모임에 참여한 멤버입니다.");
+        }
+    }
+
+    /**
+     * 멤버수가 모임의 최대멤버수를 초과하지 않는지 확인
+     */
+    public void validateMemberCount(Meet meet) {
+        if (meet.getMemberCount() >= meet.getMemberCountMax()) {
+            throw new MeetMemberFullException("멤버수가 이미 가득 찼습니다.");
         }
     }
 
