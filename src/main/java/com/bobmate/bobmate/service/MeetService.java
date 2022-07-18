@@ -51,12 +51,12 @@ public class MeetService {
      */
     @Transactional
     public Long addMember(Long memberId, Long meetId) {
-        Member member = memberRepository.findOne(memberId);
         Meet meet = meetRepository.findOne(meetId);
-
-        MemberMeet memberMeet = MemberMeet.createMemberMeet(member, meet);
-        validateDuplicateMemberMeet(member, meet);
         validateMemberCount(meet);
+        Member member = memberRepository.findOne(memberId);
+
+        validateDuplicateMemberMeet(member, meet);
+        MemberMeet memberMeet = MemberMeet.createMemberMeet(member, meet);
 
         memberMeetRepository.save(memberMeet);
         return memberMeet.getId();
