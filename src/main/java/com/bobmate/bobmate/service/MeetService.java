@@ -5,6 +5,7 @@ import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberMeet;
 import com.bobmate.bobmate.domain.Place;
 import com.bobmate.bobmate.exception.HeadMemberException;
+import com.bobmate.bobmate.exception.MeetDatePastException;
 import com.bobmate.bobmate.exception.MeetMemberFullException;
 import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import com.bobmate.bobmate.repository.MeetRepository;
@@ -34,6 +35,7 @@ public class MeetService {
     @Transactional
     public Long saveMeet(Long memberId, Long placeId, String name, String link,
                          int memberCountMax, LocalDateTime meetDate) {
+        validateMeetDate(meetDate);
         Member headMember = memberRepository.findOne(memberId);
         Place place = placeRepository.findOne(placeId);
 
@@ -78,6 +80,15 @@ public class MeetService {
     public void validateMemberCount(Meet meet) {
         if (meet.getMemberCount() >= meet.getMemberCountMax()) {
             throw new MeetMemberFullException("멤버수가 이미 가득 찼습니다.");
+        }
+    }
+
+    /**
+     * 모임날짜가 현재시각보다 미래인지 확인
+     */
+    public void validateMeetDate(LocalDateTime meetDate) {
+        if (meetDate.isBefore(LocalDateTime.now())) {
+            throw new MeetDatePastException("모임약속시간은 현재시각보다 과거일 수 없습니다.");
         }
     }
 
