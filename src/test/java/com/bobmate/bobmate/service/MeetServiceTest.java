@@ -3,6 +3,7 @@ package com.bobmate.bobmate.service;
 import com.bobmate.bobmate.domain.*;
 import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.HeadMemberException;
+import com.bobmate.bobmate.exception.MeetDatePastException;
 import com.bobmate.bobmate.exception.MeetMemberFullException;
 import com.bobmate.bobmate.exception.MemberMeetDuplicateException;
 import org.junit.jupiter.api.Test;
@@ -233,4 +234,35 @@ class MeetServiceTest {
         //then
         assertThrows(MeetMemberFullException.class, () -> meetService.addMember(memberId4, meetId));
     }
+
+    @Test
+    public void 모임날짜예외() throws Exception {
+        //given
+        CreateMemberDto memberDto1 = new CreateMemberDto("member1",
+                passwordEncoder.encode("password1"),
+                "nickname1", Collections.singletonList("ROLE_USER"));
+        Long memberId1 = memberService.join(memberDto1);
+        Member member1 = memberService.findOne(memberId1);
+        CreateMemberDto memberDto2 = new CreateMemberDto("member2",
+                passwordEncoder.encode("password2"),
+                "nickname2", Collections.singletonList("ROLE_USER"));
+        Long memberId2 = memberService.join(memberDto2);
+        Member member2 = memberService.findOne(memberId2);
+        CreateMemberDto memberDto3 = new CreateMemberDto("member3",
+                passwordEncoder.encode("password3"),
+                "nickname3", Collections.singletonList("ROLE_USER"));
+        Long memberId3 = memberService.join(memberDto3);
+        Member member3 = memberService.findOne(memberId3);
+
+        //when
+        Long placeId = placeService.savePlace("식당1", new Coordinate(123.123, 321.321));
+        Place place = placeService.findOne(placeId);
+
+        //then
+        assertThrows(MeetDatePastException.class, () -> meetService.saveMeet(
+                member1.getId(), place.getId(), "모임0", "http://dfsf.c",
+                3, LocalDateTime.now()));
+
+    }
+
 }
