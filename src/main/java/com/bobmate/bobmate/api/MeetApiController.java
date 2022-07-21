@@ -33,8 +33,8 @@ public class MeetApiController {
      */
     @PostMapping("/api/v1/meet")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "소모임 생성", description = "소모임을 생성합니다. 소모임을 생성하는 방장멤버, 장소, 카카오톡 오픈체팅 링크 등이 " +
-            "필요합니다. schema버튼을 누르면 상세정보 제공.<br><br>" +
+    @Operation(summary = "소모임 생성", description = "소모임을 생성합니다. 소모임을 생성하는 방장멤버, 장소, 카카오톡 오픈체팅 링크, " +
+            "모임의 최대인원 수, 모임 날짜 등이 필요합니다. schema버튼을 누르면 상세정보 제공.<br><br>" +
             "발생가능한 예외:<br>" +
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "500 : 내부 서버 에러")
