@@ -7,7 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -49,6 +52,23 @@ public class PlaceService {
      * 정규표현식 사용
      */
     public List<Place> findAllByName(String regex) {
-        return placeRepository.findAllByName(regex);
+        String[] splitRegex = regex.split(" ");
+        if (splitRegex.length == 0) {
+            return placeRepository.findAll();
+        }
+
+        Set<Place> placesSet = new HashSet<>();
+        boolean isFirst = true;
+
+        for (String reg : splitRegex) {
+            if (isFirst) {
+                placesSet.addAll(placeRepository.findAllByName(reg));
+                isFirst = false;
+            } else {
+                placesSet.retainAll(placeRepository.findAllByName(reg));
+            }
+        }
+
+        return new ArrayList<>(placesSet);
     }
 }
