@@ -38,4 +38,28 @@ class PlaceServiceTest {
         assertEquals(3, placeList2.size());
         assertEquals(0, placeList3.size());
     }
+
+    @Test
+    public void 정규표현식and검색기능() throws Exception {
+        //given
+        Long placeId1 = placeService.savePlace("t미쓰 와이프", new Coordinate(123.1, 123.2));
+        Place place1 = placeService.findOne(placeId1);
+        Long placeId2 = placeService.savePlace("t트와일라잇", new Coordinate(123.1, 123.2));
+        Place place2 = placeService.findOne(placeId2);
+        Long placeId3 = placeService.savePlace("t식당3", new Coordinate(123.1, 123.2));
+        Place place3 = placeService.findOne(placeId3);
+
+        //when
+        List<Place> placeList1 = placeService.findAllByName("와[이-잏]");
+        List<Place> placeList2 = placeService.findAllByName("미쓰 와[이-잏]");
+        List<Place> placeList3 = placeService.findAllByName("");
+        List<Place> placeList4 = placeService.findAllByName(" ");
+
+        //then
+        assertEquals(2, placeList1.size());
+        assertEquals(1, placeList2.size());
+        assertTrue(placeList3.size() >= 3);
+        assertTrue(placeList4.size() >= 3);
+
+    }
 }
