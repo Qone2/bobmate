@@ -69,6 +69,10 @@ public class PhotoApiController {
      * 사진 전체조회
      */
     @GetMapping("/api/v1/photo")
+    @Operation(summary = "사진을 전체 조회", description = "전체 사진정보를 조회<br><br>" +
+            "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public Result photosV1() {
         List<Photo> photoList = photoService.findAll();
         List<PhotoDto> photoDtoList = photoList.stream().map(p ->new PhotoDto(p)).collect(Collectors.toList());
@@ -107,6 +111,10 @@ public class PhotoApiController {
      * 사진 삭제
      */
     @DeleteMapping("/api/v1/photo/{photo_id}")
+    @Operation(summary = "사진을 삭제", description = "사진을 삭제합니다. <br><br>" +
+            "발생가능한 예외:<br>" +
+            "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
+            "500 : 내부 서버 에러")
     public DeletePhotoResponse deletePhotoV1(@PathVariable Long photo_id) {
         photoService.deletePhoto(photo_id);
         return new DeletePhotoResponse("성공적으로 삭제되었습니다.");
