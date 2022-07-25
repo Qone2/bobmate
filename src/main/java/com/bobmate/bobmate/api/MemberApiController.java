@@ -223,7 +223,7 @@ public class MemberApiController {
             "발생가능한 예외:<br>" +
             "400 : query parameter 변수가 전달되지 않은 경우, 형식이 지켜지지 않은 경우<br>" +
             "500 : 내부 서버 에러")
-    public ResponseEntity<ValidateResponse> validateUserid(
+    public ResponseEntity<ValidateResponse> validateUseridV1(
             @RequestParam @Pattern(regexp = "^[a-z0-9_\\-]{5,20}$", message = "아이디 생성 규칙을 만족하지 않습니다.")
             @Parameter(description = "규칙 : ^[a-z0-9_\\-]{5,20}$")
                     String user_id) {
@@ -252,7 +252,7 @@ public class MemberApiController {
             "발생가능한 예외:<br>" +
             "400 : query parameter 변수가 전달되지 않은 경우, 형식이 지켜지지 않은 경우<br>" +
             "500 : 내부 서버 에러")
-    public ResponseEntity<ValidateResponse> validateNickname(
+    public ResponseEntity<ValidateResponse> validateNicknameV1(
             @RequestParam @Pattern(regexp = "^[가-힣A-Za-z0-9]{2,12}$", message = "닉네임 생성 규칙을 만족하지 않습니다.")
             @Parameter(description = "규칙 : ^[가-힣A-Za-z0-9]{2,12}$")
                     String nickname) {

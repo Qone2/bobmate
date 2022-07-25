@@ -160,7 +160,7 @@ public class PlaceApiController {
             "404 : 요청한 자원을 찾을 수 없는 경우<br>" +
             "422 : 장소가 이미 삭제된 경우<br>" +
             "500 : 내부 서버 에러")
-    public DeletePlaceResponse deletePlace(@PathVariable Long place_id) {
+    public DeletePlaceResponse deletePlaceV1(@PathVariable Long place_id) {
         return new DeletePlaceResponse(placeService.deletePlace(place_id));
     }
 
@@ -178,7 +178,7 @@ public class PlaceApiController {
             "정규표현식을 사용할 수 있어 그냥 \"식당\"이런 식으로 검색도 가능하고\"식[다-딯]\"이런 검색도 가능합니다.<br><br>" +
             "발생가능한 예외:<br>" +
             "500 : 내부 서버 에러")
-    public Result placeSearchRegex(@RequestParam String search) {
+    public Result placeSearchRegexV1(@RequestParam String search) {
         List<PlaceDto> placeDtoList = placeService.findAllByName(search)
                 .stream().map(p -> new PlaceDto(p)).collect(Collectors.toList());
         return new Result(placeDtoList.size(), placeDtoList);
