@@ -3,6 +3,7 @@ package com.bobmate.bobmate.api;
 import com.bobmate.bobmate.config.security.JwtTokenProvider;
 import com.bobmate.bobmate.domain.Member;
 import com.bobmate.bobmate.domain.MemberStatus;
+import com.bobmate.bobmate.domain.TagBookmark;
 import com.bobmate.bobmate.dto.CreateMemberDto;
 import com.bobmate.bobmate.exception.WrongIdPasswordException;
 import com.bobmate.bobmate.service.MemberService;
@@ -89,6 +90,7 @@ public class MemberApiController {
         private List<Long> follower_ids;
         private List<Long> following_ids;
         private List<Long> bookmark_ids;
+        private List<Long> tag_bookmark_ids;
         private MemberStatus member_status;
 
         public MemberDto(Member member) {
@@ -107,6 +109,10 @@ public class MemberApiController {
                     .stream().map(f -> f.getToMember().getId()).collect(Collectors.toList());
             this.bookmark_ids = member.getBookmarks()
                     .stream().map(b -> b.getId()).collect(Collectors.toList());
+            this.tag_bookmark_ids = member.getBookmarks().stream()
+                    .flatMap(bookmark -> bookmark.getTagBookmarks().stream())
+                    .map(TagBookmark::getId)
+                    .collect(Collectors.toList());
             this.member_status = member.getMemberStatus();
         }
     }
@@ -156,6 +162,8 @@ public class MemberApiController {
         private List<Long> following_ids;
         @Schema(description = "북마크(장소를 북마크)한 북마크 id리스트")
         private List<Long> bookmark_ids;
+        @Schema(description = "북마크에 태그한 태그북마크 id리스트")
+        private List<Long> tag_bookmark_ids;
         @Schema(description = "멤버 상태 (VALID, DELETED)")
         private MemberStatus member_status;
 
@@ -175,6 +183,10 @@ public class MemberApiController {
                     .stream().map(f -> f.getToMember().getId()).collect(Collectors.toList());
             this.bookmark_ids = member.getBookmarks()
                     .stream().map(b -> b.getId()).collect(Collectors.toList());
+            this.tag_bookmark_ids = member.getBookmarks().stream()
+                    .flatMap(bookmark -> bookmark.getTagBookmarks().stream())
+                    .map(TagBookmark::getId)
+                    .collect(Collectors.toList());
             this.member_status = member.getMemberStatus();
         }
     }
